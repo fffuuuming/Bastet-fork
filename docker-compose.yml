@@ -2,8 +2,8 @@ version: "3.7"
 # Reference: https://github.com/n8n-io/n8n-hosting/tree/main/docker-compose/withPostgres
 services:
   n8n:
-    image: docker.n8n.io/n8nio/n8n:1.103.2
-
+    # image: docker.n8n.io/n8nio/n8n:1.103.2
+    image: ghcr.io/n8n-io/n8n:1.103.2
     restart: always
     environment:
       - DB_TYPE=postgresdb
@@ -21,7 +21,8 @@ services:
       postgres:
         condition: service_healthy
   postgres:
-    image: postgres:16
+    # image: postgres:16
+    image: public.ecr.aws/docker/library/postgres:16
     restart: always
     environment:
       - POSTGRES_USER
