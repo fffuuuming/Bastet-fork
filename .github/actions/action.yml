@@ -94,7 +94,8 @@ runs:
       shell: bash
       working-directory: ../bastet-cicd
       run: |
-        docker-compose -f docker-compose.cicd.yml exec -T bastet echo '5' | poetry run python /app/cli/main.py init --n8n-url http://n8n:5678
+        docker-compose -f docker-compose.cicd.yml exec -T bastet \
+        bash -c "echo '5' | poetry run python /app/cli/main.py init --n8n-url http://n8n:5678"
          
       # initialize n8n with all workflows, you may change 'all' to specific workflow number if needed 
       # Found 8 workflow files.
