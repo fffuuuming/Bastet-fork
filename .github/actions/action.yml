@@ -34,7 +34,6 @@ runs:
         cd ..
         git clone https://github.com/OneSavieLabs/Bastet.git bastet-cicd
         cd bastet-cicd
-        git checkout feat/cicd
     
     - name: Stop any existing containers
       shell: bash
