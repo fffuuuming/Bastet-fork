@@ -34,6 +34,7 @@ runs:
         cd ..
         git clone https://github.com/OneSavieLabs/Bastet.git bastet-cicd
         cd bastet-cicd
+        git checkout feat/cicd
     
     - name: Stop any existing containers
       shell: bash
@@ -95,7 +96,7 @@ runs:
       working-directory: ../bastet-cicd
       run: |
         docker-compose -f docker-compose.cicd.yml exec -T bastet \
-         echo 'all' | poetry run python /app/cli/main.py init --n8n-url http://n8n:5678
+         echo 5 | poetry run python /app/cli/main.py init --n8n-url http://n8n:5678
          
       # initialize n8n with all workflows, you may change 'all' to specific workflow number if needed 
       # 1. slippage.json
