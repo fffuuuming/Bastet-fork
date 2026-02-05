@@ -65,6 +65,8 @@ class AuditReportV2(BaseModel):
             "Compound",
             "Solidity Version",
             "EIP4494",
+            "TWAP",
+            "RCE",
         ]
     ]
     subtag: List[
