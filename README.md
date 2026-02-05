@@ -181,6 +181,14 @@ poetry run python cli/main.py scan --output-format all
 
 > you can use flag `--help` for detail information of flag you can use
 
+### Scan for Kaggle Competition
+``` bash
+poetry run python cli/main.py scan scan_v2    # V2 scan with dependency bundling
+poetry run python cli/main.py scan static             # Static rule scan (all rules)
+poetry run python cli/main.py scan static --rules solmate,Chainlink  # Specific categories
+poetry run python cli/main.py scan hybrid             # Combined scan_v2 + static rules
+```
+
 ### Scan Single Contract with Single Processor Workflow
 
 1. Go into the workflow you want to scan.

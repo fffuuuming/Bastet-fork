@@ -2,5 +2,6 @@
 from .generate_md import generate_md
 from .generate_pdf import generate_pdf
 from .generate_json import generate_json
+from .generate_csv import generate_csv
 
-__all__ = ["generate_md", "generate_pdf", "generate_json"]
+__all__ = ["generate_md", "generate_pdf", "generate_json", "generate_csv"]

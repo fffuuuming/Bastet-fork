@@ -1,8 +1,6 @@
 def scan_v2(
     folder_path: str,
     n8n_url: str,
-    report_name: str,
-    output_path: str,
 ):
 
     import os
@@ -170,17 +168,7 @@ def scan_v2(
             ]
         )
 
-        if not os.path.exists(output_path):
-            os.makedirs(output_path, exist_ok=True)
-
-        csv_file_path = f"{output_path}{report_name}.csv"
-
-        if df.empty:
-            with open(csv_file_path, "w") as f:
-                f.write("File Name,Tag,Subtag,Severity,Description\n")
-        else:
-            df.to_csv(csv_file_path, index=False)
-            tqdm.write(f"✅ CSV successfully generated : {csv_file_path}")
+        return df
 
     else:
         tqdm.write(
