@@ -24,7 +24,6 @@ from rules._utils import (
     line_and_column_from_byte_offset,
     make_finding,
     read_file,
-    truncate_snippet,
 )
 
 RULE_NAME = "Deprecated .transfer()"
@@ -108,15 +107,13 @@ def _analyze_file(
     findings: list[AuditReportV2] = []
     for call_node in _find_deprecated_transfer_calls(root, source_bytes):
         line, _col = line_and_column_from_byte_offset(source, call_node.start_byte)
-        snippet = truncate_snippet(_get_text(call_node, source_bytes))
-        description = f"{DESCRIPTION_BASE} ({file_path}:{line})"
         findings.append(
             make_finding(
                 tag=TAG,
                 subtag=SUBTAG,
                 severity=SEVERITY,
-                description=description,
-                code_snippet=snippet,
+                description=DESCRIPTION_BASE,
+                code_snippet=f"{file_path}:{line}",
             )
         )
     return findings

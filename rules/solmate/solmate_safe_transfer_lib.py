@@ -14,7 +14,7 @@ from models.audit_report import AuditReportV2
 _root = Path(__file__).resolve().parent.parent.parent
 if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
-from rules._utils import line_from_byte_offset, make_finding, read_file, truncate_snippet
+from rules._utils import line_from_byte_offset, make_finding, read_file
 
 RULE_NAME = "Solmate's SafeTransferLib does not check for token contract's existence"
 SEVERITY = "medium"
@@ -54,15 +54,13 @@ def run_on_files(files: list[Path]) -> list[AuditReportV2]:
             continue
         content = read_file(path)
         for line_no, line_content in _find_findings_in_content(str(path), content):
-            snippet = truncate_snippet(line_content)
-            description = f"{DESCRIPTION_BASE} ({path!s}:{line_no})"
             findings.append(
                 make_finding(
                     tag=TAG,
                     subtag=SUBTAG,
                     severity=SEVERITY,
-                    description=description,
-                    code_snippet=snippet,
+                    description=DESCRIPTION_BASE,
+                    code_snippet=f"{path!s}:{line_no}",
                 )
             )
     return findings
