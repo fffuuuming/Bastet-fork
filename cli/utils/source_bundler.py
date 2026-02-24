@@ -8,6 +8,11 @@ import tree_sitter_solidity
 from tree_sitter import Language, Query, QueryCursor
 
 
+EXCLUDE_DIRS = {
+    "test", "tests", "interfaces",
+    "script", "scripts", "deploy",
+}
+
 class SourceBundler:
     """
     Multi-language source code analyzer that builds dependency graphs and
@@ -201,7 +206,10 @@ class SourceBundler:
             project_root: Root directory of the project to analyze
         """
         # First pass: extract all import relationships
-        for root, _, files in os.walk(project_root):
+        for root, dirs, files in os.walk(project_root):
+            # prune excluded dirs
+            dirs[:] = [d for d in dirs if d not in EXCLUDE_DIRS]
+
             for filename in files:
                 file_path = os.path.join(root, filename)
                 file_path = os.path.normpath(file_path)
