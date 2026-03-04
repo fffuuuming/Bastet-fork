@@ -1,6 +1,7 @@
 def scan_v2(
     folder_path: str,
     n8n_url: str,
+    mode: str = "normal",
 ):
 
     import os
@@ -130,7 +131,7 @@ def scan_v2(
                                 vul_key = ",".join(
                                     vulnerability.tag + vulnerability.subtag
                                 )
-                                vul_key = vul_key + vulnerability.code_snippet
+                                vul_key = vul_key + (vulnerability.code_snippet or "")
                                 if vul_key in vul_key_set:
                                     tqdm.write(
                                         "\033[91m❌ Duplicate vulnerability found, skipping...\033[0m"
@@ -155,18 +156,31 @@ def scan_v2(
                 tqdm.write(f"-" * 50)
 
             # Create a DataFrame for all vulnerabilities in the current contract
-        df = pd.DataFrame(
-            [
-                {
-                    "Tag": ",".join(report.tag),
-                    "Subtag": ",".join(report.subtag),
-                    "Severity": report.severity,
-                    "Description": report.description,
-                    "Code Snippet": report.code_snippet,
-                }
-                for report in vulnerabilities
-            ]
-        )
+        if mode == "normal":
+            df = pd.DataFrame(
+                [
+                    {
+                        "tag": ",".join(report.tag),
+                        "subtag": ",".join(report.subtag),
+                        "severity": report.severity,
+                        "description": report.description,
+                    }
+                    for report in vulnerabilities
+                ]
+            )
+        else:
+            df = pd.DataFrame(
+                [
+                    {
+                        "Tag": ",".join(report.tag),
+                        "Subtag": ",".join(report.subtag),
+                        "Severity": report.severity,
+                        "Description": report.description,
+                        "Code Snippet": report.code_snippet,
+                    }
+                    for report in vulnerabilities
+                ]
+            )
 
         return df
 

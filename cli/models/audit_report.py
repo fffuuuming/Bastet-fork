@@ -1,4 +1,4 @@
-from typing import List, Literal
+from typing import List, Literal, Optional
 
 from pydantic import BaseModel
 
@@ -142,7 +142,7 @@ class AuditReportV2(BaseModel):
     ]
     severity: Literal["high", "medium", "low"]
     description: str
-    code_snippet: str
+    code_snippet: Optional[str] = None
 
     def __init__(self, **data):
         data["severity"] = data.get("severity", "").lower()

@@ -32,6 +32,7 @@ def scan_static(
     folder_path: str,
     rules_dir: str,
     rules: str,
+    mode: str = "normal",
 ):
     import pandas as pd
     from tqdm import tqdm
@@ -39,9 +40,14 @@ def scan_static(
 
     root = Path(folder_path)
 
-    empty_df = pd.DataFrame(
-        columns=["Project", "Tag", "Subtag", "Severity", "Description", "Code Snippet"]
-    )
+    if mode == "normal":
+        empty_df = pd.DataFrame(
+            columns=["tag", "subtag", "severity", "description"]
+        )
+    else:
+        empty_df = pd.DataFrame(
+            columns=["Project", "Tag", "Subtag", "Severity", "Description", "Code Snippet"]
+        )
     if not root.exists():
         tqdm.write(f"\033[91mFolder not found: {root}\033[0m")
         return empty_df
@@ -78,16 +84,26 @@ def scan_static(
     rows = []
     for (project, tag, subtag, severity), group in groups.items():
         description = group[0].description
-        code_snippet_value = "\n".join(r.code_snippet for r in group)
-        rows.append(
-            {
-                "Project": project,
-                "Tag": ",".join(tag),
-                "Subtag": ",".join(subtag),
-                "Severity": severity,
-                "Description": description,
-                "Code Snippet": code_snippet_value,
-            }
-        )
+        if mode == "normal":
+            rows.append(
+                {
+                    "tag": ",".join(tag),
+                    "subtag": ",".join(subtag),
+                    "severity": severity,
+                    "description": description,
+                }
+            )
+        else:
+            code_snippet_value = "\n".join(r.code_snippet for r in group if r.code_snippet)
+            rows.append(
+                {
+                    "Project": project,
+                    "Tag": ",".join(tag),
+                    "Subtag": ",".join(subtag),
+                    "Severity": severity,
+                    "Description": description,
+                    "Code Snippet": code_snippet_value,
+                }
+            )
 
     return pd.DataFrame(rows)

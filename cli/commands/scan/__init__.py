@@ -86,11 +86,17 @@ def scan_kaggle(
         "--output-path",
         help="The folder path to store the output",
     ),
+    mode: str = typer.Option(
+        "normal",
+        "--mode",
+        help="The scan mode: normal or debug",
+    ),
 ):
 
     ai_findings = scan_v2(
         folder_path=folder_path,
         n8n_url=n8n_url,
+        mode=mode,
     )
     generate_csv(
         df=ai_findings,
@@ -126,11 +132,17 @@ def scan_kaggle_static(
         "--output-path",
         help="The folder path to store the output",
     ),
+    mode: str = typer.Option(
+        "normal",
+        "--mode",
+        help="The scan mode: normal or debug",
+    ),
 ):
     static_findings = scan_static(
         folder_path=folder_path,
         rules_dir=rules_dir,
         rules=rules,
+        mode=mode,
     )
     generate_csv(
         df=static_findings,
@@ -175,11 +187,13 @@ def scan_kaggle_hybrid(
         folder_path=folder_path,
         rules_dir=rules_dir,
         rules=rules,
+        mode="normal",
     )
 
     ai_findings = scan_v2(
         folder_path=folder_path,
         n8n_url=n8n_url,
+        mode="normal",
     )
 
     combined_findings = pd.concat([static_findings, ai_findings], ignore_index=True)
