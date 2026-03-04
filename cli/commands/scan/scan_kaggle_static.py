@@ -13,7 +13,7 @@ def _parse_location(code_snippet: str) -> tuple[str | None, int | None]:
 
 
 def _project_from_path(path_str: str, folder_path: str) -> str:
-    """Compute project: 1 segment (direct subdir) or 2 segments (category/project) under folder_path."""
+    """Compute project: always returns the first subdirectory segment under folder_path."""
     folder = Path(folder_path).resolve()
     path = Path(path_str).resolve()
     try:
@@ -21,11 +21,11 @@ def _project_from_path(path_str: str, folder_path: str) -> str:
     except ValueError:
         relative = Path(path_str)
     dir_part = relative.parent
-    segments = [p for p in dir_part.parts]
-    n = min(2, len(segments)) if segments else 0
-    if n == 0:
+    segments = [p for p in dir_part.parts if p != "."]
+    if not segments:
         return "unknown"
-    return "/".join(segments[:n])
+    return segments[0]
+
 
 
 def scan_static(
