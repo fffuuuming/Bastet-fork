@@ -1,0 +1,320 @@
+{
+  "name": "Reentrancy",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "21752e48-5b46-4ec4-a50d-a16f0af07f59",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -64,
+        464
+      ],
+      "webhookId": "471f4f97-1fd4-4312-b3ee-6fcc3310611d"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        720,
+        256
+      ],
+      "id": "04b52854-82a9-415e-a0df-7370f6efe6f8",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "os-azure-gpt5-chat"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        144,
+        512
+      ],
+      "id": "8833b6e2-0459-4421-8840-d252b614c712",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "xh48UcOAH3uxiiEh",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"array\",\n  \"items\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"tag\": {\n        \"type\": \"array\",\n        \"items\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"DAO\",\n            \"DoS\",\n            \"Flashloan\",\n            \"Oracle\",\n            \"Logic error\",\n            \"Reentrancy\",\n            \"Access Control\",\n            \"Liquidation\",\n            \"Slippage\",\n            \"ERC4626\",\n            \"Input Validation\",\n            \"Bad Randomness\",\n            \"Chainlink\",\n            \"Arithmetic\",\n            \"Re-org Attack\",\n            \"Pause\",\n            \"Accounting Error\",\n            \"MEV\",\n            \"Upgradeable\",\n            \"ERC20\",\n            \"call / delegatecall\",\n            \"Uniswap\",\n            \"Cross-Chain\",\n            \"ERC777\",\n            \"Governance\",\n            \"Multisig\",\n            \"Rebalance\",\n            \"ERC1155\",\n            \"XSS Attack\",\n            \"ERC721\",\n            \"Gnosis safe\",\n            \"Opensea\",\n            \"EIP712\",\n            \"Bridge\",\n            \"Zksync\",\n            \"Replay Attack\",\n            \"Solmate\",\n            \"Compound\",\n            \"Solidity Version\",\n            \"EIP4494\"\n          ]\n        },\n        \"description\": \"Main vulnerability category, choose all of the matched category in your vulberbility\"\n      },\n      \"subtag\": {\n        \"type\": \"array\",\n        \"items\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"Violating CEI / Missing nonReentrant\",\n            \"Missing Approval\",\n            \"Inflation Attack\",\n            \"Not EIP Compliant\",\n            \"Asset Theft\",\n            \"Rounding Error\",\n            \"Invalid Validation\",\n            \"Cannot partial liquidations\",\n            \"Liquidation – Dust repay / front run evade liquidation\",\n            \"onERC721Received callback\",\n            \"Price Manipulation / Arbitrage opportunity\",\n            \"Bypass Mechanism\",\n            \"Invariant Violation\",\n            \"Does not match with Doc / Implementation Error\",\n            \"Invalid Slippage Control / Missing slippage check\",\n            \"No Incentive to Liquidate\",\n            \"Hardcoded Parameter\",\n            \"minOut set to 0\",\n            \"Missing deadline\",\n            \"Self liquidation\",\n            \"Missing minOut / maxAmount\",\n            \"Deprecated Library\",\n            \"Out of Gas\",\n            \"Stale Value\",\n            \"Front Run\",\n            \"Reward Manipulation\",\n            \"Token Decimal\",\n            \"Incorrect Parameter\",\n            \"No Recovery Mechanism\",\n            \"Centralization Risk\",\n            \"Precision Loss\",\n            \"Scaling\",\n            \"Peg / Depeg\",\n            \"State Update Inconsistency\",\n            \"Duplicate Value\",\n            \"Arbitrary Add/Remove/Set/ Call\",\n            \"Storage Gap\",\n            \"Missing Return Check\",\n            \"Misuse of Dependency\",\n            \"Role Takeover\",\n            \"Missing Time Constraint\",\n            \"Unauthorized Upgrade\",\n            \"Missing Initialization\",\n            \"slot0\",\n            \"Bad Condition\",\n            \"Unfair Liquidation\",\n            \"Nonce\",\n            \"Fee On Transfer Token\",\n            \"payable / receive()\",\n            \"Rebase Token\",\n            \"Whale\",\n            \"ERC777 Callback\",\n            \"EVM Compatibility\",\n            \"Case Sensitive\",\n            \"Execution Order Dependency\",\n            \"Cross-Function Reentrancy\",\n            \"Missing Functionality\",\n            \"Refund Failed\",\n            \"Diamond\",\n            \"Cannot Revoke\",\n            \"Typo\",\n            \"safeApprove\",\n            \"Missing Upper/Lower Bound Check\",\n            \"Unsafe Downcast\",\n            \"1/64 Gas Rule\",\n            \"Block Time / Block Number\",\n            \"Incorrect Formula\"\n          ]\n        },\n        \"description\": \"Specific vulnerability subtype\"\n      },\n      \"severity\": {\n        \"type\": \"string\",\n        \"enum\": [\"high\", \"medium\"],\n        \"description\": \"Severity level of the vulnerability. Definition of severity -> high : Assets can be stolen/lost/compromised directly / medium: Assets not at direct risk, but function/availability of the protocol could be impacted or leak value\"\n      },\n      \"description\": {\n        \"type\": \"string\",\n        \"description\": \"Detailed description of the vulnerability\"\n      },\n      \"code_snippet\": {\n        \"type\": \"string\",\n        \"description\": \"The function name where the root cause of the vulnerability discovered, if cannot find the function, just return empty string, only the function name\"\n      }\n    },\n    \"required\": [\"tag\", \"subtag\", \"severity\", \"description\", \"code_snippet\"],\n    \"additionalProperties\": false\n  }\n}",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        288,
+        512
+      ],
+      "id": "0ad787eb-49b3-419e-be61-e3d7f4d8c077",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "reentrancy",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -832,
+        272
+      ],
+      "id": "3316d0ba-9c8e-41c3-a0b4-3dbd82105001",
+      "name": "Webhook",
+      "webhookId": "d798e549-8950-44e4-bf1f-4f4140885454"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $execution.id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        -384,
+        144
+      ],
+      "id": "9abeb5fd-8673-4118-9ffd-7a2258dc1cb7",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "72ea9720-b7d8-4e8c-9b6f-3a10987c34bf",
+              "name": "chatInput",
+              "value": "={{ $json.body.prompt }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -160,
+        272
+      ],
+      "id": "9dc575f5-b884-4322-90d3-3b24d8eaf806",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "162cf072-03ec-49a2-b87d-820eb155c89e",
+              "leftValue": "={{ $json.body.mode }}",
+              "rightValue": "trace",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -608,
+        272
+      ],
+      "id": "561d7bf5-9f61-403c-86ad-bc15f24fb22f",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        944,
+        256
+      ],
+      "id": "faea5948-e98d-41ac-bf5d-febc82b23267",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are a smart contract security auditor specialized in Reentrancy vulnerabilities.\n\nYour task is to id entify ONLY reentrancy-related vulnerabilities in the provided Solidity source code.\n\nYou MUST strictly follow the two-phase reasoning process below.  \nDo NOT skip, merge, or shortcut any phase.\n\n## Input Format\n\nThe provided input will be a FLATTENED BUNDLE, not a single source file.\nThe bundle has this structure:\n\n- The FIRST concrete contract block in the file (before any line starting with\n  \"====== Code imported from:\") is the TARGET contract.\n- Everything after any line starting with \"====== Code imported from:\" is\n  IMPORTED / DEPENDENCY code. It is ONLY for reference.\n\nExample:\n```solidity\npragma solidity 0.8.20;\n\ncontract AlphaVault {\n    uint256 public totalShares;\n\n    function deposit() external payable {\n        totalShares += msg.value;\n    }\n\n    function withdraw(uint256 shares) external {\n        totalShares -= shares;\n        payable(msg.sender).transfer(shares);\n    }\n}\n\n====== Code imported from: libs/MathLib.sol ======\npragma solidity 0.8.20;\n\nlibrary MathLib {\n    function mul(uint256 a, uint256 b) internal pure returns (uint256) {\n        return a * b;\n    }\n}\n\n====== Code imported from: pools/ExternalPool.sol ======\npragma solidity 0.8.20;\n\ncontract ExternalPool {\n    function swap(uint256 amount) external pure returns (uint256) {\n        return amount / 2;\n    }\n}\n```\n\n1. The first contract block that appears before any line starting with `====== Code imported from:` is contract `AlphaVault`. Therefore, the TARGET contract is `AlphaVault`\n2. All code after the separators `====== Code imported from:` are imported / dependency contracts and not target contracts.\n\n\n---\n\n## SCOPING RULES\n\n- Only the TARGET contract is in-scope.\n- Imported contracts may be referenced for behavior only.\n- Vulnerabilities must be reported ONLY if exploitable from logic inside the TARGET contract.\n- Issues existing solely in imported code must be ignored.\n\n---\n\n\n## Vulnerability Knowledge (Reentrancy)\n\nA reentrancy attack exploits the vulnerability in smart contracts when a function makes an external call to another contract before updating its own state. This allows the external contract, possibly malicious, to reenter the original function and repeat certain actions, like withdrawals, using the same state. Through such attacks, an attacker can possibly drain all the funds from a contract.\n\n\n## Vulnerability Detection\nBefore reporting any vulnerability, you MUST prove that a concrete and exploitable reentrancy path exists.\n\n- If any required condition is missing, ambiguous, or cannot be statically justified → DO NOT report.\n- Do NOT flag issues based solely on superficial patterns such as instruction ordering or the mere presence of call, transfer, safeTransfer, or similar external invocation keywords.  → DO NOT report\n- When identifying functions that perform payouts or modify critical accounting state (e.g., balance reductions, credit increases), do not treat the existence of an external call as a vulnerability by default.  → DO NOT report\n- The detection must be state-driven and path-driven, not keyword-driven.  → DO NOT report\n\n[1] CEI Violation (Checks-Effects-Interactions)\n\nWhen identifying functions that perform payouts or modify critical accounting state (e.g., balance reductions, credit increases), do not treat the existence of an external call as a vulnerability by default.\n\nInstead, perform the following analysis:\n1.Identify the exact state variables modified by the function.\n2.Determine whether those same variables can also be written by other externally callable functions or other referenced contract.\n3.Check whether a reentrant control flow could realistically reach those alternative write paths before the original state update completes.\n\nOnly report a CEI violation if all three conditions hold, meaning that:\n\nThe state is multi-entry mutable, and a reentrant execution can cause inconsistent or exploitable state transitions.\n\nIf the state is strictly encapsulated and cannot be mutated through any alternative external path and any other referenced contract, then no vulnerability should be reported, even if the function violates the CEI ordering pattern syntactically. -> Don't report!\n---\n\n### [2] Token/NFT Callback\n**Check:** Does the interaction trigger hidden callbacks (ERC721/1155/777) before finalizing state?\n\n* **❌ Vulnerable:**\n    ```solidity\n    function mintNFT() public {\n        _safeMint(msg.sender, nextId); // Triggers onERC721Received callback\n        mintCount[msg.sender]++; // Updated after callback\n    }\n    ```\n    **Reentrancy Reason:** The attacker re-enters `mintNFT` during the callback. Since `mintCount` hasn't increased yet, they bypass minting limits.\n\n* **✅ Secure:**\n    ```solidity\n    function mintNFT() public {\n        mintCount[msg.sender]++; // Update before minting\n        _safeMint(msg.sender, nextId);\n    }\n    ```\n**Conclusion:** \nReport if `safe` methods or ERC777 are used without prior state finalization.Confirm the token standard actually supports callbacks (ERC777 or safe NFT receiver).\nDo NOT assume all ERC20/ERC721 transfers allow reentry.\nIf the callback cannot invoke the vulnerable function → exclude.\n\n\n---\n\n### [3] Cross-Function Reentrancy\n**Check:** Does a guarded function call an external party, which then re-enters an **unguarded** function sharing the same state?\n\nTarget Controllability: Verify if the target of the call is attacker-controlled (e.g., msg.sender). If the target is a Trusted System Contract (e.g., hardcoded WETH, Chainlink Oracle, or system-deployed immutable factory) → Exclude.\n\n## Output Format\n\nIf the input is not a cryptocurrency smart contracts, report with a empty array:\n\n```\n[]\n```\n\nIf the conclusion of a function is “No vulnerability”, report with a empty array:\n\n```\n[]\n```\n\nIf vulnerabilities found in a function, report with a json:\n\n```\n[\n    {\n        \"tag\":  \"Main vulnerability category\",\n        \"subtag\": \"Specific vulnerability subtype\",\n        \"severity\": \"Severity level of the vulnerability\"\n        \"description\": \"Detailed description of the vulnerability\"\n\t“code_snippet”: “The function name where the root cause of the vulnerability discovered, if cannot find the function, just return empty string, only the function name”\n    }\n]\n```\n#### Tag definition\n\nIf two tags share similar criteria, the system should select only the tag whose scenario provides the closest fit. Select all the tags that fit the scenario\n\n| Title | Description |\n|------|-------------|\n| DAO | Root cause issues related to Decentralized Autonomous Organizations. |\n| DoS | Vulnerabilities causing Denial of Service attacks. |\n| Flashloan | Issues unique to flash loans that enable quick, uncollateralized loans. |\n| Oracle | Problems specific to oracles providing external data to smart contracts. |\n| Logic error | General logic errors within code execution. |\n| Reentrancy | Reentrancy attack vulnerabilities allowing repeated function calls. |\n| Access Control | Flaws in permission and access systems within applications. |\n| Liquidation | Issues in processes for liquidating assets. |\n| Slippage | Problems related to price slippage in transactions. |\n| ERC4626 | Issues related to ERC4626 vaults, including common attacks and non-compliance with EIPs. |\n| Input Validation | No checks to ensure external inputs meet expected conditions before execution. |\n| Bad Randomness | Use of insecure or predictable randomness leading to manipulation or exploitation. |\n| Chainlink | Issues related to Chainlink oracle usage, including API calls, data retrieval, and integration. |\n| Arithmetic | Incorrect numeric operations such as precision loss, unsafe conversions, overflows, or improper scaling. |\n| Re-org Attack | Vulnerabilities caused by assumptions of block finality exploitable via chain reorganizations. |\n| Pause | Contract state that conditionally disables functions under emergencies or admin control. |\n| Accounting Error | Incorrect tracking or calculation of balances, shares, or rewards. |\n| MEV | Maximizing extracted value by manipulating transaction ordering, causing user losses or unfair outcomes. |\n| Upgradeable | Issues in proxy or upgradeable contracts such as storage, initialization, or permission errors. |\n| ERC20 | Incorrect handling of non-standard ERC20 behaviors (fee-on-transfer, rebasing, missing return values). |\n| call / delegatecall | Unsafe or incorrect use of low-level calls such as `call`, `delegatecall`, or `staticcall`. |\n| Uniswap | Issues related to Uniswap integrations, AMM pricing, and liquidity management logic. |\n| Cross-Chain | Security risks in cross-chain interactions, message verification, and state consistency. |\n| ERC777 | Issues related to ERC777 tokens and compatibility. |\n| Governance | Vulnerabilities or abuse within governance mechanisms such as voting, proposals, and timelocks. |\n| Multisig | Vulnerabilities in multisignature wallets including authorization and signature verification. |\n| Rebalance | Defects during asset weight adjustment, pool balancing, or supply rebasing. |\n| ERC1155 | Issues related to ERC1155 tokens and compatibility. |\n| XSS Attack | Improper input handling allowing injection and execution of malicious JavaScript. |\n| ERC721 | Issues related to ERC721 tokens and compatibility. |\n| Gnosis safe | Issues related to Gnosis Safe integrations. |\n| Opensea | Issues related to Opensea integrations. |\n| EIP712 | Issues related to EIP-712 typed structured data signing. |\n| Bridge | Protocols used for transferring assets or data between different blockchain networks. |\n| Zksync | Issues related to zkSync integrations. |\n| Replay Attack | Resubmission of previously valid transactions or signed messages. |\n| Solmate | Issues related to Solmate library usage. |\n| Compound | Issues related to Compound protocol integrations. |\n| Solidity Version | Vulnerabilities caused by specific Solidity compiler versions or optimizer behavior. |\n| EIP4494 | Issues related to EIP-4494 (ERC721 Permit). |\n\n#### Subtag definition\n\nIf two subtags share similar criteria, the system should select only the tag whose scenario provides the closest fit. Select all the subtags that fit the scenario.\n\n| Title | Description |\n|------|-------------|\n| Violating CEI / Missing nonReentrant | Issues related to violation of Checks-Effects-Interactions pattern or missing `nonReentrant` protection. |\n| Missing Approval | Missing `approve()` call before `transferFrom`, causing token transfers to fail. |\n| Inflation Attack | Artificially inflating asset or share baselines via manipulated initial conditions or parameters. |\n| Not EIP Compliant | Implementation does not adhere to relevant EIP standards, causing unexpected behavior or vulnerabilities. |\n| Asset Theft | Allows unauthorized users to illicitly transfer or misappropriate assets. |\n| Rounding Error | Incorrect rounding direction causing value misallocation or deviations from expected behavior. |\n| Invalid Validation | Missing or incorrect input or condition verification. |\n| Cannot partial liquidations | Whales cannot be partially liquidated due to protocol limitations. |\n| Liquidation – Dust repay / front run evade liquidation | Fine-grained liquidation issues related to dust repayment or front-running evasion. |\n| onERC721Received callback | Vulnerabilities associated with the `onERC721Received` callback function. |\n| Price Manipulation / Arbitrage opportunity | Opportunities for price manipulation or arbitrage within the system. |\n| Bypass Mechanism | Mechanisms that allow bypassing intended security controls. |\n| Invariant Violation | Violations of assumed invariants or system constants. |\n| Implementation Error | Design, logic, or coding flaws within the smart contract implementation. |\n| Does not match with Doc | Contract behavior deviates from documentation or referenced standards. |\n| Invalid Slippage Control / Missing slippage check | Missing or absent slippage enforcement such as `minOut` or `maxAmount`. |\n| No Incentive to Liquidate | Lack of liquidation incentives leading to bad debt accumulation. |\n| Hardcoded Parameter | Important parameters are hardcoded and cannot be dynamically configured. |\n| minOut set to 0 | Disables slippage protection, exposing users to unlimited price impact. |\n| Missing deadline | Missing deadline in price-sensitive operations, exposing transactions to excessive slippage. |\n| Self liquidation | Allows self-liquidation under non-ideal or unsafe conditions. |\n| Missing minOut / maxAmount | Missing or improperly enforced slippage protection parameters. |\n| Deprecated Library | Use of outdated or unsupported libraries. |\n| Out of Gas | Transaction fails due to exceeding allocated gas limits. |\n| Stale Value | Use of outdated or obsolete data that can be exploited. |\n| Front Run | Exploiting transaction ordering for unfair advantage. |\n| Reward Manipulation | Exploiting reward distribution logic to gain excess rewards. |\n| Token Decimal | Incorrect token decimal configuration causing calculation errors. |\n| Incorrect Parameter | Function called with wrong parameter order, values, or types. |\n| No Recovery Mechanism | Lack of mechanisms to recover from failures or misconfiguration. |\n| Centralization Risk | Critical components controlled by a single party. |\n| Precision Loss | Numeric precision loss due to integer division or improper scaling. |\n| Scaling | Failure to apply correct unit conversion or scaling factors. |\n| Peg / Depeg | Design or implementation flaws related to asset peg mechanisms. |\n| State Update Inconsistency | Incorrect or inconsistent state updates leading to unintended behavior. |\n| Duplicate Value | Multiple entities unintentionally share the same identifier or key. |\n| Arbitrary Add/Remove/Set/Call | Unauthorized ability to modify critical states or resources. |\n| Storage Gap | Missing or incorrect storage gap in upgradeable contracts. |\n| Missing Return Check | Failure to verify return values from external calls. |\n| Misuse of Dependency | Incorrect use of external libraries, modules, or contracts. |\n| Role Takeover | Illegitimate takeover of privileged roles. |\n| Missing Time Constraint | Missing time-based checks such as deadline or expiry. |\n| Unauthorized Upgrade | Lack of authorization checks during contract upgrades. |\n| Missing Initialization | Failure to properly initialize contract state. |\n| slot0 | Reliance on Uniswap `slot0` without time-weighted averaging (TWAP). |\n| Bad Condition | Incorrect or missing conditional logic causing critical checks to fail. |\n| Unfair Liquidation | Users are liquidated despite not violating protocol rules. |\n| Nonce | Missing or misused nonce leading to replay or race conditions. |\n| Fee On Transfer Token | Issues arising from fee-on-transfer token behavior. |\n| payable / receive() | Improper design of payable, receive, or fallback functions. |\n| Rebase Token | Security or accounting issues related to rebase token integration. |\n| Whale | Risks caused by large asset concentration in a few addresses. |\n| ERC777 Callback | Misuse of ERC777 callbacks leading to unexpected external control. |\n| EVM Compatibility | Assumptions about EVM behavior that differ across chains or L2s. |\n| Case Sensitive | Case-sensitive comparisons leading to unexpected behavior. |\n| Execution Order Dependency | Logic depends on specific transaction ordering or timing. |\n| Cross-Function Reentrancy | Reentrancy via a different function entry point. |\n| Missing Functionality | Required functionality is missing or incomplete. |\n| Refund Failed | Refunds fail due to recipient restrictions or reverting callbacks. |\n| Diamond | Issues related to EIP-2535 Diamond or multi-facet architectures. |\n| Cannot Revoke | Granted permissions or modules cannot be safely revoked. |\n| Typo | Typographical errors in code or configuration. |\n| safeApprove | Unsafe usage of `safeApprove`. |\n| Missing Upper/Lower Bound Check | Missing bounds checks on numeric inputs or parameters. |\n| Unsafe Downcast | Unsafe casting from larger to smaller integer types. |\n| 1/64 Gas Rule | Issues caused by EIP-150 gas forwarding behavior. |\n| Block Time / Block Number | Risks from using `block.timestamp` or `block.number`. |\n| Incorrect Formula | Incorrect formulas or operators in economic calculations. |"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        144,
+        272
+      ],
+      "id": "e831813d-fa70-4550-8df8-f4438c38074f",
+      "name": "Reentrancy",
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Reentrancy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Reentrancy",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Structured Output Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Reentrancy",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Reentrancy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reentrancy": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "bb67f47d-714b-4624-80ab-e1f3ca9d85e5",
+  "meta": {
+    "instanceId": "ffbfcea2270f886479cb80f368253453ece6dc6be326441d212d54dd4fdc9e73"
+  },
+  "id": "ahcQtDrJSoy67vN4",
+  "tags": []
+}
