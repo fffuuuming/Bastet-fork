@@ -131,7 +131,6 @@ def scan_v2(
                                 vul_key = ",".join(
                                     vulnerability.tag + vulnerability.subtag
                                 )
-                                vul_key = vul_key + (vulnerability.code_snippet or "")
                                 if vul_key in vul_key_set:
                                     tqdm.write(
                                         "\033[91m❌ Duplicate vulnerability found, skipping...\033[0m"
