@@ -1,0 +1,290 @@
+{
+  "name": "eip-712",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "=slippage_minAmount",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -416,
+        80
+      ],
+      "id": "1ebfd28b-317d-4d98-8b41-18dcea889624",
+      "name": "Webhook",
+      "webhookId": "0f3a3dc2-9cb2-4454-86b1-bb95ef26a901"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "os-azure-gpt5-chat",
+          "mode": "list",
+          "cachedResultName": "os-azure-gpt5-chat"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        400
+      ],
+      "id": "ec126001-8c23-4eff-afde-c3cc73d11b16",
+      "name": "LLM for answer",
+      "credentials": {
+        "openAiApi": {
+          "id": "khMK6p1sFf7Q8x8F",
+          "name": "OpenAI Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4cad7351-acee-42aa-a217-bf2b8b624e2f",
+              "name": "chatInput",
+              "value": "={{ $json.body.prompt }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        192,
+        80
+      ],
+      "id": "b0b6036b-5946-49ea-b491-2872461eb1b2",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $execution.id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0dcb2bce-704a-4be1-bf04-ed501c002864",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        192,
+        288
+      ],
+      "id": "f7543344-b82b-42f2-88dd-2c0dc3ac931f",
+      "name": "When chat message received",
+      "webhookId": "ce077bb6-7ca6-4f3a-bb6e-cbc80aadc004"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a4044695-dd7d-462e-97f5-5c9638d0d182",
+              "leftValue": "={{ $json.body.mode }}",
+              "rightValue": "trace",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -192,
+        80
+      ],
+      "id": "11a80496-3527-44d2-a52d-77713787e7b7",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1024,
+        160
+      ],
+      "id": "39359a48-50d3-481d-bbe1-3c87f2043cbc",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"array\",\n  \"items\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"tag\": {\n        \"type\": \"array\",\n        \"items\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"DAO\",\n            \"DoS\",\n            \"Flashloan\",\n            \"Oracle\",\n            \"Logic error\",\n            \"Reentrancy\",\n            \"Access Control\",\n            \"Liquidation\",\n            \"Slippage\",\n            \"ERC4626\",\n            \"Input Validation\",\n            \"Bad Randomness\",\n            \"Chainlink\",\n            \"Arithmetic\",\n            \"Re-org Attack\",\n            \"Pause\",\n            \"Accounting Error\",\n            \"MEV\",\n            \"Upgradeable\",\n            \"ERC20\",\n            \"call / delegatecall\",\n            \"Uniswap\",\n            \"Cross-Chain\",\n            \"ERC777\",\n            \"Governance\",\n            \"Multisig\",\n            \"Rebalance\",\n            \"ERC1155\",\n            \"XSS Attack\",\n            \"ERC721\",\n            \"Gnosis safe\",\n            \"Opensea\",\n            \"EIP712\",\n            \"Bridge\",\n            \"Zksync\",\n            \"Replay Attack\",\n            \"Solmate\",\n            \"Compound\",\n            \"Solidity Version\",\n            \"EIP4494\"\n          ]\n        },\n        \"description\": \"Main vulnerability category, choose all of the matched category in your vulberbility\"\n      },\n      \"subtag\": {\n        \"type\": \"array\",\n        \"items\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"Violating CEI / Missing nonReentrant\",\n            \"Missing Approval\",\n            \"Inflation Attack\",\n            \"Not EIP Compliant\",\n            \"Asset Theft\",\n            \"Rounding Error\",\n            \"Invalid Validation\",\n            \"Cannot partial liquidations\",\n            \"Liquidation – Dust repay / front run evade liquidation\",\n            \"onERC721Received callback\",\n            \"Price Manipulation / Arbitrage opportunity\",\n            \"Bypass Mechanism\",\n            \"Invariant Violation\",\n            \"Does not match with Doc / Implementation Error\",\n            \"Invalid Slippage Control / Missing slippage check\",\n            \"No Incentive to Liquidate\",\n            \"Hardcoded Parameter\",\n            \"minOut set to 0\",\n            \"Missing deadline\",\n            \"Self liquidation\",\n            \"Missing minOut / maxAmount\",\n            \"Deprecated Library\",\n            \"Out of Gas\",\n            \"Stale Value\",\n            \"Front Run\",\n            \"Reward Manipulation\",\n            \"Token Decimal\",\n            \"Incorrect Parameter\",\n            \"No Recovery Mechanism\",\n            \"Centralization Risk\",\n            \"Precision Loss\",\n            \"Scaling\",\n            \"Peg / Depeg\",\n            \"State Update Inconsistency\",\n            \"Duplicate Value\",\n            \"Arbitrary Add/Remove/Set/ Call\",\n            \"Storage Gap\",\n            \"Missing Return Check\",\n            \"Misuse of Dependency\",\n            \"Role Takeover\",\n            \"Missing Time Constraint\",\n            \"Unauthorized Upgrade\",\n            \"Missing Initialization\",\n            \"slot0\",\n            \"Bad Condition\",\n            \"Unfair Liquidation\",\n            \"Nonce\",\n            \"Fee On Transfer Token\",\n            \"payable / receive()\",\n            \"Rebase Token\",\n            \"Whale\",\n            \"ERC777 Callback\",\n            \"EVM Compatibility\",\n            \"Case Sensitive\",\n            \"Execution Order Dependency\",\n            \"Cross-Function Reentrancy\",\n            \"Missing Functionality\",\n            \"Refund Failed\",\n            \"Diamond\",\n            \"Cannot Revoke\",\n            \"Typo\",\n            \"safeApprove\",\n            \"Missing Upper/Lower Bound Check\",\n            \"Unsafe Downcast\",\n            \"1/64 Gas Rule\",\n            \"Block Time / Block Number\",\n            \"Incorrect Formula\"\n          ]\n        },\n        \"description\": \"Specific vulnerability subtype\"\n      },\n      \"severity\": {\n        \"type\": \"string\",\n        \"enum\": [\"high\", \"medium\"],\n        \"description\": \"Severity level of the vulnerability. Definition of severity -> high : Assets can be stolen/lost/compromised directly / medium: Assets not at direct risk, but function/availability of the protocol could be impacted or leak value\"\n      },\n      \"description\": {\n        \"type\": \"string\",\n        \"description\": \"Detailed description of the vulnerability\"\n      },\n      \"code_snippet\": {\n        \"type\": \"string\",\n        \"description\": \"The function name where the root cause of the vulnerability discovered, if cannot find the function, just return empty string\"\n      }\n    },\n    \"required\": [\"tag\", \"subtag\", \"severity\", \"description\", \"code_snippet\"],\n    \"additionalProperties\": false\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        768,
+        400
+      ],
+      "id": "54023016-d92b-45dc-9c7a-ced8e2ff8193",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "## Overview\n\nYou are a smart contract security auditor. Follow the thinking process to detect the problem in the contract source code. You will focus on the specific vulnerability - EIP-712 - Not EIP Complian\n\n### Scope\n\nOnly detect issues where the contract’s EIP-712 typed-data hashing / signature verification is NOT compliant with EIP-712 encoding rules, causing:\n- standard off-chain signers (ethers / MetaMask / OpenZeppelin-style encoders) to produce signatures that fail on-chain, OR\n- the contract to verify a digest that differs from the intended typed data (user thinks they sign X but contract verifies Y).\n\nDo NOT report other vulnerability categories. If the contract does not implement EIP-712 typed data hashing or signature verification, output [].\n\n### Severity Guidance\n\nAssign severity by real impact, not by “spec violation” alone:\n- High: non-compliance can allow unintended signatures to validate or enables replay / bypass (e.g., wrong digest composition, missing nonce/deadline binding, verifying different data than user signs).\n- Medium: standard-compliant signatures will fail verification -> DoS/integration failure for meta-tx / permits / order validation; protocol unusable with standard tooling.\n- Low: minor incompatibility limited to niche encoders or purely internal tooling assumptions (still non-compliant but not breaking core flows).\n\nImportant: if it is purely an integration mismatch (ethers/MetaMask signatures will not verify), this is typically Medium.\n\n## Thinking Process\n\n### Step 1 — Locate the signed digest path\nFind where the contract computes the digest that is verified/signed or has structHash construction, for example:\n- keccak256(\"\\x19\\x01\" || domainSeparator || structHash) or _hashTypedDataV4(structHash)\n- ecrecover usage, SignatureChecker, recover(), verifyTypedData, permit-like flows\nIf none are present, return [].\n\n### Step 2 — Decision tree: TYPEHASH vs encodeData\n\n2A) If you see a TYPEHASH (constant or computed), validate it only with evidence\n\nA1. Can you compare it to the actual struct fields used by the contract?\nEvidence can be:\n\t- a Solidity struct X { ... } definition, or\n\t- the exact abi.encode(TYPEHASH, field1, field2, ...) tuple used to build structHash, or\n\t- a function that explicitly documents the signed fields and you can map them 1:1 to abi.encode(...).\n\nIf NO (you only see bytes32 constant TYPEHASH = keccak256(\"...\") but can’t map to real encoded fields): assume safe for TYPEHASH; do not report.\n\nIf YES, then check:\n- A2. Field list match (hard evidence required)\nCompare TYPEHASH string fields vs the actual struct fields:\n\t- same count\n\t- same types\n\t- same names (if present)\n\t- same order\n\tIf mismatch observed in code: flag Not EIP Compliant.\n\t\n- A3. Manual encodeType/typeHash construction\nOnly applicable if contract builds type strings in code (not just a constant).\nFlag only if you see patterns like:\n\t- keccak256(abi.encode(typeStringA, typeStringB, ...)) (ABI-length/offset encoding)\n\t- missing referenced struct type strings when the primary type includes nested structs/arrays-of-structs\n\t- wrong sorting of referenced type definitions (must be sorted by type name)\n\tIf you cannot confirm missing refs / wrong sorting from code: assume safe; do not report.\n\n2B) If you see encodeData / structHash construction, validate encoding by field type\n\nIdentify the structHash pattern:\n\t- typically keccak256(abi.encode(TYPEHASH, ...))\n\nThen for each encoded field, decide by its actual Solidity type / usage in code:\n\n- Dynamic types (string, bytes)\n\tFlag only if you see dynamic values passed directly into the struct hash tuple:\n\t- Bad (non-compliant): abi.encode(TYPEHASH, ..., someString, ...)\n\t- Good: abi.encode(TYPEHASH, ..., keccak256(bytes(someString)), ...)\n\t- Good: abi.encode(TYPEHASH, ..., keccak256(someBytes), ...)\n\tIf the field’s type is not known and you cannot prove it is string/bytes: assume safe.\n- Arrays (T[], T[n])\n\tWhen a struct field is an array (T[] or T[n]), the value included in abi.encode(TYPEHASH, ...) must be a single bytes32, computed as:\n\t- arrayHash = keccak256( enc(elem1) || enc(elem2) || ... )\n\t- where each enc(elem) is exactly 32 bytes.\n\t\t- atomic (uint/int/bool/address/bytes1..bytes32): abi.encode(elem) (32-byte word)\n\t\t- dynamic (string/bytes): keccak256(bytes(elem)) / keccak256(elem)\n\t\t- struct: hashStruct(elem)\n\tFlag only if you see an array included without being reduced to a bytes32 hash:\n\t- Bad: abi.encode(TYPEHASH, ..., someArray, ...)\n\n\tAlso flag common wrong hashing patterns when you can prove element type:\n\t- Bad for non-32-byte elements: keccak256(abi.encodePacked(addressArray)), bool[], uint8[], etc. Because EIP-712 wants 32-byte per element encoding before concatenation.\n\n\tAccept if you can show it matches the rule:\n\t•\tGood: keccak256(abi.encodePacked(bytes32ElemHashes...)) when elements are already 32-byte (e.g., bytes32[] or hashed structs)\n\t•\tGood: keccak256(abi.encodePacked(arr[])) where arr element is already 32 bytes (e.g.,  uint256[])\n\t•\tGood: hashing each element to bytes32, then packing the bytes32s.\n\n\tIf you cannot confirm the array element type, or cannot see the actual hashing logic: assume safe.\n- Struct-typed fields (nested structs)\n\tRequire nested hashStruct(nested) (a bytes32) included in parent tuple.\n\tFlag only if you can show the contract is including raw nested struct fields directly in parent abi.encode(...) without hashing as a struct.\n\n### Step 3 — Report only on confirmed mismatches\nReturn [] unless you can cite a concreteline/path showing one of:\n\t- TYPEHASH field mismatch vs encoded fields (count/type/order)\n\t- typeHash built using abi.encode(...) over strings/bytes (not raw concatenation semantics)\n\t- dynamic type not pre-hashed\n\t- array not reduced to a 32-byte hash, or array hashing incompatible with element sizing rules\n\t\n### Report Format\n\nIf the conclusion of a function is “No vulnerability”, report with an empty array:\n\n```\n[]\n```\n\nIf vulnerabilities found in a function, report with a json:\n\n```\n[\n    {\n        \"tag\":  \"Main vulnerability category\",\n        \"subtag\": \"Specific vulnerability subtype\",\n        \"severity\": \"Severity level of the vulnerability\"\n        \"description\": \"Detailed description of the vulnerability\"\n        \"code_snippet: \"MUST be in the format: <ContractName>.<FunctionName>\"\n    }\n]\n```\n\n#### Deduplication & Consolidation Rules (MANDATORY)\n\nYou MUST consolidate findings that share the same:\n\n- Root cause\n- Vulnerability mechanism\n- Impact\n\nDo NOT report the same vulnerability separately for multiple functions if they stem from the same design flaw.\n\nIf multiple functions are affected by the same root issue:\n\n- Report them as ONE vulnerability entry.\n- Clearly list all affected functions inside the description.\n- The \"code_snippet\" field MUST include all affected functions, separated by comma, in the format:\n  <ContractName>.<Function1>, <ContractName>.<Function2>, ...\n\nOnly split findings into multiple entries if:\n- The root cause is different, OR\n- The vulnerability mechanism is materially different, OR\n- The impact category is different.\n\n#### Tag definition\n\nIf two tags share similar criteria, the system should select only the tag whose scenario provides the closest fit. Select all the tags that fit the scenario\n\n| Title | Description |\n|------|-------------|\n| DAO | Security vulnerabilities related to governance logic, permission control, voting mechanisms, member management, or cross-chain governance information verification in Decentralized Autonomous Organizations (DAOs). |\n| DoS | When there are flaws in the logic of a contract or protocol, it can lead to certain operations (such as deposits, withdrawals, transfers, proposals, liquidations, etc.) being unable to execute successfully for an extended period or permanently, which constitutes a type of Denial of Service (DoS) vulnerability.Such issues prevent the affected functionalities from being restored under unchanged contract states and hinder legitimate users from performing expected actions, often resulting in locked funds/assets, governance standoffs, or disruptions to business processes. |\n| Flashloan | When a protocol relies on instantaneous states (such as spot prices, real-time asset ratios, or current voting rights) to calculate yields, voting rights, minting limits, and liquidity operations without implementing time-weighted mechanisms or stabilization constraints, it allows attackers to temporarily dominate the system's ratios through flash loans or large capital within a single transaction or a few blocks. This manipulation can skew calculation results, enabling them to gain undue benefits or manipulate governance outcomes before the state is restored.|\n| Oracle | When a protocol obtains data from on-chain or off-chain external price sources, any flaws in the selection of data sources, update frequency, verification methods, scaling conversions, or calculation methods can lead to distorted, outdated, manipulated, or unusable prices. This, in turn, can affect critical functions such as trade matching, collateral liquidation, asset valuation, and minting/redeeming processes, which constitutes such vulnerabilities. |\n| Logic error | When there are logical errors in the implementation of a protocol that do not conform to the expected design or specification, such as issues with conditional statements, loop logic, index boundaries, variable update order, cross-module state synchronization, and special case handling, resulting in incorrect fund calculations, inaccurate balances/shares, incorrect states, or the inability to execute functions correctly, these are considered vulnerabilities of this type. |\n| Reentrancy | When a contract updates critical states before implementing a locking mechanism (such as nonReentrant or the Checks-Effects-Interactions pattern) and executes external calls (like transfer, call, safeTransferFrom, ERC777/1155 callbacks, etc.), it may allow malicious contracts (or token standards with hooks) to re-enter the original contract's functions or other related functions during the external call. This can lead to repeated execution of business logic, circumvention of condition checks, or state alteration for the purpose of stealing assets or manipulating processes, which constitutes such vulnerabilities. |\n| Access Control | The lack of proper authentication, authorization checks, or controls for key functions can result in unauthorized users being able to perform operations that should only be executable by specific roles (such as owner, admin, governance, etc.). Additionally, defects in authorization revocation, role transfer, or state-checking logic can lead to ongoing privilege leaks, which may ultimately be exploited to steal assets, compromise system configurations, or permanently lock funds. |\n| Liquidation | When there are design flaws in the liquidation process of lending or collateral contracts, including errors in triggering conditions, authorization checks, incentive mechanisms, calculation logic, and asset transfer steps this can result in defaults or under-collateralized positions not being liquidated as expected, being over-liquidated, or liquidators taking advantage of logical errors to steal assets or harm the interests of other users. |\n| Slippage | When a contract performs operations that require interaction with external prices, such as executing trades, exchanging tokens, adding or removing liquidity, and minting/redeeming assets it may lack mechanisms like minimum acceptable output (minOut), maximum acceptable prices, market volatility/slippage protection, and deadline checks. This can lead to users experiencing slippage beyond their expectations during transactions and suffering losses due to price manipulation or Miner Extractable Value (MEV) attacks (such as front-running or sandwich attacks).|\n| ERC4626 | When an asset pool (Vault) based on the ERC-4626 standard is implemented without adhering to the specifications for design and mathematical handling, such as method behaviors, boundary conditions, rounding direction, and consistency between return values and states or if there are vulnerabilities in the economic design like initial deposit manipulation or share inflation attacks, this can result in the Vault being incompatible with other protocols, incorrect calculations of user assets, or malicious damage to the system. |\n| Input Validation | When a contract lacks proper input parameter checks, asset/authority ownership verification, state validity checks, or invariants verification during the handling of critical processes (such as transactions, liquidations, governance, fund transfers, asset minting/burning, etc.), it may allow malicious or improper inputs to bypass intended restrictions. This can lead to asset theft, logical inconsistencies, irreversible system failures, or the compromise of the protocol. |\n| Bad Randomness | When a contract relies on randomness to determine outcomes (such as selecting a tokenId, choosing a winner, validators, conducting lottery draws, or sorting), flaws in the generation or usage patterns of random numbers, such as using predictable or manipulatable on-chain variables (like block information, timestamps, or miner-controllable values), allowing users to control the seed, lacking verification of result submissions, or having issues with re-draw/re-use can enable attackers or privileged roles to bias or select specific outcomes, thereby undermining fairness. |\n| Chainlink | When a contract relies on Chainlink oracles as a source for prices or randomness but utilizes outdated APIs, lacks necessary data validity checks (such as update times, round completeness, or min/max boundaries), is missing protective or fallback mechanisms, or uses incorrect feeds, it can result in the oracle returning values that may be outdated, erroneous, or manipulatable. |\n| Arithmetic | When there are flaws in the mathematical calculation logic of a contract, including issues such as overflow/underflow, division by zero, unsafe type conversions, incorrect precision scaling, rounding direction errors, and deviations from the intended design rules in computation formulas, it can lead to abnormal numerical results, incorrect asset calculations, and errors in incentives or penalties. |\n| Re-org Attack | A vulnerability that arises when smart contract logic assumes finality or determinism in block ordering, making it exploitable via chain reorganizations that reorder or replace recent blocks. |\n| Pause | When a contract provides mechanisms to pause system functionalities (such as Pausable, whenPaused, or whenNotPaused modifiers), flaws in the logic design or usage, such as allowing disallowed operations to be executed while in a paused state, failing to include pause checks in necessary functions, enabling circumvention of pause restrictions, or permanently locking the system can lead to an irrecoverable contract state or allow privileged roles to perform unauthorized actions. |\n| Accounting Error | When a protocol tracks, calculates, or synchronizes assets, discrepancies can arise between state records and actual asset changes, or the true behavior of assets may be overlooked in the numerical calculation logic. For example, the internal records may not synchronize with actual balances (due to state delays or missed updates), assumptions about asset quantities may be invalid (such as assuming that the amount transferred always equals the requested amount), and there may be systematic errors in calculation formulas. This can lead to discrepancies in shares, fees, rewards, and entitlement distributions. Additionally, cross-module or cross-asset records or calculations may not be consistently updated, resulting in duplicate calculations or omissions. |\n| MEV | The act of maximizing the extraction of economic value within a blockchain system by manipulating the ordering of transactions, front-running transactions, or reordering transactions within a block. This typically results in losses for users or unfair distribution of system resources. |\n| Upgradeable | When a contract is designed to be upgradeable (through proxy patterns, module replacements, etc.), but there are flaws in the upgrade logic, initialization processes, state storage consistency, upgrade permission protections, or compatibility of old states after an upgrade, it may allow unauthorized upgrades, initialization oversights, or other related vulnerabilities. |\n| ERC20 | When a contract interacts with ERC20 tokens, it may operate under erroneous assumptions about ERC20 behaviors, lack checks for return values, or fail to properly handle special token behaviors (such as fee-on-transfer, rebasing, non-standard return values, and unique approve rules). This can lead to unexpected results or vulnerabilities in the contract's functionality. |\n| call / delegatecall | When a protocol uses low-level Solidity calls (such as call(), delegatecall(), staticcall(), or inline Yul call instructions) for transfers or cross-contract interactions, if it does not check whether the return values indicate success and instead directly updates the state or assumes the operation has completed, it may lead to situations where the operation was not actually executed but is treated as successful. |\n| Uniswap | When integrating with Uniswap V2 / V3 / V4 , there are implementation errors or missing safeguards in core areas such as price calculation, path encoding, initialization constants, liquidity ratio calculation, and output validation. These issues lead to distorted or manipulable pricing bases (e.g., incorrect TWAP calculation, reliance on easily manipulated spot prices), corrupted trade path encoding (e.g., incorrect reversal of path bytes), incorrect initialization hash constants causing pair location failures, mistaken liquidity ratio and asset boundary assumptions (e.g., treating the entire pool as protocol assets, inaccurate share calculations, dust accumulation), and missing minimum-value checks on AMM operation min output values, which allow outputs that are not as expect. |\n| Cross-Chain | When a protocol designs or implements features such as cross-chain asset bridges, cross-chain messaging / proposal execution, or cross-chain governance, there may be defects in asset verification, message verification, inter-chain format compatibility, and state synchronization/rollback mechanisms. These issues can allow unsupported or unauthorized asset/address types to enter the cross-chain process; prevent assets from being automatically returned or rolled back after a cross-chain message fails on the target chain; and cause misinterpretation or asset loss due to differences in asset formats, decimal precision, or address formats between chains. They may also lead to unsynchronized state updates between source and target chains or malicious replay, resulting in unintended operations across chains, as well as a lack of permission checks or chain ID validation in cross-chain operations. |\n| ERC777 | When a contract executes an asset transfer that triggers an external ERC777 contract callback the tokensReceived() / tokensToSend() hook and performs sensitive asset calculations or state updates before the callback occurs (violating the Checks‑Effects‑Interactions pattern), or uses a revert that causes a DoS. |\n| Governance | In the logic for voting power calculation, threshold checks, snapshots, proposal processes, and member management, there are design flaws or missing validations that allow voting power to be temporarily manipulated (via flash loans or instant token acquisition/disposal), proposal processes to be bypassed or repeatedly triggered, valid proposals to be cancelled, threshold or ratio calculations to be incorrect so that insufficiently supported proposals can pass, and inconsistencies in member management where removed members can rejoin or retain privileges. Governance parameters or conditions can also be altered midway through voting, directly affecting the outcome, ultimately resulting in governance manipulation and even malicious fund extraction. |\n| Multisig | When a contract implements a multi-signature mechanism (Multi-signature wallet / multi-signature governance module) to authorize transactions or perform sensitive operations, flaws in signature verification, threshold counting, proposal execution process, and member management can allow unauthorized transactions to be executed, or enable bypassing of the authorization threshold, as well as errors in signature counting/threshold logic. |\n| Rebalance | When a protocol performs asset rebalancing or position redistribution operations to adjust the ratios of different assets or pools, design or validation flaws in processes such as calculation formulas, price dependencies, asset transfers, and state updates can result in incorrect rebalancing ratios, leading to asset allocation imbalances, share mismatches, and failure to properly synchronize state variables (e.g., pool balances, asset weights). This can cause subsequent logic errors or lock funds. Missing boundary checks may also allow a malicious user to exploit the rebalancing process to seize assets. |\n| ERC1155 | When a contract implements or extends the EIP‑1155 multi‑token standard and its business logic, flaws in standard behavior compliance, callback handling, supply and enumeration maintenance, and leasing/business validations may occur. These issues can lead to function behaviors that do not comply with the EIP‑1155 specification, breaking interoperability with other protocols, supply or token index miscalculations that cause data inconsistencies or asset mismatches, and the onERC1155Received callback being triggered or used at the wrong time. Such flaws can be exploited by attackers to perform reentrancy attacks or disrupt business processes.  |\n| XSS Attack | Refers to a vulnerability in a contract or Web3 application where improper filtering, encoding, or validation of external inputs allows an attacker to inject and execute malicious JavaScript code.  |\n| ERC721 | When a contract implements or extends the EIP‑721 NFT standard, flaws in standard compliance, tokenId generation and management, transfer/approval logic, callback security handling, and asset protection can occur. These issues can damage interoperability and composability with other protocols (by violating standard behaviors), allow malicious reentrancy, asset theft, or blocking (DoS), cause tokenId duplication or incorrect ownership records leading to asset mismatches, and result in insufficient business safeguards that let assets be burned, hijacked, or permanently locked. |\n| Gnosis safe | When an extension module (Guard, Extension, Handler) based on Gnosis Safe or other Safe‑like multi‑signature/smart wallets lacks necessary authorization checks, security validation, or state management in processes such as enabling, configuring, disabling, or parameter validation. |\n| Opensea | Issues related to Opensea integrations. |\n| EIP712 | When a contract’s signature verification or EIP‑712 typed data parsing process contains flaws such as incorrect encoding methods, mismatched hashing order, missing required fields, or insufficient nonce/replay protection, it can cause valid standard‑compliant signatures to fail verification (legitimate calls reverting), allow invalid or replayed signatures to pass verification, and enable attackers to reuse a signature across transactions or functions to repeatedly execute sensitive operations. |\n| Bridge | A protocol component used for transferring assets or data between different blockchain networks (L1, L2, or between different L1 networks). |\n| Zksync | Issues related to zkSync. |\n| Replay Attack | An attacker resubmits previously executed valid messages, transactions, or data.  |\n| Solmate | Issues related to Solmate library. |\n| Compound | Issues related to Compound protocol integrations. |\n| Solidity Version | Vulnerabilities caused by specific Solidity compiler versions or optimizer behavior. |\n| EIP4494 | Issues related to EIP-4494 (ERC721 Permit). |\n| TWAP | Covers all design or implementation errors related to obtaining, calculating, verifying, or using time-weighted average price (TWAP) data from an AMM, DEX, or oracle source.This includes incorrect TWAP computation formulas, failure to account for time between observations, use of inadequate observation windows susceptible to manipulation, reliance on spot prices instead of TWAP, handling of negative ticks or rounding errors incorrectly, processing outdated or zero-initialized data, reliance on low-liquidity pools for TWAP resulting in inaccurate or manipulable prices, missing validations on upstream oracle results, or design flaws that lock assets due to overly strict TWAP constraints.Vulnerabilities often lead to exploitable price manipulation, inaccurate valuations, DoS conditions in TWAP update loops, and incorrect automated trading or liquidation decisions. |\n| RCE | Covers all vulnerabilities that allow an attacker to remotely execute arbitrary code or commands on the target system (application server, backend service, node environment, or integrated off-chain component).This includes unsafe deserialization, injection into dynamic code execution functions, improper sandboxing, insecure use of eval or similar interpreters, lack of input sanitization in code compilation paths, and insecure integration with remote modules or plugins.Exploiting an RCE vulnerability enables an attacker to run arbitrary logic within the application's execution environment, potentially leading to complete system compromise, data exfiltration, service disruption, or lateral movement inside the infrastructure.  |\n\n#### Subtag definition\n\nIf two subtags share similar criteria, the system should select only the tag whose scenario provides the closest fit. Select all the subtags that fit the scenario.\n\n| Title | Description |\n|------|-------------|\n| Violating CEI / Missing nonReentrant | Issues related to violation of Checks-Effects-Interactions pattern or missing `nonReentrant` protection. |\n| Missing Approval | Missing `approve()` call before `transferFrom`, causing token transfers to fail. |\n| Inflation Attack | An exploit where a malicious user artificially inflates the asset or share baseline through manipulating initial conditions or specific parameters, resulting in unfair gain and unequal distribution of assets or shares within the system. |\n| Not EIP Compliant | Implementation does not adhere to relevant EIP standards, causing unexpected behavior or vulnerabilities. |\n| Asset Theft | Allows an unauthorized user to illicitly transfer or misappropriate assets from other. |\n| Rounding Error | Issues arising from incorrect rounding direction in numeric operations, causing value misallocation or minor deviations from the protocol’s or standard’s expected behavior. |\n| Invalid Validation | Missing or incorrect verification of inputs or required conditions, allowing operations to proceed without ensuring they meet expected safety or correctness requirements.  |\n| Cannot partial liquidations | Whales (large holders) cannot be liquidated due to specific limitations in the protocol. |\n| Liquidation – Dust repay / front run evade liquidation | Fine-grained errors related to dust repayment during liquidation and front running evasion. |\n| onERC721Received callback | Vulnerabilities associated with the `onERC721Received` callback function. |\n| Price Manipulation / Arbitrage opportunity | Opportunities for price manipulation or arbitrage within the system. |\n| Bypass Mechanism | This refers to flaws in the system's logic design, process control, or condition checks, allowing users or attackers to bypass intended security checks, charging processes, asset restrictions, or risk controls through specific sequences of operations or alternative processes. |\n| Invariant Violation | Breaches of assumed constants or invariants in system logic. |\n| Implementation Error | Implementation Error refers to design, logic, or coding flaws within the smart contract code.  |\n| Does not match with Doc | Contract behavior deviates from its documented specification, comments, or referenced standards, potentially leading to misuse, unexpected behavior, or integration errors.  |\n| Invalid Slippage Control / Missing slippage check | In price-sensitive operations such as swaps or liquidity changes, the contract omits any mechanism to enforce acceptable slippage (e.g., fails to require minOut, maxAmount, or equivalent constraints) where such protection is necessary. This includes cases with no slippage parameter at all or where the check is entirely absent. |\n| No Incentive to Liquidate | Lack of liquidation incentives leads to the generation of bad debts. |\n| Hardcoded Parameter | Important contract parameters, are hardcoded and cannot be dynamically configured, limiting flexibility and adaptability to changing conditions. |\n| minOut set to 0 | Setting minOut to zero disables slippage protection, allowing trades or liquidity operations to execute at any output amount regardless of price impact. This exposes users to unlimited slippage risk and potential severe asset loss.  |\n| Missing deadline | Missing deadline in swaps or other price-sensitive operations, allowing transactions to execute much later and exposing them to excessive price impact and slippage risk. |\n| Self liquidation | Vulnerabilities or issues that allow self liquidation under non-ideal conditions. |\n| Missing minOut / maxAmount | Errors related to missing or improperly set minimum output (minOut) or maximum spend (maxAmount) parameters, which are essential for slippage protection. |\n| Deprecated Library | Usage of outdated or unsupported function libraries, which may lead to operational disruptions or security vulnerabilities. |\n| Out of Gas | Transaction fails due to exceeding the gas limit allocated for its execution. |\n| Stale Value | The system uses outdated or obsolete data, which can be manipulated or exploited by attackers. |\n| Front Run | The act of exploiting transaction ordering to execute a transaction before another, in order to manipulate price, contract state, or system behavior for unfair advantage. |\n| Reward Manipulation | Exploiting weaknesses in a protocol’s reward distribution logic—such as timing, balance tracking, or eligibility checks—to gain more rewards than fairly earned. |\n| Token Decimal | The precision used to define token fractions in smart contracts, where incorrect setting or manipulation can cause calculation errors and transaction inaccuracies. |\n| Incorrect Parameter | A flaw where the value used in a calculation or passed to a function is wrong,  including wrong order, wrong type, or unintended variable reference. This covers both external inputs (function arguments) and internal values (state variables, constants) used in calculations. If the calculation formula itself is correct but a wrong value is used, it is classified as Incorrect Parameter.  |\n| No Recovery Mechanism | Lack of mechanism to recover from failed, frozen, or misconfigured components. |\n| Centralization Risk | Critical functions or system components are controlled by a single party, creating a risk of misuse, censorship, or manipulation. |\n| Precision Loss | Loss of numeric precision due to integer division or insufficient scaling (e.g., result becomes 0). |\n| Scaling | Failure to apply proper unit conversion or scaling factor in arithmetic operations involving tokens with different denominations or expected decimal precision. |\n| Peg / Depeg | Covers all design or implementation errors related to asset peg mechanisms, including improper maintenance of the peg (depeg), return biases, reliance on incorrect sources, or lack of detachment handling. |\n| State Update Inconsistency | State Update Inconsistency occurs when the state of a smart contract is updated in an inconsistent or incorrect manner, leading to discrepancies, inaccuracies, and unintended outcomes in future operations, calculations, or decisions. This may impact various aspects of the contract, such as pricing mechanisms, liquidation processes, or liquidity management, and could result in financial losses or manipulative opportunities.|\n| Duplicate Value | A vulnerability where two or more distinct entities (e.g. assets, records, or users) unintentionally share the same key or identifier (e.g. mapping key, oracle reference), causing one to overwrite or shadow the other. |\n| Arbitrary Add/Remove/Set/Call | The contract allows unauthorized addresses to arbitrarily add/remove/call or set key states or resources, leading to privilege abuse or system anomalies.  |\n| Storage Gap | In upgradeable contracts, to avoid storage slot conflicts and overwrites during upgrades, a fixed-length gap of empty storage space is reserved for future extension of contract state variables. The absence of or incorrect design of the storage gap may lead to state corruption or data overwriting after the upgrade. |\n| Missing Return Check | The return value  is not verified. |\n| Misuse of Dependency | When using external dependencies (libraries, modules, or contracts), failing to correctly reference them according to their security design, version security announcements, or the appropriate usage context can lead to functional anomalies, security risks, or upgrade failures. This includes but is not limited to: using versions of external libraries with known vulnerabilities, incorrectly integrating third-party module interfaces, or neglecting the security initialization processes of dependencies. |\n| Role Takeover | A situation where a user or contract illegitimately gains control over a privileged role by removing, overriding, or replacing the originally designated role holder. |\n| Missing Time Constraint | The contract does not check time-related conditions (such as block.timestamp, deadline, expiry) |\n| Unauthorized Upgrade | Refers to the lack of authorization checks during the contract upgrade process, allowing unauthorized addresses to perform contract upgrade operations. |\n| Missing Initialization | The contract does not properly initialize necessary states (such as permissions, dependencies, parameters), which may lead to the contract being unusable or exhibiting abnormal behavior. |\n| slot0 | The contract directly relies on Uniswap's slot0 (which provides instantaneous price and liquidity data) as its quoting source without applying any time-smoothing mechanisms (such as TWAP). This makes the price highly susceptible to short-term manipulations, for instance through flash loans. |\n| Bad Condition | This refers to errors or omissions in the conditional logic within the code that result in critical state checks, control flow branches, or security mechanisms not being triggered properly. Such errors can lead to severe issues, including loss of funds, permission bypasses, state inconsistencies, or logical corruption. |\n| Unfair Liquidation | This occurs when a user, despite not violating the protocol's rules, is liquidated due to insufficient protective measures or design flaws in the protocol.  |\n| Nonce | The absence or misuse of a nonce mechanism can lead to operations being re-executed, replayed, or subjected to race conditions.  |\n| Fee On Transfer Token | Vulnerability, incompatibility, or oversight arises due to the behavior of fee-on-transfer tokens — tokens that deduct a fee during transfers, causing the received amount to be less than the sent amount. |\n| payable / receive() | Improper design of payable or receive() / fallback() functions leading to issues in fund reception, control, or logic. |\n| Rebase Token | Covers security or accounting issues arising from the use or integration of Rebase Tokens, which have dynamic supply adjustment mechanisms. |\n| Whale | Involves situations where a single or a few addresses hold large amounts of assets, leading to asymmetric risks such as market manipulation, concentrated governance, unusual liquidations, and distorted rewards within the protocol. |\n| ERC777 Callback | When interacting with ERC777 tokens, misuse of callbacks can lead to external contracts controlling states unexpectedly, causing security risks or business logic errors. |\n| EVM Compatibility | The contract design or protocol assumes certain EVM behaviors (such as gas model, opcode support, call patterns, address format, precompile availability, etc.) are consistent across all chains. However, differences in these behaviors on various EVM-compatible chains or Layer 2 solutions can lead to logic errors, functionality failures, or security vulnerabilities. |\n| Case Sensitive | The comparison logic for user input, addresses, function names, or identifiers is case-sensitive, leading to behavior that does not match expectations. |\n| Execution Order Dependency | Protocol logic relies on a specific transaction order or execution timing.This can lead to issues such as repeated execution, asset loss, or state errors. |\n| Cross-Function Reentrancy | Cross-Function Reentrancy  refers to a scenario where a contract makes an external call during the execution of a function and is vulnerable to an attacker reentering through a different entry function upon the external call’s return. This can cause unsynchronized state reads, writes, or asset manipulations, leading to logic errors or security vulnerabilities. |\n| Missing Functionality |  Lacks necessary functionalities or is missing functions to implement specific features. |\n| Refund Failed | When a protocol sends or returns assets, the operation may fail if the recipient is blacklisted or if the callback or receiving function revert. |\n| Diamond | Issues related to the EIP-2535 Diamond standard or similar multi-facet, multi-delegate proxy architectures. |\n| Cannot Revoke | When a system or contract allows a function, module, role, or permission to be enabled or granted, but does not provide a corresponding mechanism for safe revocation or deactivation. This leads to a situation where users or contracts cannot revoke, disable, or reclaim the function or permission, even if it is no longer safe or needs to be disabled. |\n| Typo | Typographical errors in the source code or configuration. |\n| safeApprove | Unsafe safeApprove |\n| Missing Upper/Lower Bound Check | A vulnerability caused when smart contracts accept numeric inputs, token allowances, or other adjustable parameters without enforcing minimum or maximum limits. This allows unexpected or extreme values that can break contract logic, bypass intended constraints, or create financial loss. |\n| Unsafe Downcast | Larger integer type (e.g., uint256) is cast to a smaller type (e.g., uint128, uint64, uint32) without validation.  |\n| 1/64 Gas Rule | Caused by the EIP-150 gas forwarding rule, where only 63/64 of the remaining gas is forwarded in CALL, DELEGATECALL, STATICCALL, or CALLCODE. If the callee requires all remaining gas, the call may fail unexpectedly. |\n| Block Time / Block Number | The use of block.timestamp and block.number across different chains. |\n| Incorrect Formula | The protocol uses incorrect formulas or operator when calculating amounts, ratios, rewards, collateral rates, or other key economic variables, resulting in outcomes that do not align with expectations or design specifications. |"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        624,
+        160
+      ],
+      "id": "a93f5b88-a558-4084-8371-42e4ccdaa989",
+      "name": "EIP-712 Compliance Check"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM for answer": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "EIP-712 Compliance Check",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "EIP-712 Compliance Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "EIP-712 Compliance Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "EIP-712 Compliance Check",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "EIP-712 Compliance Check": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9cdbe0d0-944b-45ed-94f3-321751e86615",
+  "meta": {
+    "instanceId": "f839b7ae33d4bab8c0e6053fad2787e1ad0bd33854a965624f05316a09f93d09"
+  },
+  "id": "zrlCNwirwBnu3Z5b",
+  "tags": []
+}

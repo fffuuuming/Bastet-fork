@@ -1,161 +1,70 @@
 {
-  "name": "slippage",
+  "name": "Slippage",
   "nodes": [
     {
       "parameters": {
-        "content": "## Knowledge:\nSlippage\nhttps://defihacklabs.substack.com/p/solidity-security-lesson-6-defi-slippage",
-        "height": 120,
-        "width": 540
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [-4140, 1160],
-      "id": "caa06ce4-31fa-4938-98d3-836fa20ac7bf",
-      "name": "Sticky Note"
-    },
-    {
-      "parameters": {
-        "content": "### No Slippage Parameter\nhttps://github.com/sherlock-audit/2023-04-blueberry/blob/main/blueberry-core/contracts/spell/ConvexSpell.sol#L204-L208",
-        "width": 380
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [-4700, 820],
-      "id": "05593281-f31a-4388-9813-96f387af1986",
-      "name": "Sticky Note1"
-    },
-    {
-      "parameters": {
-        "content": "### No Expiration Deadline\nhttps://github.com/sherlock-audit/2023-04-blueberry/blob/main/blueberry-core/contracts/spell/AuraSpell.sol#L193-L203\n",
-        "width": 380
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [-4700, 1040],
-      "id": "d9e41675-0eb7-421e-b4e1-75cb6f865c75",
-      "name": "Sticky Note2"
-    },
-    {
-      "parameters": {
-        "content": "### Incorrect Slippage Calculation\nhttps://github.com/sherlock-audit/2023-02-notional/blob/main/leveraged-vaults/contracts/vaults/curve/external/Curve2TokenConvexHelper.sol#L112\n",
-        "width": 380
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [-4700, 1240],
-      "id": "b679a7ee-c1b0-4052-8e03-74bc5ddb9d53",
-      "name": "Sticky Note3"
-    },
-    {
-      "parameters": {
-        "content": "### Mismatched Slippage Precision\nhttps://github.com/connext/monorepo/blob/16ee2f8b441e80c82cf53358e9534c6cd4080bec/packages/deployments/contracts/contracts/core/connext/libraries/AssetLogic.sol#L273\n",
-        "width": 380
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [-4700, 1440],
-      "id": "d2224e12-a9ff-446f-b107-84db3119d1ff",
-      "name": "Sticky Note4"
-    },
-    {
-      "parameters": {
-        "content": "### Minting Exposes Users To Unlimited Slippage\nhttps://github.com/code-423n4/2021-11-vader/blob/429970427b4dc65e37808d7116b9de27e395ce0c/contracts/dex-v2/pool/VaderPoolV2.sol#L126-L155\n",
-        "width": 380
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [-4700, 1660],
-      "id": "89aa80e9-7cbb-48a6-8bdf-b23b988136ca",
-      "name": "Sticky Note5"
-    },
-    {
-      "parameters": {
-        "content": "### MinTokensOut For Intermediate, Not Final Amount\nhttps://github.com/sherlock-audit/2022-10-illuminate-judging/issues/30",
-        "width": 380
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [-4700, 1880],
-      "id": "e7d41c79-e277-4050-861b-48f97881a1d9",
-      "name": "Sticky Note6"
-    },
-    {
-      "parameters": {
-        "content": "### On-Chain Slippage Calculation Can Be Manipulated\nhttps://github.com/sherlock-audit/2023-02-notional/blob/main/leveraged-vaults/contracts/vaults/curve/external/Curve2TokenConvexHelper.sol#L112",
-        "width": 380
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [-4700, 2100],
-      "id": "3b5087ec-b7f2-410a-808a-9b0118446ad3",
-      "name": "Sticky Note7"
-    },
-    {
-      "parameters": {
-        "content": "### Hard-coded Slippage May Freeze User Funds\nhttps://github.com/code-423n4/2022-05-alchemix/blob/de65c34c7b6e4e94662bf508e214dcbf327984f4/contracts-hardhat/TransmuterBuffer.sol#L511-L524",
-        "width": 380
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [-4700, 2320],
-      "id": "2093f253-cc67-4e12-8800-1bc6fb5ce815",
-      "name": "Sticky Note8"
-    },
-    {
-      "parameters": {
-        "numberInputs": 9
-      },
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3,
-      "position": [-2984, 1574],
-      "id": "6c8d30fa-651b-40e6-90e4-bc5e1f7489a8",
-      "name": "Merge"
-    },
-    {
-      "parameters": {
-        "model": {
-          "__rl": true,
-          "mode": "list",
-          "value": "gpt-4o-mini"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.2,
-      "position": [-3332, 920],
-      "id": "09ac801a-b2f1-428e-93e1-833100f31afe",
-      "name": "OpenAI Chat Model",
-      "credentials": {
-        "openAiApi": {
-          "id": "6qICvMVQ9Mixvcjz",
-          "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "schemaType": "manual",
-        "inputSchema": "{\n  \"type\": \"array\",\n  \"items\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"summary\": {\n        \"type\": \"string\",\n        \"description\": \"Brief summary of the vulnerability\"\n      },\n      \"severity\": {\n        \"type\": \"string\",\n        \"items\": {\n          \"type\": \"string\",\n          \"enum\": [\"high\", \"medium\", \"low\"]\n        },\n        \"description\": \"Severity level of the vulnerability\"\n      },\n      \"vulnerability_details\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"function_name\": {\n            \"type\": \"string\",\n            \"description\": \"Function name where the vulnerability is found\"\n          },\n          \"description\": {\n            \"type\": \"string\",\n            \"description\": \"Detailed description of the vulnerability\"\n          }\n        },\n        \"required\": [\"function_name\", \"description\"]\n      },\n      \"code_snippet\": {\n        \"type\": \"array\",\n        \"items\": {\n          \"type\": \"string\"\n        },\n        \"description\": \"Code snippet showing the vulnerability\",\n        \"default\": []\n      },\n      \"recommendation\": {\n        \"type\": \"string\",\n        \"description\": \"Recommendation to fix the vulnerability\"\n      }\n    },\n    \"required\": [\"summary\", \"severity\", \"vulnerability_details\", \"code_snippet\", \"recommendation\"]\n  },\n  \"additionalProperties\": false\n}"
-      },
-      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
-      "typeVersion": 1.2,
-      "position": [-3212, 920],
-      "id": "8703a9c9-4475-4bad-a185-bd361bbc0b6e",
-      "name": "Structured Output Parser"
-    },
-    {
-      "parameters": {
         "httpMethod": "POST",
-        "path": "c3611315-76dd-4c9e-8472-d6c32fce4477",
+        "path": "=slippage_minAmount",
         "responseMode": "responseNode",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
-      "position": [-4240, 950],
-      "id": "4dcaa0f9-4b99-4d3e-a4e0-5b431e8e4e0d",
+      "position": [
+        -544,
+        112
+      ],
+      "id": "5250a143-6bd1-4a9b-908f-bb48db40b654",
       "name": "Webhook",
-      "webhookId": "c3611315-76dd-4c9e-8472-d6c32fce4477"
+      "webhookId": "0f3a3dc2-9cb2-4454-86b1-bb95ef26a901"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "os-azure-gpt5-chat",
+          "mode": "list",
+          "cachedResultName": "os-azure-gpt5-chat"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1056,
+        368
+      ],
+      "id": "340ebf63-f35e-4030-94be-9e230ec8ac74",
+      "name": "LLM for answer",
+      "credentials": {
+        "openAiApi": {
+          "id": "khMK6p1sFf7Q8x8F",
+          "name": "OpenAI Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4cad7351-acee-42aa-a217-bf2b8b624e2f",
+              "name": "chatInput",
+              "value": "={{ $json.body.prompt }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        128,
+        112
+      ],
+      "id": "1116de4f-81c3-4732-9d39-3815dbdc753f",
+      "name": "Edit Fields"
     },
     {
       "parameters": {
@@ -165,202 +74,26 @@
       },
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
-      "position": [-3800, 800],
-      "id": "eb1b2605-17b1-4bc7-930b-50183678b21c",
+      "position": [
+        -96,
+        32
+      ],
+      "id": "5e43c271-62b5-4d1d-bc8c-25bf5dc6e8df",
       "name": "Respond to Webhook"
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "f8111cb7-3059-4c18-b047-119d0c084f0a",
-              "name": "chatInput",
-              "value": "{{ $json.body.prompt }}",
-              "type": "string"
-            }
-          ]
-        },
         "options": {}
       },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [-3580, 950],
-      "id": "0d21fb28-bafa-4c36-8d5a-6834893cbf41",
-      "name": "Edit Fields"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "id": "5a9fb8b0-560a-4527-9612-4f2b5c979197",
-      "name": "When chat message received",
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.1,
-      "position": [-3580, 2350],
-      "webhookId": "26f9b05d-755e-4e1f-a0a9-b2eec6e1e0b2"
-    },
-    {
-      "parameters": {
-        "hasOutputParser": true,
-        "messages": {
-          "messageValues": [
-            {
-              "message": "=You are a smart contract auditor. After reading the following vulnerability knowledge and understanding correct and incorrect examples, detect the problem in the contract code.\n\n### Vulnerability Knowledge\n\n**No Slippage Parameter**\nWhen submitting a token swap request, users should specify the minTokensOut parameter, which defines the minimum expected output amount. Setting this parameter to 0 means the user accepts any output amount, making them highly vulnerable to front-running or sandwich attacks, especially in high-volatility or low-liquidity scenarios, potentially leading to significant losses.\n\n### Examples\n\n#### Example 1: Incorrect Example\n\nThis code tells the swap that the user will accept a minimum amount of 0 output tokens from the swap, opening up the user to a catastrophic loss of funds via MEV bot sandwich attacks\n\n```solidity\nIUniswapRouterV2(SUSHI_ROUTER).swapExactTokensForTokens(\n    toSwap,\n    0, // @audit min return 0 tokens; no slippage => user loss of funds\n    path,\n    address(this),\n    now\n);\n```\n\n**Suggestion**\n\nPlatforms must allow users to specify a slippage parameter and set a reasonable minimum acceptable return amount.\nIf the user does not specify a value, a safe and reasonable default should be provided, but users must have the option to override the default.\n\n### Task to Perform\nFollow the examples above to examine each contract and check if it contains this issue. If you find any potential issues, record them using the format below.\n\n### Output Format\n\nIf NO concrete vulnerability found, output a empty array\n\nOtherwise, follow the format below:\n\n```\n[\n    {\n        \"summary\":  \"summary of the vulnerabilities\",\n        \"vulnerability_details\": {\n            \"function_name\": \"Name of the function\",\n            \"description\": \"a brief description of the vulnerability\"\n        },\n    \n        \"code_snippet\": [\n            \"code snippet in the file\"\n        ],\n    \n        \"recommendation\": \"recommendation of how to fix the vulnerability\"\n    \n    }\n]\n```"
-            }
-          ]
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.5,
-      "position": [-3360, 700],
-      "id": "0afc3443-53d1-45fd-aeb8-1a75da320e02",
-      "name": "Slippage-No Slippage Parameter",
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "hasOutputParser": true,
-        "messages": {
-          "messageValues": [
-            {
-              "message": "=You are a smart contract auditor. After reading the following vulnerability knowledge and understanding correct and incorrect examples, detect the problem in the contract code.\n\n### Vulnerability Knowledge\n\n**No Expiration Deadline**\nAdvanced protocols like Automated Market Makers (AMMs) can allow users to specify a deadline parameter that enforces a time limit by which the transaction must be executed. Without a deadline parameter, the transaction may sit in the mempool and be executed at a much later time potentially resulting in a worse price for the user.\n\n### Examples\n\n#### Example 1: Incorrect Example\n\nHere \"minTokensOut\" is hard-coded to 0 so the swap can potentially return 0 output tokens, and the deadline parameter is hard-coded to the max value of utint256, so the transaction can be held & executed at a much later & more unfavorable time to the user. This combination of No Slippage & No Deadline exposes the user to the potential loss of all their input tokens!\n\n```solidity\n// Swap rewards tokens to debt token\nuint256 rewards = _doCutRewardsFee(CRV);\n_ensureApprove(CRV, address(swapRouter), rewards);\nswapRouter.swapExactTokensForTokens(\n    rewards,\n    0, // @audit no slippage, can receive 0 output tokens\n    swapPath,\n    address(this),\n    type(uint256).max // @audit no deadline, transaction can \n    // be executed later at a more unfavorable time\n);\n```\n\n**Suggestion**\n\nProtocols shouldn't set the deadline to `block.timestamp` as a validator can hold the transaction and the block it is eventually put into will be `block.timestamp`, so this offers no protection.\n\nProtocols should allow users interacting with AMMs to set expiration deadlines; no expiration deadline may create a potential critical loss of funds vulnerability for any user initiating a swap, especially if there is also no slippage parameter.\n\n### Task to Perform\nFollow the examples above to examine each contract and check if it contains this issue. If you find any potential issues, record them using the format below.\n\n### Output Format\n\nIf NO concrete vulnerability found, output a empty array\n\nOtherwise, follow the format below:\n\n```\n[\n    {\n        \"summary\":  \"summary of the vulnerabilities\",\n        \"vulnerability_details\": {\n            \"function_name\": \"Name of the function\",\n            \"description\": \"a brief description of the vulnerability\"\n        },\n    \n        \"code_snippet\": [\n            \"code snippet in the file\"\n        ],\n    \n        \"recommendation\": \"recommendation of how to fix the vulnerability\"\n    \n    }\n]\n```"
-            }
-          ]
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.5,
-      "position": [-3360, 1100],
-      "id": "66ad244f-0c84-4178-b5a1-59786547fbae",
-      "name": "Slippage-No Expiration Deadline",
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "hasOutputParser": true,
-        "messages": {
-          "messageValues": [
-            {
-              "message": "=You are a smart contract auditor. After reading the following vulnerability knowledge and understanding correct and incorrect examples, detect the problem in the contract code.\n\n### Vulnerability Knowledge\n\n**Incorrect Slippage Calculation**\nThe slippage parameter should be something like \"minTokensOut\" - the minimum amount of tokens the user will accept for the swap. Anything else is a red flag to watch out for as it will likely constitute an incorrect slippage parameter.\n\n### Examples\n\n#### Example 1\n\n```solidity\nfunction withdraw(address _recipient, address _asset, uint256 _amount\n) external onlyVault nonReentrant {\n    // ...\n\n    // Calculate how much of the pool token we need to withdraw\n    (uint256 contractPTokens, , uint256 totalPTokens) = _getTotalPTokens();\n\n    uint256 poolCoinIndex = _getPoolCoinIndex(_asset);\n    // Calculate the max amount of the asset we'd get if we withdrew all the\n    // platform tokens\n    ICurvePool curvePool = ICurvePool(platformAddress);\n    uint256 maxAmount = curvePool.calc_withdraw_one_coin(\n        totalPTokens,\n        int128(poolCoinIndex)\n    );\n\n    // Calculate how many platform tokens we need to withdraw the asset amount\n    uint256 withdrawPTokens = totalPTokens.mul(_amount).div(maxAmount);\n\n    // Calculate a minimum withdrawal amount\n    uint256 assetDecimals = Helpers.getDecimals(_asset);\n    // 3crv is 1e18, subtract slippage percentage and scale to asset\n    // decimals\n    // @audit not using user-provided _amount, but calculating a non-sensical\n    // value based on the LP tokens\n    uint256 minWithdrawAmount = withdrawPTokens\n        .mulTruncate(uint256(1e18).sub(maxSlippage))\n        .scaleBy(int8(assetDecimals - 18));\n\n    curvePool.remove_liquidity_one_coin(\n        withdrawPTokens,\n        int128(poolCoinIndex),\n        minWithdrawAmount\n    );\n\n    // ...\n}\n```\n\nAnd the fixed version after the audit:\n\n```solidity\ncurvePool.remove_liquidity_one_coin(\n    withdrawPTokens,\n    int128(poolCoinIndex),\n    _amount\n);\n```\n\n\n**Suggestion**\n\nAuditors should keep an eye out for any out-of-the-ordinary modifications that protocols make to user-specified slippage parameters.\n\n### Task to Perform\nFollow the examples above to examine each contract and check if it contains this issue. If you find any potential issues, record them using the format below.\n\n### Output Format\n\nIf NO concrete vulnerability found, output a empty array\n\nOtherwise, follow the format below:\n\n```\n[\n    {\n        \"summary\":  \"summary of the vulnerabilities\",\n        \"vulnerability_details\": {\n            \"function_name\": \"Name of the function\",\n            \"description\": \"a brief description of the vulnerability\"\n        },\n    \n        \"code_snippet\": [\n            \"code snippet in the file\"\n        ],\n    \n        \"recommendation\": \"recommendation of how to fix the vulnerability\"\n    \n    }\n]\n```"
-            }
-          ]
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.5,
-      "position": [-3360, 1300],
-      "id": "c03ddeb5-2508-4f9d-8aae-6b07ceb97575",
-      "name": "Slippage-Incorrect Slippage Calculation",
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "hasOutputParser": true,
-        "messages": {
-          "messageValues": [
-            {
-              "message": "=You are a smart contract auditor. After reading the following vulnerability knowledge and understanding correct and incorrect examples, detect the problem in the contract code.\n\n### Vulnerability Knowledge\n\n**Mismatched Slippage Precision**\nSome platforms allow a user to redeem or withdraw from a set of output tokens with a wide range of different precision values. These platforms must ensure that the slippage parameter \"minTokensOut\" is scaled to match the precision of the selected output token, else the slippage parameter may be ineffective and lead to precision loss errors.\n\n### Examples\n\n#### Example 1\n\n```solidity\nfunction _convertToToken(address token, address receiver) internal returns (uint256 amountOut) {\n    // this value should be whatever glp is received by calling withdraw/redeem to junior vault\n    uint256 outputGlp = fsGlp.balanceOf(address(this));\n\n    // using min price of glp because giving in glp\n    uint256 glpPrice = _getGlpPrice(false);\n\n    // using max price of token because taking token out of gmx\n    uint256 tokenPrice = gmxVault.getMaxPrice(token);\n\n    // @audit always returns 6 decimals, won't work for many tokens\n    // apply slippage threshold on top of estimated output amount\n    uint256 minTokenOut = outputGlp.mulDiv(glpPrice * (MAX_BPS - slippageThreshold), tokenPrice * MAX_BPS);\n    // @audit need to adjust slippage precision to match output\n    // token decimals like so:\n    // minTokenOut = minTokenOut * 10 ** (token.decimals() - 6);\n\n    // will revert if atleast minTokenOut is not received\n    amountOut = rewardRouter.unstakeAndRedeemGlp(address(token), outputGlp, minTokenOut, receiver);\n}\n```\n\nAnd the fixed version after the audit:\n\n```solidity\ncurvePool.remove_liquidity_one_coin(\n    withdrawPTokens,\n    int128(poolCoinIndex),\n    _amount\n);\n```\n\n\n**Suggestion**\n\n\"minTokenOut\" always returns 6 decimals but the user can specify an output token from a set with a wide range of different precisions, hence the slippage must be scaled to match the output token's precision.\n\n### Task to Perform\nFollow the examples above to examine each contract and check if it contains this issue. If you find any potential issues, record them using the format below.\n\n### Output Format\n\nIf NO concrete vulnerability found, output a empty array\n\nOtherwise, follow the format below:\n\n```\n[\n    {\n        \"summary\":  \"summary of the vulnerabilities\",\n        \"vulnerability_details\": {\n            \"function_name\": \"Name of the function\",\n            \"description\": \"a brief description of the vulnerability\"\n        },\n    \n        \"code_snippet\": [\n            \"code snippet in the file\"\n        ],\n    \n        \"recommendation\": \"recommendation of how to fix the vulnerability\"\n    \n    }\n]\n```"
-            }
-          ]
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.5,
-      "position": [-3360, 1500],
-      "id": "e3737969-7601-462a-b0df-cae5a8bfb2b1",
-      "name": "Slippage-Mismatched Slippage Precision",
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "hasOutputParser": true,
-        "messages": {
-          "messageValues": [
-            {
-              "message": "=You are a smart contract auditor. After reading the following vulnerability knowledge and understanding correct and incorrect examples, detect the problem in the contract code.\n\n### Vulnerability Knowledge\n\n**Minting Exposes Users To Unlimited Slippage**\nDeFi protocols allow users to transfer foreign tokens to mint the protocol's native token - this is functionally the same as a swap where users are swapping foreign tokens for the protocol's native token. Since this is packaged and presented as a \"mint\", a slippage parameter may be omitted exposing the user to unlimited slippage.\n\n### Examples\n\n#### Example 1\n\n```solidity\nfunction mintSynth(IERC20 foreignAsset, uint256 nativeDeposit,\n                   address from, address to) returns (uint256 amountSynth) {\n    // @audit transfers in foreign token\n    nativeAsset.safeTransferFrom(from, address(this), nativeDeposit);\n\n    ISynth synth = synthFactory.synths(foreignAsset);\n\n    if (synth == ISynth(_ZERO_ADDRESS))\n        synth = synthFactory.createSynth(\n            IERC20Extended(address(foreignAsset))\n        );\n\n    // @audit frontrunner could manipulate these reserves to influence\n    // amount of minted tokens\n    (uint112 reserveNative, uint112 reserveForeign, ) = getReserves(\n        foreignAsset\n    ); // gas savings\n\n    // @audit mints protocol's tokens based upon above reserves\n    // this is effectively a swap without allowing the user to\n    // specify a slippage parameter, exposing user to unlimited slippage\n    amountSynth = VaderMath.calculateSwap(\n        nativeDeposit,\n        reserveNative,\n        reserveForeign\n    );\n\n    _update(\n        foreignAsset,\n        reserveNative + nativeDeposit,\n        reserveForeign,\n        reserveNative,\n        reserveForeign\n    );\n\n    synth.mint(to, amountSynth);\n}\n```\n\nAnd the fixed version after the audit:\n\n```solidity\ncurvePool.remove_liquidity_one_coin(\n    withdrawPTokens,\n    int128(poolCoinIndex),\n    _amount\n);\n```\n\n\n**Suggestion**\n\nWhen implementing minting functions based upon pool reserves or other on-chain data that can be manipulated in real-time, developers should provide & auditors should verify that users can specify slippage parameters, as such mints are effectively swaps by another name.\n\n### Task to Perform\nFollow the examples above to examine each contract and check if it contains this issue. If you find any potential issues, record them using the format below.\n\n### Output Format\n\nIf NO concrete vulnerability found, output a empty array\n\nOtherwise, follow the format below:\n\n```\n[\n    {\n        \"summary\":  \"summary of the vulnerabilities\",\n        \"vulnerability_details\": {\n            \"function_name\": \"Name of the function\",\n            \"description\": \"a brief description of the vulnerability\"\n        },\n    \n        \"code_snippet\": [\n            \"code snippet in the file\"\n        ],\n    \n        \"recommendation\": \"recommendation of how to fix the vulnerability\"\n    \n    }\n]\n```"
-            }
-          ]
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.5,
-      "position": [-3360, 1700],
-      "id": "873235ab-1057-48bb-b32f-0fd8559f24e6",
-      "name": "Slippage-Minting Exposes Users To Unlimited Slippage",
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "hasOutputParser": true,
-        "messages": {
-          "messageValues": [
-            {
-              "message": "=You are a smart contract auditor. After reading the following vulnerability knowledge and understanding correct and incorrect examples, detect the problem in the contract code.\n\n### Vulnerability Knowledge\n\n**MinTokensOut For Intermediate, Not Final Amount**\nDue to the composable nature of DeFi, a swap can execute multiple operations before returning the final amount of tokens to the user. If the \"minTokensOut\" parameter is used for an intermediate operation but not to check the final amount, this can result in a loss of funds vulnerability for the user since they may receive fewer tokens than specified.\n\n### Examples\n\n#### Example 1\n\nConsider this simplified code from Sherlock's Olympus Update contest\n\n```solidity\nfunction withdraw(\n    uint256            lpAmount_,\n    uint256[] calldata minTokenAmounts_, // @audit slippage param\n    bool               claim_\n) external override onlyWhileActive onlyOwner nonReentrant returns (uint256, uint256) {\n    // ...\n\n    // @audit minTokenAmounts_ enforced here, but this is only\n    // an intermediate operation not the final amount received by the user\n    // Exit Balancer pool\n    _exitBalancerPool(lpAmount_, minTokenAmounts_);\n\n    // Calculate OHM and wstETH amounts received\n    uint256 ohmAmountOut = ohm.balanceOf(address(this)) - ohmBefore;\n    uint256 wstethAmountOut = wsteth.balanceOf(address(this)) - wstethBefore;\n\n    // Calculate oracle expected wstETH received amount\n    // getTknOhmPrice returns the amount of wstETH per 1 OHM based on the oracle price\n    uint256 wstethOhmPrice = manager.getTknOhmPrice();\n    uint256 expectedWstethAmountOut = (ohmAmountOut * wstethOhmPrice) / _OHM_DECIMALS;\n\n    // @audit this is the final operation but minTokenAmounts_ is no longer\n    // enforced, so the amount returned to the user may be less than the\n    // minTokenAmounts_ specified, resulting in a loss of funds for the user\n    //\n    // Take any arbs relative to the oracle price for the Treasury and return the rest to the owner\n    uint256 wstethToReturn = wstethAmountOut > expectedWstethAmountOut\n        ? expectedWstethAmountOut\n        : wstethAmountOut;\n    if (wstethAmountOut > wstethToReturn)\n        wsteth.safeTransfer(TRSRY(), wstethAmountOut - wstethToReturn);\n\n    // ...\n}\n```\n\nHere, the user-specified slippage parameter \"minTokenAmounts_\" is only enforced for the intermediate operation _exitBalancerPool(), after which the output amount of tokens can be further reduced by the treasury skimming the difference between the balancer & oracle expected return amount.\n\n\n**Suggestion**\n\nDevelopers & auditors should test & verify that the user-specified \"minTokensOut\" is always enforced at the final step of a swap before returning the tokens to the user.\n\n### Task to Perform\nFollow the examples above to examine each contract and check if it contains this issue. If you find any potential issues, record them using the format below.\n\n### Output Format\n\nIf NO concrete vulnerability found, output a empty array\n\nOtherwise, follow the format below:\n\n```\n[\n    {\n        \"summary\":  \"summary of the vulnerabilities\",\n        \"vulnerability_details\": {\n            \"function_name\": \"Name of the function\",\n            \"description\": \"a brief description of the vulnerability\"\n        },\n    \n        \"code_snippet\": [\n            \"code snippet in the file\"\n        ],\n    \n        \"recommendation\": \"recommendation of how to fix the vulnerability\"\n    \n    }\n]\n```"
-            }
-          ]
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.5,
-      "position": [-3360, 1900],
-      "id": "5a2fb826-d1d8-4668-8fd1-352080b8ffef",
-      "name": "Slippage-MinTokensOut For Intermediate, Not Final Amount",
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "hasOutputParser": true,
-        "messages": {
-          "messageValues": [
-            {
-              "message": "=You are a smart contract auditor. After reading the following vulnerability knowledge and understanding correct and incorrect examples, detect the problem in the contract code.\n\n### Vulnerability Knowledge\n\n**On-Chain Slippage Calculation Can Be Manipulated**\nDevelopers should ensure & auditors must verify that users are allowed to specify their own slippage parameters which were calculated off-chain.\n\n### Examples\n\n#### Example 1\n\nConsider this simplified code from Sherlock's Olympus Update contest\n\n```solidity\nfunction swapTokensMulti(\n    SwapInOut memory                 _swap,\n    IController.UniswapParams memory _uniswap,\n    bool                             _rewardSwap\n    ) public returns (uint256) {\n    IERC20(_swap.tokenIn).safeIncreaseAllowance(_uniswap.router, _swap.amount);\n\n    // @audit on-chain slippage calculation can be manipulated,\n    // Quoter.quoteExactInput() itself does a swap!\n    // https://github.com/Uniswap/v3-periphery/blob/main/contracts/lens/QuoterV2.sol#L138-L146\n    // amountOutMinimum must be specified by user, calculated off-chain\n    uint256 amountOutMinimum = IQuoter(_uniswap.quoter).quoteExactInput(\n      abi.encodePacked(_swap.tokenIn, _uniswap.poolFee, WETH, _uniswap.poolFee, _swap.tokenOut),\n      _swap.amount\n    );\n\n    uint256 balanceBefore = IERC20(_swap.tokenOut).balanceOf(address(this));\n    if (_rewardSwap && balanceBefore > amountOutMinimum) return amountOutMinimum;\n\n    ISwapRouter.ExactInputParams memory params = ISwapRouter.ExactInputParams({\n      path: abi.encodePacked(\n        _swap.tokenIn,\n        _uniswap.poolFee,\n        WETH,\n        _uniswap.poolFee,\n        _swap.tokenOut\n      ),\n      recipient: address(this),\n      deadline: block.timestamp,\n      amountIn: _swap.amount,\n      amountOutMinimum: amountOutMinimum\n    });\n\n    ISwapRouter(_uniswap.router).exactInput(params);\n    uint256 balanceAfter = IERC20(_swap.tokenOut).balanceOf(address(this));\n\n    return balanceAfter - balanceBefore;\n}\n```\n\nThis code attempts to perform on-chain slippage calculation by using Quoter.quoteExactInput() which itself performs a swap and hence is subject to manipulation via sandwich attacks.\n\n### Task to Perform\nFollow the examples above to examine each contract and check if it contains this issue. If you find any potential issues, record them using the format below.\n\n### Output Format\n\nIf NO concrete vulnerability found, output a empty array\n\nOtherwise, follow the format below:\n\n```\n[\n    {\n        \"summary\":  \"summary of the vulnerabilities\",\n        \"vulnerability_details\": {\n            \"function_name\": \"Name of the function\",\n            \"description\": \"a brief description of the vulnerability\"\n        },\n    \n        \"code_snippet\": [\n            \"code snippet in the file\"\n        ],\n    \n        \"recommendation\": \"recommendation of how to fix the vulnerability\"\n    \n    }\n]\n```"
-            }
-          ]
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.5,
-      "position": [-3360, 2100],
-      "id": "6ed4b38d-02a5-459e-b929-80309f1b9d7b",
-      "name": "Slippage-On-Chain Slippage Calculation Can Be Manipulated",
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "hasOutputParser": true,
-        "messages": {
-          "messageValues": [
-            {
-              "message": "=You are a smart contract auditor. After reading the following vulnerability knowledge and understanding correct and incorrect examples, detect the problem in the contract code.\n\n### Vulnerability Knowledge\n\n**Hard-coded Slippage May Freeze User Funds**\nThe idea of setting slippage is to protect the user from getting less tokens than they wanted due to high volatility and stop them from being exploited by MEV bots. So why don't projects just hard-code low slippage to protect users? Because hard-coded slippage can freeze user funds during periods of high volatility.\n\n### Examples\n\n#### Example 1\n\nConsider this simplified code from Sherlock's Olympus Update contest\n\n```solidity\nfunction withdrawCollateral(\n    address _asset,\n    uint256 _amount,\n    address _to\n) external virtual {\n    // Before withdraw from lending pool, get the stAsset address and withdrawal amount\n    // Ex: In Lido vault, it will return stETH address and same amount\n    (address _stAsset, uint256 _stAssetAmount) = _getWithdrawalAmount(_asset, _amount);\n\n    // withdraw from lendingPool, it will convert user's aToken to stAsset\n    uint256 _amountToWithdraw = ILendingPool(_addressesProvider.getLendingPool()).withdrawFrom(\n        _stAsset,\n        _stAssetAmount,\n        msg.sender,\n        address(this)\n    );\n\n    // Withdraw from vault, it will convert stAsset to asset and send to user\n    // Ex: In Lido vault, it will return ETH or stETH to user\n    uint256 withdrawAmount = _withdrawFromYieldPool(_asset, _amountToWithdraw, _to);\n\n    if (_amount == type(uint256).max) {\n        uint256 decimal = IERC20Detailed(_asset).decimals();\n        _amount = _amountToWithdraw.mul(this.pricePerShare()).div(10**decimal);\n    }\n    // @audit hard-coded slippage can cause all withdrawals to revert during\n    // times of high volatility, freezing user funds. Users should have the option to\n    // withdraw during high volatility by setting their own slippage.\n    require(withdrawAmount >= _amount.percentMul(99_00), Errors.VT_WITHDRAW_AMOUNT_MISMATCH);\n\n    emit WithdrawCollateral(_asset, _to, _amount);\n}\n```\n\nThis code sets a very small slippage on withdrawals. While this may protect users from losing funds due to slippage, during times of high volatility when slippage is unavoidable, it will also cause all withdrawals to revert, freezing user funds.\n\n**Suggestion**\n\nIf a project uses a default slippage, users should always be able to override it with their own slippage to ensure they can transact even during times of high volatility.\n\n### Task to Perform\nFollow the examples above to examine each contract and check if it contains this issue. If you find any potential issues, record them using the format below.\n\n### Output Format\n\nIf NO concrete vulnerability found, output a empty array\n\nOtherwise, follow the format below:\n\n```\n[\n    {\n        \"summary\":  \"summary of the vulnerabilities\",\n        \"vulnerability_details\": {\n            \"function_name\": \"Name of the function\",\n            \"description\": \"a brief description of the vulnerability\"\n        },\n    \n        \"code_snippet\": [\n            \"code snippet in the file\"\n        ],\n    \n        \"recommendation\": \"recommendation of how to fix the vulnerability\"\n    \n    }\n]\n```"
-            }
-          ]
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.5,
-      "position": [-3360, 2300],
-      "id": "9c15a056-0866-4434-a3e6-7461bc08f16c",
-      "name": "Slippage-Hard-coded Slippage May Freeze User Funds",
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "hasOutputParser": true,
-        "messages": {
-          "messageValues": [
-            {
-              "message": "=You are a smart contract auditor. After reading the following vulnerability knowledge and understanding correct and incorrect examples, detect the problem in the contract code.\n\n### Vulnerability Knowledge\n\n**Zero Slippage Required**\nA function that requires zero slippage is likely to revert presenting a persistent Denial Of Service to users. Expecting zero slippage is unrealistic which is why developers must allow users to specify slippage parameters.\n\n### Task to Perform\nFollow the examples above to examine each contract and check if it contains this issue. If you find any potential issues, record them using the format below.\n\n### Output Format\n\nIf NO concrete vulnerability found, output a empty array\n\nOtherwise, follow the format below:\n\n```\n[\n    {\n        \"summary\":  \"summary of the vulnerabilities\",\n        \"vulnerability_details\": {\n            \"function_name\": \"Name of the function\",\n            \"description\": \"a brief description of the vulnerability\"\n        },\n    \n        \"code_snippet\": [\n            \"code snippet in the file\"\n        ],\n    \n        \"recommendation\": \"recommendation of how to fix the vulnerability\"\n    \n    }\n]\n```"
-            }
-          ]
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.5,
-      "position": [-3360, 2500],
-      "id": "3029a575-5028-4d3d-bf70-81a1dd55501c",
-      "name": "Slippage-Zero Slippage Required",
-      "onError": "continueRegularOutput"
+      "position": [
+        128,
+        320
+      ],
+      "id": "3a515a53-17d4-47e9-8d31-d9c2cb4b943d",
+      "name": "When chat message received",
+      "webhookId": "ce077bb6-7ca6-4f3a-bb6e-cbc80aadc004"
     },
     {
       "parameters": {
@@ -373,7 +106,7 @@
           },
           "conditions": [
             {
-              "id": "162cf072-03ec-49a2-b87d-820eb155c89e",
+              "id": "a4044695-dd7d-462e-97f5-5c9638d0d182",
               "leftValue": "={{ $json.body.mode }}",
               "rightValue": "trace",
               "operator": {
@@ -389,8 +122,11 @@
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [-4020, 950],
-      "id": "5113bf63-9bac-446a-b75e-7b6e3d814b29",
+      "position": [
+        -320,
+        112
+      ],
+      "id": "d98e6337-c7e9-4d7b-9d9c-2847492fa140",
       "name": "If"
     },
     {
@@ -400,120 +136,211 @@
       },
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
-      "position": [-2764, 1700],
-      "id": "868a6435-fa34-44fb-806a-04e5069fcd35",
+      "position": [
+        1712,
+        112
+      ],
+      "id": "a1bd02a7-0d2a-401d-9af8-1fa7a26a9614",
       "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "\"\"\"\nSplit bundled Solidity code into base contract and imported contracts.\n\nInput: item.json[\"chatInput\"] (bundled contract source with \"====== Code imported from: ... ======\" sections).\nOutput: one item per input item; each item's json is extended with:\n  - base_contract: str (the first contract, before any \"Code imported from\" section)\n  - imported_contracts: list of {\"source_path\": str, \"code\": str} for each imported block\n\"\"\"\n\nIMPORTED_DELIMITER = \"====== Code imported from: \"\nIMPORTED_END_MARKER = \" ======\"\n\n\ndef split_bundled_contract(bundled):\n    base_contract = \"\"\n    imported_contracts = []\n\n    if not bundled or not isinstance(bundled, str):\n        return {\"base_contract\": base_contract, \"imported_contracts\": imported_contracts}\n\n    parts = bundled.split(IMPORTED_DELIMITER)\n    base_contract = (parts[0].strip() if parts else \"\")\n\n    for i in range(1, len(parts)):\n        block = parts[i]\n        # block is like \"dataset/.../file.sol =======\\npragma...\"\n        idx = block.find(IMPORTED_END_MARKER)\n        if idx == -1:\n            source_path = block.strip()\n            code = \"\"\n        else:\n            source_path = block[:idx].strip()\n            code = block[idx + len(IMPORTED_END_MARKER):].strip()\n        imported_contracts.append({\"source_path\": source_path, \"code\": code})\n\n    return {\"base_contract\": base_contract, \"imported_contracts\": imported_contracts}\n\n\noutput_items = []\n\nfor item in _input.all():\n    code_snippet = item.json.get(\"chatInput\", \"\")\n    result = split_bundled_contract(code_snippet)\n\n    out = dict(item.json)\n    out[\"base_contract\"] = result[\"base_contract\"]\n    out[\"imported_contracts\"] = result[\"imported_contracts\"]\n    output_items.append({\"json\": out})\n\nreturn output_items"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        368,
+        192
+      ],
+      "id": "9139bf94-3cc6-40af-b4d9-5cb049017f04",
+      "name": "split bundle"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        864,
+        -176
+      ],
+      "id": "d026bce1-d56f-4cd1-9c3e-6ff167b0d37c",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"array\",\n  \"items\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"tag\": {\n        \"type\": \"array\",\n        \"items\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"DAO\",\n            \"DoS\",\n            \"Flashloan\",\n            \"Oracle\",\n            \"Logic error\",\n            \"Reentrancy\",\n            \"Access Control\",\n            \"Liquidation\",\n            \"Slippage\",\n            \"ERC4626\",\n            \"Input Validation\",\n            \"Bad Randomness\",\n            \"Chainlink\",\n            \"Arithmetic\",\n            \"Re-org Attack\",\n            \"Pause\",\n            \"Accounting Error\",\n            \"MEV\",\n            \"Upgradeable\",\n            \"ERC20\",\n            \"call / delegatecall\",\n            \"Uniswap\",\n            \"Cross-Chain\",\n            \"ERC777\",\n            \"Governance\",\n            \"Multisig\",\n            \"Rebalance\",\n            \"ERC1155\",\n            \"XSS Attack\",\n            \"ERC721\",\n            \"Gnosis safe\",\n            \"Opensea\",\n            \"EIP712\",\n            \"Bridge\",\n            \"Zksync\",\n            \"Replay Attack\",\n            \"Solmate\",\n            \"Compound\",\n            \"Solidity Version\",\n            \"EIP4494\"\n          ]\n        },\n        \"description\": \"Main vulnerability category, choose all of the matched category in your vulberbility\"\n      },\n      \"subtag\": {\n        \"type\": \"array\",\n        \"items\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"Violating CEI / Missing nonReentrant\",\n            \"Missing Approval\",\n            \"Inflation Attack\",\n            \"Not EIP Compliant\",\n            \"Asset Theft\",\n            \"Rounding Error\",\n            \"Invalid Validation\",\n            \"Cannot partial liquidations\",\n            \"Liquidation – Dust repay / front run evade liquidation\",\n            \"onERC721Received callback\",\n            \"Price Manipulation / Arbitrage opportunity\",\n            \"Bypass Mechanism\",\n            \"Invariant Violation\",\n            \"Does not match with Doc / Implementation Error\",\n            \"Invalid Slippage Control / Missing slippage check\",\n            \"No Incentive to Liquidate\",\n            \"Hardcoded Parameter\",\n            \"minOut set to 0\",\n            \"Missing deadline\",\n            \"Self liquidation\",\n            \"Missing minOut / maxAmount\",\n            \"Deprecated Library\",\n            \"Out of Gas\",\n            \"Stale Value\",\n            \"Front Run\",\n            \"Reward Manipulation\",\n            \"Token Decimal\",\n            \"Incorrect Parameter\",\n            \"No Recovery Mechanism\",\n            \"Centralization Risk\",\n            \"Precision Loss\",\n            \"Scaling\",\n            \"Peg / Depeg\",\n            \"State Update Inconsistency\",\n            \"Duplicate Value\",\n            \"Arbitrary Add/Remove/Set/ Call\",\n            \"Storage Gap\",\n            \"Missing Return Check\",\n            \"Misuse of Dependency\",\n            \"Role Takeover\",\n            \"Missing Time Constraint\",\n            \"Unauthorized Upgrade\",\n            \"Missing Initialization\",\n            \"slot0\",\n            \"Bad Condition\",\n            \"Unfair Liquidation\",\n            \"Nonce\",\n            \"Fee On Transfer Token\",\n            \"payable / receive()\",\n            \"Rebase Token\",\n            \"Whale\",\n            \"ERC777 Callback\",\n            \"EVM Compatibility\",\n            \"Case Sensitive\",\n            \"Execution Order Dependency\",\n            \"Cross-Function Reentrancy\",\n            \"Missing Functionality\",\n            \"Refund Failed\",\n            \"Diamond\",\n            \"Cannot Revoke\",\n            \"Typo\",\n            \"safeApprove\",\n            \"Missing Upper/Lower Bound Check\",\n            \"Unsafe Downcast\",\n            \"1/64 Gas Rule\",\n            \"Block Time / Block Number\",\n            \"Incorrect Formula\"\n          ]\n        },\n        \"description\": \"Specific vulnerability subtype\"\n      },\n      \"severity\": {\n        \"type\": \"string\",\n        \"enum\": [\"high\", \"medium\"],\n        \"description\": \"Severity level of the vulnerability. Definition of severity -> high : Assets can be stolen/lost/compromised directly / medium: Assets not at direct risk, but function/availability of the protocol could be impacted or leak value\"\n      },\n      \"description\": {\n        \"type\": \"string\",\n        \"description\": \"Detailed description of the vulnerability\"\n      },\n      \"code_snippet\": {\n        \"type\": \"string\",\n        \"description\": \"The function name where the root cause of the vulnerability discovered, if cannot find the function, just return empty string\"\n      }\n    },\n    \"required\": [\"tag\", \"subtag\", \"severity\", \"description\", \"code_snippet\"],\n    \"additionalProperties\": false\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1440,
+        368
+      ],
+      "id": "3886c5d8-d954-4608-b857-1d913b1b4e84",
+      "name": "Final Output Parser"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"array\",\n  \"description\": \"List of all functions identified as performing slippage-sensitive actions (swap / add/remove liquidity / mint/burn LP / join/exit pool).\",\n  \"items\": {\n    \"type\": \"object\",\n    \"additionalProperties\": false,\n    \"required\": [\"code_snippet\", \"signature\", \"type\", \"description\"],\n    \"properties\": {\n      \"code_snippet\": {\n        \"type\": \"string\",\n        \"pattern\": \"^[A-Za-z_][A-Za-z0-9_]*\\\\.[A-Za-z_][A-Za-z0-9_]*$\",\n        \"description\": \"Must be ContractName.FunctionName\"\n      },\n      \"signature\": {\n        \"type\": \"string\",\n        \"minLength\": 1,\n        \"description\": \"Full Solidity function signature string.\"\n      },\n      \"type\": {\n        \"type\": \"string\",\n        \"enum\": [\n          \"swaps\",\n          \"add_liquidity\",\n          \"remove_liquidity\",\n          \"mint_lp\",\n          \"burn_lp\",\n          \"join_pool\",\n          \"exit_pool\"\n        ],\n        \"description\": \"Action type performed or directly triggered by this function.\"\n      },\n      \"description\": {\n        \"type\": \"string\",\n        \"minLength\": 1,\n        \"maxLength\": 300,\n        \"description\": \"Brief reason why this function belongs to the specified type. Must mention the concrete call/action (e.g., router.swap, vault.joinPool/exitPool, poolAction.join/exit, add_liquidity/remove_liquidity, mint/burn LP as part of liquidity).\"\n      }\n    }\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        608,
+        352
+      ],
+      "id": "26992c52-623d-4fa1-b36e-b55df71090ce",
+      "name": "Stage 1 Parser"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"additionalProperties\": false,\n  \"required\": [\"has_slippage_controls\", \"no_slippage_controls\"],\n  \"properties\": {\n    \"has_slippage_controls\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"additionalProperties\": false,\n        \"required\": [\"code_snippet\", \"signature\", \"controls\", \"description\"],\n        \"properties\": {\n          \"code_snippet\": {\n            \"type\": \"string\",\n            \"pattern\": \"^[A-Za-z_][A-Za-z0-9_]*\\\\.[A-Za-z_][A-Za-z0-9_]*$\",\n            \"description\": \"Must be BaseContract.EntryFunction\"\n          },\n          \"signature\": {\n            \"type\": \"string\",\n            \"minLength\": 1\n          },\n          \"controls\": {\n            \"type\": \"array\",\n            \"minItems\": 1,\n            \"items\": {\n              \"type\": \"object\",\n              \"additionalProperties\": false,\n              \"required\": [\"type\", \"name\", \"mechanism\"],\n              \"properties\": {\n                \"type\": {\n                  \"type\": \"string\",\n                  \"enum\": [\"minOut\", \"maxIn\", \"priceLimit\", \"deadline\", \"other\"]\n                },\n                \"name\": {\n                  \"type\": \"string\",\n                  \"minLength\": 1,\n                  \"description\": \"Parameter/field/variable name used as a slippage-related control (e.g., amountOutMin, SwapParams.limit, sqrtPriceLimitX96).\"\n                },\n                \"mechanism\": {\n                  \"type\": \"string\",\n                  \"enum\": [\"passed\", \"checked\", \"both\"]\n                }\n              }\n            }\n          },\n          \"description\": {\n            \"type\": \"string\",\n            \"minLength\": 1,\n            \"maxLength\": 300,\n            \"description\": \"Brief path-based explanation of what slippage bounds are enforced on the executed path. Mention the executed external call site(s) and which control(s) (minOut/maxIn/priceLimit/deadline/other) are passed/checked.\"\n          }\n        }\n      }\n    },\n    \"no_slippage_controls\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"additionalProperties\": false,\n        \"required\": [\"code_snippet\", \"signature\", \"controls\", \"description\"],\n        \"properties\": {\n          \"code_snippet\": {\n            \"type\": \"string\",\n            \"pattern\": \"^[A-Za-z_][A-Za-z0-9_]*\\\\.[A-Za-z_][A-Za-z0-9_]*$\",\n            \"description\": \"Must be BaseContract.EntryFunction\"\n          },\n          \"signature\": {\n            \"type\": \"string\",\n            \"minLength\": 1\n          },\n          \"controls\": {\n            \"type\": \"array\",\n            \"maxItems\": 0,\n            \"items\": false,\n            \"description\": \"Must be an empty array for the no_slippage_controls group.\"\n          },\n          \"description\": {\n            \"type\": \"string\",\n            \"minLength\": 1,\n            \"maxLength\": 300,\n            \"description\": \"Brief path-based reason why this entry function lacks slippage controls. Mention executed call site(s) and the missing bound(s) (e.g., no minOut/maxIn/priceLimit). Do not speculate about opaque payloads or imported contract internals.\"\n          }\n        }\n      }\n    }\n  }\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        912,
+        368
+      ],
+      "id": "3da50f7c-1ee2-4bd5-9cad-735a9a1e8cf0",
+      "name": "Stage 2 Parser"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        1216,
+        -176
+      ],
+      "id": "f33077c9-4061-4973-8477-7166a1d23915",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{\n  \"## Stage 1 result (slippage classification)\\n\\n\" +\n  JSON.stringify({\n    has_slippage_controls: (($json.output && $json.output.has_slippage_controls) || []),\n    no_slippage_controls:  (($json.output && $json.output.no_slippage_controls)  || []),\n  }, null, 2) +\n\n  \"\\n\\n## Base contract\\n\\n\" + $json.base_contract +\n\n  \"\\n\\n## Imported contracts\\n\\n\" +\n  ($json.imported_contracts || []).map(c =>\n    \"=== \" + c.source_path + \" ===\\n\" + c.code\n  ).join(\"\\n\\n\")\n}}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=## Task to perform\n\nYou are a smart contract security auditor. You will receive:\n1) a base contract source\n2) imported contracts (reference-only unless needed)\n3) two groups:\n   - `no_slippage_controls`: entry functions claimed to have no slippage controls\n   - `has_slippage_controls`: entry functions claimed to have slippage controls\n\nYour job is to VERIFY and, if needed, CORRECT the Stage-1 classification by resolving the real executed paths and checking whether the claimed controls are effective.\n\n### What to verify\n\n#### A) Verify `no_slippage_controls` candidates\nFor each listed function:\n1) **Does it actually perform (or trigger) a swap/join/exit/add liquidity/remove liquidity**\n   - If NO: simply skip and remove it (it does not need slippage protection).\n2) **On the executed path, is there any slippage control?** (existence only; do NOT judge correctness/strength)\n   - Check both:\n     - controls passed into external protocol calls (e.g., amountOutMinimum, amountInMaximum, limits arrays, minAmountsOut, sqrtPriceLimitX96, etc.)\n     - controls checked in contract before/after the call (require on minOut, maxIn, price bounds, etc.)\n   - If YES: move it to `has_slippage_controls` and record the control(s).\n   - If still NO: keep it in `no_slippage_controls` and explain why (call site + missing bounds).\n\n#### B) Verify `has_slippage_controls` candidates (control effectiveness)\nFor each listed function and each claimed control:\n1) Confirm the control is **actually used on the executed path** (not dead code / wrong branch).\n2) Check whether the control is **rendered ineffective**, including:\n   - explicitly set to 0 by code (e.g., amountOutMinimum = 0, minAmountsOut[i]=0)\n   - explicitly set to “infinite” / unbounded by code (e.g., amountInMaximum = type(uint256).max)\n   - explicitly hardcoded to a constant that ignores user input\n3) If a control is ineffective, reclassify the function into `no_slippage_controls` and explain.\n\n### Required reasoning artifacts per function\nFor every function you keep/reclassify, you MUST provide:\n- executed path summary: `entry → ... → external call site(s)`\n- call site(s) name(s) (e.g., `uniRouter.exactInput`, `balancerVault.batchSwap`, `kyberRouter.call`, `delegatecall(poolAction.join)`)\n- slippage-relevant parameters at the call site(s) and their sources\n- whether each control is `passed`, `checked`, or `both`\n- for ineffective controls: state the exact reason (0/unbounded/hardcoded/unused)\n\n### Report Format\n\nIf the conclusion is “No vulnerability”, report with an empty array:\n\n```\n[]\n```\n\nIf vulnerabilities found, report with a json:\n\n```\n[\n    {\n        \"tag\":  \"Main vulnerability category\",\n        \"subtag\": \"Specific vulnerability subtype\",\n        \"severity\": \"Severity level of the vulnerability\"\n        \"description\": \"Detailed description of the vulnerability\"\n        \"code_snippet: \"MUST be in the format: <ContractName>.<FunctionName>\"\n    }\n]\n```\n\n#### Deduplication & Consolidation Rules (MANDATORY)\n\nYou MUST consolidate findings that share the same:\n\n- Root cause\n- Vulnerability mechanism\n- Impact\n\nDo NOT report the same vulnerability separately for multiple functions if they stem from the same design flaw.\n\nIf multiple functions are affected by the same root issue:\n\n- Report them as ONE vulnerability entry.\n- Clearly list all affected functions inside the description.\n- The \"code_snippet\" field MUST include all affected functions, separated by comma, in the format:\n  <ContractName>.<Function1>, <ContractName>.<Function2>, ...\n\nOnly split findings into multiple entries if:\n- The root cause is different, OR\n- The vulnerability mechanism is materially different, OR\n- The impact category is different.\n\n#### Tag definition\n\nIf two tags share similar criteria, the system should select only the tag whose scenario provides the closest fit. Select all the tags that fit the scenario\n\n| Title | Description |\n|------|-------------|\n| DAO | Security vulnerabilities related to governance logic, permission control, voting mechanisms, member management, or cross-chain governance information verification in Decentralized Autonomous Organizations (DAOs). |\n| DoS | When there are flaws in the logic of a contract or protocol, it can lead to certain operations (such as deposits, withdrawals, transfers, proposals, liquidations, etc.) being unable to execute successfully for an extended period or permanently, which constitutes a type of Denial of Service (DoS) vulnerability.Such issues prevent the affected functionalities from being restored under unchanged contract states and hinder legitimate users from performing expected actions, often resulting in locked funds/assets, governance standoffs, or disruptions to business processes. |\n| Flashloan | When a protocol relies on instantaneous states (such as spot prices, real-time asset ratios, or current voting rights) to calculate yields, voting rights, minting limits, and liquidity operations without implementing time-weighted mechanisms or stabilization constraints, it allows attackers to temporarily dominate the system's ratios through flash loans or large capital within a single transaction or a few blocks. This manipulation can skew calculation results, enabling them to gain undue benefits or manipulate governance outcomes before the state is restored.|\n| Oracle | When a protocol obtains data from on-chain or off-chain external price sources, any flaws in the selection of data sources, update frequency, verification methods, scaling conversions, or calculation methods can lead to distorted, outdated, manipulated, or unusable prices. This, in turn, can affect critical functions such as trade matching, collateral liquidation, asset valuation, and minting/redeeming processes, which constitutes such vulnerabilities. |\n| Logic error | When there are logical errors in the implementation of a protocol that do not conform to the expected design or specification, such as issues with conditional statements, loop logic, index boundaries, variable update order, cross-module state synchronization, and special case handling, resulting in incorrect fund calculations, inaccurate balances/shares, incorrect states, or the inability to execute functions correctly, these are considered vulnerabilities of this type. |\n| Reentrancy | When a contract updates critical states before implementing a locking mechanism (such as nonReentrant or the Checks-Effects-Interactions pattern) and executes external calls (like transfer, call, safeTransferFrom, ERC777/1155 callbacks, etc.), it may allow malicious contracts (or token standards with hooks) to re-enter the original contract's functions or other related functions during the external call. This can lead to repeated execution of business logic, circumvention of condition checks, or state alteration for the purpose of stealing assets or manipulating processes, which constitutes such vulnerabilities. |\n| Access Control | The lack of proper authentication, authorization checks, or controls for key functions can result in unauthorized users being able to perform operations that should only be executable by specific roles (such as owner, admin, governance, etc.). Additionally, defects in authorization revocation, role transfer, or state-checking logic can lead to ongoing privilege leaks, which may ultimately be exploited to steal assets, compromise system configurations, or permanently lock funds. |\n| Liquidation | When there are design flaws in the liquidation process of lending or collateral contracts, including errors in triggering conditions, authorization checks, incentive mechanisms, calculation logic, and asset transfer steps this can result in defaults or under-collateralized positions not being liquidated as expected, being over-liquidated, or liquidators taking advantage of logical errors to steal assets or harm the interests of other users. |\n| Slippage | When a contract performs operations that require interaction with external prices, such as executing trades, exchanging tokens, adding or removing liquidity, and minting/redeeming assets it may lack mechanisms like minimum acceptable output (minOut), maximum acceptable prices, market volatility/slippage protection, and deadline checks. This can lead to users experiencing slippage beyond their expectations during transactions and suffering losses due to price manipulation or Miner Extractable Value (MEV) attacks (such as front-running or sandwich attacks).|\n| ERC4626 | When an asset pool (Vault) based on the ERC-4626 standard is implemented without adhering to the specifications for design and mathematical handling, such as method behaviors, boundary conditions, rounding direction, and consistency between return values and states or if there are vulnerabilities in the economic design like initial deposit manipulation or share inflation attacks, this can result in the Vault being incompatible with other protocols, incorrect calculations of user assets, or malicious damage to the system. |\n| Input Validation | When a contract lacks proper input parameter checks, asset/authority ownership verification, state validity checks, or invariants verification during the handling of critical processes (such as transactions, liquidations, governance, fund transfers, asset minting/burning, etc.), it may allow malicious or improper inputs to bypass intended restrictions. This can lead to asset theft, logical inconsistencies, irreversible system failures, or the compromise of the protocol. |\n| Bad Randomness | When a contract relies on randomness to determine outcomes (such as selecting a tokenId, choosing a winner, validators, conducting lottery draws, or sorting), flaws in the generation or usage patterns of random numbers, such as using predictable or manipulatable on-chain variables (like block information, timestamps, or miner-controllable values), allowing users to control the seed, lacking verification of result submissions, or having issues with re-draw/re-use can enable attackers or privileged roles to bias or select specific outcomes, thereby undermining fairness. |\n| Chainlink | When a contract relies on Chainlink oracles as a source for prices or randomness but utilizes outdated APIs, lacks necessary data validity checks (such as update times, round completeness, or min/max boundaries), is missing protective or fallback mechanisms, or uses incorrect feeds, it can result in the oracle returning values that may be outdated, erroneous, or manipulatable. |\n| Arithmetic | When there are flaws in the mathematical calculation logic of a contract, including issues such as overflow/underflow, division by zero, unsafe type conversions, incorrect precision scaling, rounding direction errors, and deviations from the intended design rules in computation formulas, it can lead to abnormal numerical results, incorrect asset calculations, and errors in incentives or penalties. |\n| Re-org Attack | A vulnerability that arises when smart contract logic assumes finality or determinism in block ordering, making it exploitable via chain reorganizations that reorder or replace recent blocks. |\n| Pause | When a contract provides mechanisms to pause system functionalities (such as Pausable, whenPaused, or whenNotPaused modifiers), flaws in the logic design or usage, such as allowing disallowed operations to be executed while in a paused state, failing to include pause checks in necessary functions, enabling circumvention of pause restrictions, or permanently locking the system can lead to an irrecoverable contract state or allow privileged roles to perform unauthorized actions. |\n| Accounting Error | When a protocol tracks, calculates, or synchronizes assets, discrepancies can arise between state records and actual asset changes, or the true behavior of assets may be overlooked in the numerical calculation logic. For example, the internal records may not synchronize with actual balances (due to state delays or missed updates), assumptions about asset quantities may be invalid (such as assuming that the amount transferred always equals the requested amount), and there may be systematic errors in calculation formulas. This can lead to discrepancies in shares, fees, rewards, and entitlement distributions. Additionally, cross-module or cross-asset records or calculations may not be consistently updated, resulting in duplicate calculations or omissions. |\n| MEV | The act of maximizing the extraction of economic value within a blockchain system by manipulating the ordering of transactions, front-running transactions, or reordering transactions within a block. This typically results in losses for users or unfair distribution of system resources. |\n| Upgradeable | When a contract is designed to be upgradeable (through proxy patterns, module replacements, etc.), but there are flaws in the upgrade logic, initialization processes, state storage consistency, upgrade permission protections, or compatibility of old states after an upgrade, it may allow unauthorized upgrades, initialization oversights, or other related vulnerabilities. |\n| ERC20 | When a contract interacts with ERC20 tokens, it may operate under erroneous assumptions about ERC20 behaviors, lack checks for return values, or fail to properly handle special token behaviors (such as fee-on-transfer, rebasing, non-standard return values, and unique approve rules). This can lead to unexpected results or vulnerabilities in the contract's functionality. |\n| call / delegatecall | When a protocol uses low-level Solidity calls (such as call(), delegatecall(), staticcall(), or inline Yul call instructions) for transfers or cross-contract interactions, if it does not check whether the return values indicate success and instead directly updates the state or assumes the operation has completed, it may lead to situations where the operation was not actually executed but is treated as successful. |\n| Uniswap | When integrating with Uniswap V2 / V3 / V4 , there are implementation errors or missing safeguards in core areas such as price calculation, path encoding, initialization constants, liquidity ratio calculation, and output validation. These issues lead to distorted or manipulable pricing bases (e.g., incorrect TWAP calculation, reliance on easily manipulated spot prices), corrupted trade path encoding (e.g., incorrect reversal of path bytes), incorrect initialization hash constants causing pair location failures, mistaken liquidity ratio and asset boundary assumptions (e.g., treating the entire pool as protocol assets, inaccurate share calculations, dust accumulation), and missing minimum-value checks on AMM operation min output values, which allow outputs that are not as expect. |\n| Cross-Chain | When a protocol designs or implements features such as cross-chain asset bridges, cross-chain messaging / proposal execution, or cross-chain governance, there may be defects in asset verification, message verification, inter-chain format compatibility, and state synchronization/rollback mechanisms. These issues can allow unsupported or unauthorized asset/address types to enter the cross-chain process; prevent assets from being automatically returned or rolled back after a cross-chain message fails on the target chain; and cause misinterpretation or asset loss due to differences in asset formats, decimal precision, or address formats between chains. They may also lead to unsynchronized state updates between source and target chains or malicious replay, resulting in unintended operations across chains, as well as a lack of permission checks or chain ID validation in cross-chain operations. |\n| ERC777 | When a contract executes an asset transfer that triggers an external ERC777 contract callback the tokensReceived() / tokensToSend() hook and performs sensitive asset calculations or state updates before the callback occurs (violating the Checks‑Effects‑Interactions pattern), or uses a revert that causes a DoS. |\n| Governance | In the logic for voting power calculation, threshold checks, snapshots, proposal processes, and member management, there are design flaws or missing validations that allow voting power to be temporarily manipulated (via flash loans or instant token acquisition/disposal), proposal processes to be bypassed or repeatedly triggered, valid proposals to be cancelled, threshold or ratio calculations to be incorrect so that insufficiently supported proposals can pass, and inconsistencies in member management where removed members can rejoin or retain privileges. Governance parameters or conditions can also be altered midway through voting, directly affecting the outcome, ultimately resulting in governance manipulation and even malicious fund extraction. |\n| Multisig | When a contract implements a multi-signature mechanism (Multi-signature wallet / multi-signature governance module) to authorize transactions or perform sensitive operations, flaws in signature verification, threshold counting, proposal execution process, and member management can allow unauthorized transactions to be executed, or enable bypassing of the authorization threshold, as well as errors in signature counting/threshold logic. |\n| Rebalance | When a protocol performs asset rebalancing or position redistribution operations to adjust the ratios of different assets or pools, design or validation flaws in processes such as calculation formulas, price dependencies, asset transfers, and state updates can result in incorrect rebalancing ratios, leading to asset allocation imbalances, share mismatches, and failure to properly synchronize state variables (e.g., pool balances, asset weights). This can cause subsequent logic errors or lock funds. Missing boundary checks may also allow a malicious user to exploit the rebalancing process to seize assets. |\n| ERC1155 | When a contract implements or extends the EIP‑1155 multi‑token standard and its business logic, flaws in standard behavior compliance, callback handling, supply and enumeration maintenance, and leasing/business validations may occur. These issues can lead to function behaviors that do not comply with the EIP‑1155 specification, breaking interoperability with other protocols, supply or token index miscalculations that cause data inconsistencies or asset mismatches, and the onERC1155Received callback being triggered or used at the wrong time. Such flaws can be exploited by attackers to perform reentrancy attacks or disrupt business processes.  |\n| XSS Attack | Refers to a vulnerability in a contract or Web3 application where improper filtering, encoding, or validation of external inputs allows an attacker to inject and execute malicious JavaScript code.  |\n| ERC721 | When a contract implements or extends the EIP‑721 NFT standard, flaws in standard compliance, tokenId generation and management, transfer/approval logic, callback security handling, and asset protection can occur. These issues can damage interoperability and composability with other protocols (by violating standard behaviors), allow malicious reentrancy, asset theft, or blocking (DoS), cause tokenId duplication or incorrect ownership records leading to asset mismatches, and result in insufficient business safeguards that let assets be burned, hijacked, or permanently locked. |\n| Gnosis safe | When an extension module (Guard, Extension, Handler) based on Gnosis Safe or other Safe‑like multi‑signature/smart wallets lacks necessary authorization checks, security validation, or state management in processes such as enabling, configuring, disabling, or parameter validation. |\n| Opensea | Issues related to Opensea integrations. |\n| EIP712 | When a contract’s signature verification or EIP‑712 typed data parsing process contains flaws such as incorrect encoding methods, mismatched hashing order, missing required fields, or insufficient nonce/replay protection, it can cause valid standard‑compliant signatures to fail verification (legitimate calls reverting), allow invalid or replayed signatures to pass verification, and enable attackers to reuse a signature across transactions or functions to repeatedly execute sensitive operations. |\n| Bridge | A protocol component used for transferring assets or data between different blockchain networks (L1, L2, or between different L1 networks). |\n| Zksync | Issues related to zkSync. |\n| Replay Attack | An attacker resubmits previously executed valid messages, transactions, or data.  |\n| Solmate | Issues related to Solmate library. |\n| Compound | Issues related to Compound protocol integrations. |\n| Solidity Version | Vulnerabilities caused by specific Solidity compiler versions or optimizer behavior. |\n| EIP4494 | Issues related to EIP-4494 (ERC721 Permit). |\n| TWAP | Covers all design or implementation errors related to obtaining, calculating, verifying, or using time-weighted average price (TWAP) data from an AMM, DEX, or oracle source.This includes incorrect TWAP computation formulas, failure to account for time between observations, use of inadequate observation windows susceptible to manipulation, reliance on spot prices instead of TWAP, handling of negative ticks or rounding errors incorrectly, processing outdated or zero-initialized data, reliance on low-liquidity pools for TWAP resulting in inaccurate or manipulable prices, missing validations on upstream oracle results, or design flaws that lock assets due to overly strict TWAP constraints.Vulnerabilities often lead to exploitable price manipulation, inaccurate valuations, DoS conditions in TWAP update loops, and incorrect automated trading or liquidation decisions. |\n| RCE | Covers all vulnerabilities that allow an attacker to remotely execute arbitrary code or commands on the target system (application server, backend service, node environment, or integrated off-chain component).This includes unsafe deserialization, injection into dynamic code execution functions, improper sandboxing, insecure use of eval or similar interpreters, lack of input sanitization in code compilation paths, and insecure integration with remote modules or plugins.Exploiting an RCE vulnerability enables an attacker to run arbitrary logic within the application's execution environment, potentially leading to complete system compromise, data exfiltration, service disruption, or lateral movement inside the infrastructure.  |\n\n#### Subtag definition\n\nIf two subtags share similar criteria, the system should select only the tag whose scenario provides the closest fit. Select all the subtags that fit the scenario.\n\n| Title | Description |\n|------|-------------|\n| Violating CEI / Missing nonReentrant | Issues related to violation of Checks-Effects-Interactions pattern or missing `nonReentrant` protection. |\n| Missing Approval | Missing `approve()` call before `transferFrom`, causing token transfers to fail. |\n| Inflation Attack | An exploit where a malicious user artificially inflates the asset or share baseline through manipulating initial conditions or specific parameters, resulting in unfair gain and unequal distribution of assets or shares within the system. |\n| Not EIP Compliant | Implementation does not adhere to relevant EIP standards, causing unexpected behavior or vulnerabilities. |\n| Asset Theft | Allows an unauthorized user to illicitly transfer or misappropriate assets from other. |\n| Rounding Error | Issues arising from incorrect rounding direction in numeric operations, causing value misallocation or minor deviations from the protocol’s or standard’s expected behavior. |\n| Invalid Validation | Missing or incorrect verification of inputs or required conditions, allowing operations to proceed without ensuring they meet expected safety or correctness requirements.  |\n| Cannot partial liquidations | Whales (large holders) cannot be liquidated due to specific limitations in the protocol. |\n| Liquidation – Dust repay / front run evade liquidation | Fine-grained errors related to dust repayment during liquidation and front running evasion. |\n| onERC721Received callback | Vulnerabilities associated with the `onERC721Received` callback function. |\n| Price Manipulation / Arbitrage opportunity | Opportunities for price manipulation or arbitrage within the system. |\n| Bypass Mechanism | This refers to flaws in the system's logic design, process control, or condition checks, allowing users or attackers to bypass intended security checks, charging processes, asset restrictions, or risk controls through specific sequences of operations or alternative processes. |\n| Invariant Violation | Breaches of assumed constants or invariants in system logic. |\n| Implementation Error | Implementation Error refers to design, logic, or coding flaws within the smart contract code.  |\n| Does not match with Doc | Contract behavior deviates from its documented specification, comments, or referenced standards, potentially leading to misuse, unexpected behavior, or integration errors.  |\n| Invalid Slippage Control / Missing slippage check | In price-sensitive operations such as swaps or liquidity changes, the contract omits any mechanism to enforce acceptable slippage (e.g., fails to require minOut, maxAmount, or equivalent constraints) where such protection is necessary. This includes cases with no slippage parameter at all or where the check is entirely absent. |\n| No Incentive to Liquidate | Lack of liquidation incentives leads to the generation of bad debts. |\n| Hardcoded Parameter | Important contract parameters, are hardcoded and cannot be dynamically configured, limiting flexibility and adaptability to changing conditions. |\n| minOut set to 0 | Setting minOut to zero disables slippage protection, allowing trades or liquidity operations to execute at any output amount regardless of price impact. This exposes users to unlimited slippage risk and potential severe asset loss.  |\n| Missing deadline | Missing deadline in swaps or other price-sensitive operations, allowing transactions to execute much later and exposing them to excessive price impact and slippage risk. |\n| Self liquidation | Vulnerabilities or issues that allow self liquidation under non-ideal conditions. |\n| Missing minOut / maxAmount | Errors related to missing or improperly set minimum output (minOut) or maximum spend (maxAmount) parameters, which are essential for slippage protection. |\n| Deprecated Library | Usage of outdated or unsupported function libraries, which may lead to operational disruptions or security vulnerabilities. |\n| Out of Gas | Transaction fails due to exceeding the gas limit allocated for its execution. |\n| Stale Value | The system uses outdated or obsolete data, which can be manipulated or exploited by attackers. |\n| Front Run | The act of exploiting transaction ordering to execute a transaction before another, in order to manipulate price, contract state, or system behavior for unfair advantage. |\n| Reward Manipulation | Exploiting weaknesses in a protocol’s reward distribution logic—such as timing, balance tracking, or eligibility checks—to gain more rewards than fairly earned. |\n| Token Decimal | The precision used to define token fractions in smart contracts, where incorrect setting or manipulation can cause calculation errors and transaction inaccuracies. |\n| Incorrect Parameter | A flaw where the value used in a calculation or passed to a function is wrong,  including wrong order, wrong type, or unintended variable reference. This covers both external inputs (function arguments) and internal values (state variables, constants) used in calculations. If the calculation formula itself is correct but a wrong value is used, it is classified as Incorrect Parameter.  |\n| No Recovery Mechanism | Lack of mechanism to recover from failed, frozen, or misconfigured components. |\n| Centralization Risk | Critical functions or system components are controlled by a single party, creating a risk of misuse, censorship, or manipulation. |\n| Precision Loss | Loss of numeric precision due to integer division or insufficient scaling (e.g., result becomes 0). |\n| Scaling | Failure to apply proper unit conversion or scaling factor in arithmetic operations involving tokens with different denominations or expected decimal precision. |\n| Peg / Depeg | Covers all design or implementation errors related to asset peg mechanisms, including improper maintenance of the peg (depeg), return biases, reliance on incorrect sources, or lack of detachment handling. |\n| State Update Inconsistency | State Update Inconsistency occurs when the state of a smart contract is updated in an inconsistent or incorrect manner, leading to discrepancies, inaccuracies, and unintended outcomes in future operations, calculations, or decisions. This may impact various aspects of the contract, such as pricing mechanisms, liquidation processes, or liquidity management, and could result in financial losses or manipulative opportunities.|\n| Duplicate Value | A vulnerability where two or more distinct entities (e.g. assets, records, or users) unintentionally share the same key or identifier (e.g. mapping key, oracle reference), causing one to overwrite or shadow the other. |\n| Arbitrary Add/Remove/Set/Call | The contract allows unauthorized addresses to arbitrarily add/remove/call or set key states or resources, leading to privilege abuse or system anomalies.  |\n| Storage Gap | In upgradeable contracts, to avoid storage slot conflicts and overwrites during upgrades, a fixed-length gap of empty storage space is reserved for future extension of contract state variables. The absence of or incorrect design of the storage gap may lead to state corruption or data overwriting after the upgrade. |\n| Missing Return Check | The return value  is not verified. |\n| Misuse of Dependency | When using external dependencies (libraries, modules, or contracts), failing to correctly reference them according to their security design, version security announcements, or the appropriate usage context can lead to functional anomalies, security risks, or upgrade failures. This includes but is not limited to: using versions of external libraries with known vulnerabilities, incorrectly integrating third-party module interfaces, or neglecting the security initialization processes of dependencies. |\n| Role Takeover | A situation where a user or contract illegitimately gains control over a privileged role by removing, overriding, or replacing the originally designated role holder. |\n| Missing Time Constraint | The contract does not check time-related conditions (such as block.timestamp, deadline, expiry) |\n| Unauthorized Upgrade | Refers to the lack of authorization checks during the contract upgrade process, allowing unauthorized addresses to perform contract upgrade operations. |\n| Missing Initialization | The contract does not properly initialize necessary states (such as permissions, dependencies, parameters), which may lead to the contract being unusable or exhibiting abnormal behavior. |\n| slot0 | The contract directly relies on Uniswap's slot0 (which provides instantaneous price and liquidity data) as its quoting source without applying any time-smoothing mechanisms (such as TWAP). This makes the price highly susceptible to short-term manipulations, for instance through flash loans. |\n| Bad Condition | This refers to errors or omissions in the conditional logic within the code that result in critical state checks, control flow branches, or security mechanisms not being triggered properly. Such errors can lead to severe issues, including loss of funds, permission bypasses, state inconsistencies, or logical corruption. |\n| Unfair Liquidation | This occurs when a user, despite not violating the protocol's rules, is liquidated due to insufficient protective measures or design flaws in the protocol.  |\n| Nonce | The absence or misuse of a nonce mechanism can lead to operations being re-executed, replayed, or subjected to race conditions.  |\n| Fee On Transfer Token | Vulnerability, incompatibility, or oversight arises due to the behavior of fee-on-transfer tokens — tokens that deduct a fee during transfers, causing the received amount to be less than the sent amount. |\n| payable / receive() | Improper design of payable or receive() / fallback() functions leading to issues in fund reception, control, or logic. |\n| Rebase Token | Covers security or accounting issues arising from the use or integration of Rebase Tokens, which have dynamic supply adjustment mechanisms. |\n| Whale | Involves situations where a single or a few addresses hold large amounts of assets, leading to asymmetric risks such as market manipulation, concentrated governance, unusual liquidations, and distorted rewards within the protocol. |\n| ERC777 Callback | When interacting with ERC777 tokens, misuse of callbacks can lead to external contracts controlling states unexpectedly, causing security risks or business logic errors. |\n| EVM Compatibility | The contract design or protocol assumes certain EVM behaviors (such as gas model, opcode support, call patterns, address format, precompile availability, etc.) are consistent across all chains. However, differences in these behaviors on various EVM-compatible chains or Layer 2 solutions can lead to logic errors, functionality failures, or security vulnerabilities. |\n| Case Sensitive | The comparison logic for user input, addresses, function names, or identifiers is case-sensitive, leading to behavior that does not match expectations. |\n| Execution Order Dependency | Protocol logic relies on a specific transaction order or execution timing.This can lead to issues such as repeated execution, asset loss, or state errors. |\n| Cross-Function Reentrancy | Cross-Function Reentrancy  refers to a scenario where a contract makes an external call during the execution of a function and is vulnerable to an attacker reentering through a different entry function upon the external call’s return. This can cause unsynchronized state reads, writes, or asset manipulations, leading to logic errors or security vulnerabilities. |\n| Missing Functionality |  Lacks necessary functionalities or is missing functions to implement specific features. |\n| Refund Failed | When a protocol sends or returns assets, the operation may fail if the recipient is blacklisted or if the callback or receiving function revert. |\n| Diamond | Issues related to the EIP-2535 Diamond standard or similar multi-facet, multi-delegate proxy architectures. |\n| Cannot Revoke | When a system or contract allows a function, module, role, or permission to be enabled or granted, but does not provide a corresponding mechanism for safe revocation or deactivation. This leads to a situation where users or contracts cannot revoke, disable, or reclaim the function or permission, even if it is no longer safe or needs to be disabled. |\n| Typo | Typographical errors in the source code or configuration. |\n| safeApprove | Unsafe safeApprove |\n| Missing Upper/Lower Bound Check | A vulnerability caused when smart contracts accept numeric inputs, token allowances, or other adjustable parameters without enforcing minimum or maximum limits. This allows unexpected or extreme values that can break contract logic, bypass intended constraints, or create financial loss. |\n| Unsafe Downcast | Larger integer type (e.g., uint256) is cast to a smaller type (e.g., uint128, uint64, uint32) without validation.  |\n| 1/64 Gas Rule | Caused by the EIP-150 gas forwarding rule, where only 63/64 of the remaining gas is forwarded in CALL, DELEGATECALL, STATICCALL, or CALLCODE. If the callee requires all remaining gas, the call may fail unexpectedly. |\n| Block Time / Block Number | The use of block.timestamp and block.number across different chains. |\n| Incorrect Formula | The protocol uses incorrect formulas or operator when calculating amounts, ratios, rewards, collateral rates, or other key economic variables, resulting in outcomes that do not align with expectations or design specifications. |"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        1328,
+        112
+      ],
+      "id": "dc0682bf-82c3-40bd-bc1e-2b7a100fbeef",
+      "name": "stage 3: final validation",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{\n  \"## Detected functions (stage 1 output)\\n\\n\" +\n  JSON.stringify($json.output || [], null, 2) +\n  \"\\n\\n## Base contract\\n\\n\" + $json.base_contract +\n  \"\\n\\n## Imported contracts\\n\\n\" + ($json.imported_contracts || []).map(c =>\n    \"=== \" + c.source_path + \" ===\\n\" + c.code\n  ).join(\"\\n\\n\")\n}}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=## Task to perform\n\nYou are a smart contract security auditor. You will receive:\n1) a base contract source\n2) imported contracts (reference-only unless needed)\n3) An array: functions claimed to need slippage control\n\nYou MUST only focus on functions inside the array, for each of it:\n-\tTrace the call graph along the executed branch(es) and construct the resolved patha:\n\te.g., entry → internal calls → library calls → external protocol calls\n-\tIdentify the actual swap/liquidity external call site(s):\n\te.g., router.swap..., pool.swap(...), vault.joinPool/exitPool, dexAggregator.call(data)\n\tif there's no call site the actual swap/liquidity external call site, ignore and skip it\n- For each constructed path, check if it has any slippage parameter/control along the path  (**existence only; you MUST NOT judge correctness/strength**)\n\t- If the function has slippage parameter and directly uses it -> yes\n\t- If the function has slippage parameter and passes it to the internal/external call -> yes\n\t- If at the call site, the external call has slippage parameter/controls -> yes\n\t- Otherwise -> no\n\ti.e., as long as the final actual swap/liquidity external call site(s) contain slippage parameter/control, it has slippage protection. \n- Given the previous result, classify the function into one of these groups:\n\t- Group 1: Has as least one slippage parameter/related controls\n\t- Group 2: No slippage parameter/related controls\n\n## Output format (JSON)\n\n{\n  \"has_slippage_controls\": [\n    { \n      \"code_snippet\": \"BaseContract.entryFunction\",\n      \"signature\": \"entryFunction(type1,type2,...) external/public\",\n      \"controls\": [\n        {\n          \"type\": \"minOut|maxIn|priceLimit|deadline|other\",\n          \"name\": \"string\",\n          \"mechanism\": \"passed|checked|both\"\n        }\n      ],\n      \"description\": \"Brief path-based explanation of what slippage bounds are enforced and at which call site(s).\"\n    }\n  ],\n  \"no_slippage_controls\": [\n    {\n      \"code_snippet\": \"BaseContract.entryFunction\",\n      \"signature\": \"entryFunction(type1,type2,...) external/public\",\n      \"controls\": [],\n      \"description\": \"Brief path-based explanation identifying the executed call site(s) and the missing slippage bound(s).\"\n    }\n  ]\n}\n"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        976,
+        112
+      ],
+      "id": "cfe4430b-9100-4ec8-8d62-d1c937a6f290",
+      "name": "stage 2: check slippage control",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ \n  \"## Base contract\\n\\n\" + $json.base_contract + \n  \"\\n\\n## Imported contracts\\n\\n\" + ($json.imported_contracts || []).map(c =>\n  \"=== \" + c.source_path + \" ===\\n\" + c.code\n).join(\"\\n\\n\")\n}}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=## Task to perform\n\nYou are a smart contract security auditor.\n\nYour task is to identify **only user-trade slippage surfaces**: functions (external/public entrypoints and any internal functions they call) that **execute or directly trigger price-taking actions against external liquidity venues**, where the output can vary due to AMM price impact, MEV, or market movement.\n\n### Slippage-sensitive action types (report only these)\n\n- **swaps**\n  A call that **trades token A for token B at a variable rate** set by an exchange mechanism (AMM curve, orderbook, RFQ, aggregator routing).\n  Typical indicators:\n  - function/method semantics are “swap/exchange/trade”\n  - output amount depends on pool state (reserves/price/ticks) or quotes\n  - has/should have `minOut`, `maxIn`, `priceLimit`, or `deadline`\n\n- **add_liquidity / join_pool**\n  A call that **deposits assets into a pricing pool** and receives an LP position/shares where the minted amount depends on current pool ratios/prices.\n  Typical indicators:\n  - “join/add liquidity/mint position” semantics\n  - minted LP/shares depends on pool state (ratios, tick range, balances)\n\n- **remove_liquidity / exit_pool**\n  A call that **burns LP/position/shares** to withdraw underlying assets where the withdrawn amounts depend on current pool ratios/prices.\n  Typical indicators:\n  - “exit/remove liquidity/burn position” semantics\n  - amounts out depend on pool state (ratios, balances, tick, etc.)\n\n### Explicit exclusions (MUST NOT report these as slippage)\n\nDo NOT report a function unless it performs one of the actions above. In particular, do NOT classify the following as slippage-sensitive:\n\n- **Lending / credit / debt accounting operations** (even if interacting with an external contract):\n  - borrowing/lending, repay/withdraw, interest index updates, credit issuance/settlement\n  - any flow where the transferred amount is a **fixed input** and not determined by an exchange rate\n\n- **Oracle-priced checks or deterministic pricing math** without an actual trade:\n  - collateralization checks, liquidation math, spot/TWAP reads\n  - direct transfers of collateral/repayment at a formula price without swapping on a venue\n\n- **Plain token movements**:\n  - `transfer/transferFrom` and bookkeeping updates\n\n- **ERC4626 (or similar) share mint/burn that is purely accounting**, i.e., no swap/join/exit/add/remove-liquidity occurs on the same execution path\n\n- **Deterministic 1:1 wraps/unwrapping** (unless routed through a priced pool/trade)\n\n### Classification guardrail\n\nA function is in-scope ONLY if you can point to a concrete **trade/liquidity call site** on its executed path whose outcome depends on a variable exchange rate/pool state.\nOtherwise, it is out-of-scope and must not be reported.\n\n### Tracing rule\n\nStart from each external/public entrypoint and trace the executed path.  \nReport a function if it:\n- directly calls an external swap/join/exit/liquidity method, **or**\n- calls an internal function that eventually reaches such an external call site.\n\n## Output format (JSON)\n\nReturn a json array:\n\n```json\n[\n    {\n        \"code_snippet\": \"ContractName.FunctionName\",\n        \"signature\": \"function ...\",\n        \"type\": \"swaps | add_liquidity | remove_liquidity | join_pool | exit_pool\",\n        \"description\": \"Brief reason why this function matches the type.\"\n    }\n]\n```"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        624,
+        112
+      ],
+      "id": "7ba61481-4218-40b6-a395-bce6a57c3b8a",
+      "name": "stage 1: detect function needs to be protected",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
     }
   ],
   "pinData": {},
   "connections": {
-    "OpenAI Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Slippage-Zero Slippage Required",
-            "type": "ai_languageModel",
-            "index": 0
-          },
-          {
-            "node": "Slippage-Hard-coded Slippage May Freeze User Funds",
-            "type": "ai_languageModel",
-            "index": 0
-          },
-          {
-            "node": "Slippage-On-Chain Slippage Calculation Can Be Manipulated",
-            "type": "ai_languageModel",
-            "index": 0
-          },
-          {
-            "node": "Slippage-MinTokensOut For Intermediate, Not Final Amount",
-            "type": "ai_languageModel",
-            "index": 0
-          },
-          {
-            "node": "Slippage-Minting Exposes Users To Unlimited Slippage",
-            "type": "ai_languageModel",
-            "index": 0
-          },
-          {
-            "node": "Slippage-Mismatched Slippage Precision",
-            "type": "ai_languageModel",
-            "index": 0
-          },
-          {
-            "node": "Slippage-Incorrect Slippage Calculation",
-            "type": "ai_languageModel",
-            "index": 0
-          },
-          {
-            "node": "Slippage-No Expiration Deadline",
-            "type": "ai_languageModel",
-            "index": 0
-          },
-          {
-            "node": "Slippage-No Slippage Parameter",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Structured Output Parser": {
-      "ai_outputParser": [
-        [
-          {
-            "node": "Slippage-Zero Slippage Required",
-            "type": "ai_outputParser",
-            "index": 0
-          },
-          {
-            "node": "Slippage-Hard-coded Slippage May Freeze User Funds",
-            "type": "ai_outputParser",
-            "index": 0
-          },
-          {
-            "node": "Slippage-On-Chain Slippage Calculation Can Be Manipulated",
-            "type": "ai_outputParser",
-            "index": 0
-          },
-          {
-            "node": "Slippage-MinTokensOut For Intermediate, Not Final Amount",
-            "type": "ai_outputParser",
-            "index": 0
-          },
-          {
-            "node": "Slippage-Minting Exposes Users To Unlimited Slippage",
-            "type": "ai_outputParser",
-            "index": 0
-          },
-          {
-            "node": "Slippage-Mismatched Slippage Precision",
-            "type": "ai_outputParser",
-            "index": 0
-          },
-          {
-            "node": "Slippage-Incorrect Slippage Calculation",
-            "type": "ai_outputParser",
-            "index": 0
-          },
-          {
-            "node": "Slippage-No Expiration Deadline",
-            "type": "ai_outputParser",
-            "index": 0
-          },
-          {
-            "node": "Slippage-No Slippage Parameter",
-            "type": "ai_outputParser",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Webhook": {
       "main": [
         [
           {
             "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM for answer": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "stage 1: detect function needs to be protected",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "stage 2: check slippage control",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "stage 3: final validation",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "split bundle",
             "type": "main",
             "index": 0
           }
@@ -531,203 +358,13 @@
         ]
       ]
     },
-    "Edit Fields": {
-      "main": [
-        [
-          {
-            "node": "Slippage-No Slippage Parameter",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Slippage-No Expiration Deadline",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Slippage-Incorrect Slippage Calculation",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Slippage-Mismatched Slippage Precision",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Slippage-Minting Exposes Users To Unlimited Slippage",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Slippage-MinTokensOut For Intermediate, Not Final Amount",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Slippage-On-Chain Slippage Calculation Can Be Manipulated",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Slippage-Hard-coded Slippage May Freeze User Funds",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Slippage-Zero Slippage Required",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "When chat message received": {
       "main": [
         [
           {
-            "node": "Slippage-No Slippage Parameter",
+            "node": "split bundle",
             "type": "main",
             "index": 0
-          },
-          {
-            "node": "Slippage-No Expiration Deadline",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Slippage-Incorrect Slippage Calculation",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Slippage-Mismatched Slippage Precision",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Slippage-Minting Exposes Users To Unlimited Slippage",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Slippage-MinTokensOut For Intermediate, Not Final Amount",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Slippage-On-Chain Slippage Calculation Can Be Manipulated",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Slippage-Hard-coded Slippage May Freeze User Funds",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Slippage-Zero Slippage Required",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Slippage-No Slippage Parameter": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Slippage-No Expiration Deadline": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 1
-          }
-        ]
-      ]
-    },
-    "Slippage-Incorrect Slippage Calculation": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 2
-          }
-        ]
-      ]
-    },
-    "Slippage-Mismatched Slippage Precision": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 3
-          }
-        ]
-      ]
-    },
-    "Slippage-Minting Exposes Users To Unlimited Slippage": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 4
-          }
-        ]
-      ]
-    },
-    "Slippage-MinTokensOut For Intermediate, Not Final Amount": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 5
-          }
-        ]
-      ]
-    },
-    "Slippage-On-Chain Slippage Calculation Can Be Manipulated": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 6
-          }
-        ]
-      ]
-    },
-    "Slippage-Hard-coded Slippage May Freeze User Funds": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 7
-          }
-        ]
-      ]
-    },
-    "Slippage-Zero Slippage Required": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 8
           }
         ]
       ]
@@ -750,11 +387,109 @@
         ]
       ]
     },
+    "split bundle": {
+      "main": [
+        [
+          {
+            "node": "stage 1: detect function needs to be protected",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
     "Merge": {
       "main": [
         [
           {
+            "node": "stage 2: check slippage control",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Final Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "stage 3: final validation",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stage 1 Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "stage 1: detect function needs to be protected",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stage 2 Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "stage 2: check slippage control",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "stage 3: final validation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "stage 3: final validation": {
+      "main": [
+        [
+          {
             "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "stage 2: check slippage control": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "stage 1: detect function needs to be protected": {
+      "main": [
+        [
+          {
+            "node": "Merge",
             "type": "main",
             "index": 0
           }
@@ -766,10 +501,10 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "d59a1d88-8b49-418c-bb6c-7f0094ac38b1",
+  "versionId": "5c883ed6-d3ab-406a-be0c-b1aa394266ba",
   "meta": {
-    "instanceId": "022db2fbd0a73e6d486f16c5eb885d1053a420197cf4f3857ab5d1742b50c5ad"
+    "instanceId": "f839b7ae33d4bab8c0e6053fad2787e1ad0bd33854a965624f05316a09f93d09"
   },
-  "id": "i1gjWbQ9X1e433xj",
+  "id": "9994quyszDIcaUOe",
   "tags": []
 }

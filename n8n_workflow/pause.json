@@ -1,0 +1,531 @@
+{
+  "name": "Pause",
+  "nodes": [
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"array\",\n  \"items\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"tag\": {\n        \"type\": \"array\",\n        \"items\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"DAO\",\n            \"DoS\",\n            \"Flashloan\",\n            \"Oracle\",\n            \"Logic error\",\n            \"Reentrancy\",\n            \"Access Control\",\n            \"Liquidation\",\n            \"Slippage\",\n            \"ERC4626\",\n            \"Input Validation\",\n            \"Bad Randomness\",\n            \"Chainlink\",\n            \"Arithmetic\",\n            \"Re-org Attack\",\n            \"Pause\",\n            \"Accounting Error\",\n            \"MEV\",\n            \"Upgradeable\",\n            \"ERC20\",\n            \"call / delegatecall\",\n            \"Uniswap\",\n            \"Cross-Chain\",\n            \"ERC777\",\n            \"Governance\",\n            \"Multisig\",\n            \"Rebalance\",\n            \"ERC1155\",\n            \"XSS Attack\",\n            \"ERC721\",\n            \"Gnosis safe\",\n            \"Opensea\",\n            \"EIP712\",\n            \"Bridge\",\n            \"Zksync\",\n            \"Replay Attack\",\n            \"Solmate\",\n            \"Compound\",\n            \"Solidity Version\",\n            \"EIP4494\"\n          ]\n        },\n        \"description\": \"Main vulnerability category, choose all of the matched category in your vulberbility\"\n      },\n      \"subtag\": {\n        \"type\": \"array\",\n        \"items\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"Violating CEI / Missing nonReentrant\",\n            \"Missing Approval\",\n            \"Inflation Attack\",\n            \"Not EIP Compliant\",\n            \"Asset Theft\",\n            \"Rounding Error\",\n            \"Invalid Validation\",\n            \"Cannot partial liquidations\",\n            \"Liquidation – Dust repay / front run evade liquidation\",\n            \"onERC721Received callback\",\n            \"Price Manipulation / Arbitrage opportunity\",\n            \"Bypass Mechanism\",\n            \"Invariant Violation\",\n            \"Does not match with Doc / Implementation Error\",\n            \"Invalid Slippage Control / Missing slippage check\",\n            \"No Incentive to Liquidate\",\n            \"Hardcoded Parameter\",\n            \"minOut set to 0\",\n            \"Missing deadline\",\n            \"Self liquidation\",\n            \"Missing minOut / maxAmount\",\n            \"Deprecated Library\",\n            \"Out of Gas\",\n            \"Stale Value\",\n            \"Front Run\",\n            \"Reward Manipulation\",\n            \"Token Decimal\",\n            \"Incorrect Parameter\",\n            \"No Recovery Mechanism\",\n            \"Centralization Risk\",\n            \"Precision Loss\",\n            \"Scaling\",\n            \"Peg / Depeg\",\n            \"State Update Inconsistency\",\n            \"Duplicate Value\",\n            \"Arbitrary Add/Remove/Set/ Call\",\n            \"Storage Gap\",\n            \"Missing Return Check\",\n            \"Misuse of Dependency\",\n            \"Role Takeover\",\n            \"Missing Time Constraint\",\n            \"Unauthorized Upgrade\",\n            \"Missing Initialization\",\n            \"slot0\",\n            \"Bad Condition\",\n            \"Unfair Liquidation\",\n            \"Nonce\",\n            \"Fee On Transfer Token\",\n            \"payable / receive()\",\n            \"Rebase Token\",\n            \"Whale\",\n            \"ERC777 Callback\",\n            \"EVM Compatibility\",\n            \"Case Sensitive\",\n            \"Execution Order Dependency\",\n            \"Cross-Function Reentrancy\",\n            \"Missing Functionality\",\n            \"Refund Failed\",\n            \"Diamond\",\n            \"Cannot Revoke\",\n            \"Typo\",\n            \"safeApprove\",\n            \"Missing Upper/Lower Bound Check\",\n            \"Unsafe Downcast\",\n            \"1/64 Gas Rule\",\n            \"Block Time / Block Number\",\n            \"Incorrect Formula\"\n          ]\n        },\n        \"description\": \"Specific vulnerability subtype\"\n      },\n      \"severity\": {\n        \"type\": \"string\",\n        \"enum\": [\"high\", \"medium\"],\n        \"description\": \"Severity level of the vulnerability. Definition of severity -> high : Assets can be stolen/lost/compromised directly / medium: Assets not at direct risk, but function/availability of the protocol could be impacted or leak value\"\n      },\n      \"description\": {\n        \"type\": \"string\",\n        \"description\": \"Detailed description of the vulnerability\"\n      },\n      \"code_snippet\": {\n        \"type\": \"string\",\n        \"description\": \"The function name where the root cause of the vulnerability discovered, if cannot find the function, just return empty string\"\n      }\n    },\n    \"required\": [\"tag\", \"subtag\", \"severity\", \"description\", \"code_snippet\"],\n    \"additionalProperties\": false\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        352,
+        288
+      ],
+      "id": "5884f723-c22c-4c6d-a61c-82c9dcb62dff",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "=slippage_minAmount",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1376,
+        176
+      ],
+      "id": "a24971ec-cf48-4df3-bbdc-d7525c802836",
+      "name": "Webhook",
+      "webhookId": "0f3a3dc2-9cb2-4454-86b1-bb95ef26a901"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "os-azure-gpt5-chat",
+          "mode": "list",
+          "cachedResultName": "os-azure-gpt5-chat"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        288
+      ],
+      "id": "fbcea18a-ac1c-49e5-b533-466b3759f43b",
+      "name": "LLM for answer",
+      "credentials": {
+        "openAiApi": {
+          "id": "khMK6p1sFf7Q8x8F",
+          "name": "OpenAI Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4cad7351-acee-42aa-a217-bf2b8b624e2f",
+              "name": "chatInput",
+              "value": "={{ $json.body.prompt }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -768,
+        176
+      ],
+      "id": "df9a90ed-d9d4-4dbe-83aa-470414928419",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $execution.id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        -960,
+        96
+      ],
+      "id": "58d5a4f4-8ff2-41f1-a16e-666346f875eb",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -768,
+        384
+      ],
+      "id": "423112b9-6dc2-441a-9c6c-06b5b8bf8815",
+      "name": "When chat message received",
+      "webhookId": "ce077bb6-7ca6-4f3a-bb6e-cbc80aadc004"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        592,
+        208
+      ],
+      "id": "7be40e88-b29b-4d61-8234-cea7d45ce6db",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a4044695-dd7d-462e-97f5-5c9638d0d182",
+              "leftValue": "={{ $json.body.mode }}",
+              "rightValue": "trace",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1152,
+        176
+      ],
+      "id": "c9e9f21b-98f3-4793-b640-2fc3394d137c",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        816,
+        208
+      ],
+      "id": "14088fe4-2852-457f-bb87-afc374b0c3d6",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f9a18698-a816-477a-b99b-d378dda8f73b",
+              "leftValue": "={{ $json.base_contract }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -96,
+        144
+      ],
+      "id": "9f6cfdd3-ec15-4419-b8cf-c013f7a02203",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.base_contract }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=## Overview\n\nYou are a smart contract security auditor. After reading the following knowledge about Pause vulnerability, follow the thinking process to detect the problem in the contract source code. You will focus on the specific vulnerability - Inaccessible pause/unpause\n\n## Vulnerability Description\n\nIn smart contract security, a pause mechanism allows authorized roles to temporarily halt certain contract functionalities in order to respond to abnormal conditions, security incidents, upgrades, or regulatory requirements. \nThe primary purpose of a pause feature is to act as a safety switch, preventing high‑risk operations that could move funds, alter asset states, or affect protocol stability until the issue is resolved.\n\nSince OpenZeppelin’s Pausable/PausableUpgradeable contract itself contains only internal pausing/unpausing methods, any contract that directly inherits it should implement the public/external fucntion (e.g., `pause()`, `unpause()`) that expose `_pause()` and `_unpause()` fucntions.  \nWithout public or external wrappers for these functions, the internal methods cannot be invoked from outside the contract through standard administrative actions. \nAs a result, protocol administrators are unable to pause or resume the contract when needed, since no public or external function is available to trigger the mechanism.\n\n## Thinking Process\n\n1. Coonfirm that the contract directly inherit OpenZeppelin’s Pausable/PausableUpgradeable.\n2. Inspect if it implements public or external wrappers to expose internal `_pause()` and `_unpause()`. If not, it suffers from Inaccessible pause/unpause vulnerability\n\n### Output Format\n\nIf the input is not a cryptocurrency smart contracts, report with a empty array:\n\n```\n[]\n```\n\nIf the conclusion of a function is “No vulnerability”, report with a empty array:\n\n```\n[]\n```\n\nIf vulnerabilities found in a function, report with a json:\n\n```\n[\n    {\n        \"tag\":  \"Main vulnerability category\",\n        \"subtag\": \"Specific vulnerability subtype\",\n        \"severity\": \"Severity level of the vulnerability\"\n        \"description\": \"Detailed description of the vulnerability\"\n        \"code_snippet: \"Contract where the vulnerability locates\"\n    }\n]\n```\n\n#### Tag definition\n\nVulnerability, incompatibility, or oversight arises due to the behavior of fee-on-transfer tokens — tokens that deduct a fee during transfers, causing the received amount to be less than the sent amount.#### Tag definition\n\nIf two tags share similar criteria, the system should select only the tag whose scenario provides the closest fit. Select all the tags that fit the scenario\n\n| Title | Description |\n|------|-------------|\n| DAO | Security vulnerabilities related to governance logic, permission control, voting mechanisms, member management, or cross-chain governance information verification in Decentralized Autonomous Organizations (DAOs). |\n| DoS | When there are flaws in the logic of a contract or protocol, it can lead to certain operations (such as deposits, withdrawals, transfers, proposals, liquidations, etc.) being unable to execute successfully for an extended period or permanently, which constitutes a type of Denial of Service (DoS) vulnerability.Such issues prevent the affected functionalities from being restored under unchanged contract states and hinder legitimate users from performing expected actions, often resulting in locked funds/assets, governance standoffs, or disruptions to business processes. |\n| Flashloan | When a protocol relies on instantaneous states (such as spot prices, real-time asset ratios, or current voting rights) to calculate yields, voting rights, minting limits, and liquidity operations without implementing time-weighted mechanisms or stabilization constraints, it allows attackers to temporarily dominate the system's ratios through flash loans or large capital within a single transaction or a few blocks. This manipulation can skew calculation results, enabling them to gain undue benefits or manipulate governance outcomes before the state is restored.|\n| Oracle | When a protocol obtains data from on-chain or off-chain external price sources, any flaws in the selection of data sources, update frequency, verification methods, scaling conversions, or calculation methods can lead to distorted, outdated, manipulated, or unusable prices. This, in turn, can affect critical functions such as trade matching, collateral liquidation, asset valuation, and minting/redeeming processes, which constitutes such vulnerabilities. |\n| Logic error | When there are logical errors in the implementation of a protocol that do not conform to the expected design or specification, such as issues with conditional statements, loop logic, index boundaries, variable update order, cross-module state synchronization, and special case handling, resulting in incorrect fund calculations, inaccurate balances/shares, incorrect states, or the inability to execute functions correctly, these are considered vulnerabilities of this type. |\n| Reentrancy | When a contract updates critical states before implementing a locking mechanism (such as nonReentrant or the Checks-Effects-Interactions pattern) and executes external calls (like transfer, call, safeTransferFrom, ERC777/1155 callbacks, etc.), it may allow malicious contracts (or token standards with hooks) to re-enter the original contract's functions or other related functions during the external call. This can lead to repeated execution of business logic, circumvention of condition checks, or state alteration for the purpose of stealing assets or manipulating processes, which constitutes such vulnerabilities. |\n| Access Control | The lack of proper authentication, authorization checks, or controls for key functions can result in unauthorized users being able to perform operations that should only be executable by specific roles (such as owner, admin, governance, etc.). Additionally, defects in authorization revocation, role transfer, or state-checking logic can lead to ongoing privilege leaks, which may ultimately be exploited to steal assets, compromise system configurations, or permanently lock funds. |\n| Liquidation | When there are design flaws in the liquidation process of lending or collateral contracts, including errors in triggering conditions, authorization checks, incentive mechanisms, calculation logic, and asset transfer steps this can result in defaults or under-collateralized positions not being liquidated as expected, being over-liquidated, or liquidators taking advantage of logical errors to steal assets or harm the interests of other users. |\n| Slippage | When a contract performs operations that require interaction with external prices, such as executing trades, exchanging tokens, adding or removing liquidity, and minting/redeeming assets it may lack mechanisms like minimum acceptable output (minOut), maximum acceptable prices, market volatility/slippage protection, and deadline checks. This can lead to users experiencing slippage beyond their expectations during transactions and suffering losses due to price manipulation or Miner Extractable Value (MEV) attacks (such as front-running or sandwich attacks).|\n| ERC4626 | When an asset pool (Vault) based on the ERC-4626 standard is implemented without adhering to the specifications for design and mathematical handling, such as method behaviors, boundary conditions, rounding direction, and consistency between return values and states or if there are vulnerabilities in the economic design like initial deposit manipulation or share inflation attacks, this can result in the Vault being incompatible with other protocols, incorrect calculations of user assets, or malicious damage to the system. |\n| Input Validation | When a contract lacks proper input parameter checks, asset/authority ownership verification, state validity checks, or invariants verification during the handling of critical processes (such as transactions, liquidations, governance, fund transfers, asset minting/burning, etc.), it may allow malicious or improper inputs to bypass intended restrictions. This can lead to asset theft, logical inconsistencies, irreversible system failures, or the compromise of the protocol. |\n| Bad Randomness | When a contract relies on randomness to determine outcomes (such as selecting a tokenId, choosing a winner, validators, conducting lottery draws, or sorting), flaws in the generation or usage patterns of random numbers, such as using predictable or manipulatable on-chain variables (like block information, timestamps, or miner-controllable values), allowing users to control the seed, lacking verification of result submissions, or having issues with re-draw/re-use can enable attackers or privileged roles to bias or select specific outcomes, thereby undermining fairness. |\n| Chainlink | When a contract relies on Chainlink oracles as a source for prices or randomness but utilizes outdated APIs, lacks necessary data validity checks (such as update times, round completeness, or min/max boundaries), is missing protective or fallback mechanisms, or uses incorrect feeds, it can result in the oracle returning values that may be outdated, erroneous, or manipulatable. |\n| Arithmetic | When there are flaws in the mathematical calculation logic of a contract, including issues such as overflow/underflow, division by zero, unsafe type conversions, incorrect precision scaling, rounding direction errors, and deviations from the intended design rules in computation formulas, it can lead to abnormal numerical results, incorrect asset calculations, and errors in incentives or penalties. |\n| Re-org Attack | A vulnerability that arises when smart contract logic assumes finality or determinism in block ordering, making it exploitable via chain reorganizations that reorder or replace recent blocks. |\n| Pause | When a contract provides mechanisms to pause system functionalities (such as Pausable, whenPaused, or whenNotPaused modifiers), flaws in the logic design or usage, such as allowing disallowed operations to be executed while in a paused state, failing to include pause checks in necessary functions, enabling circumvention of pause restrictions, or permanently locking the system can lead to an irrecoverable contract state or allow privileged roles to perform unauthorized actions. |\n| Accounting Error | When a protocol tracks, calculates, or synchronizes assets, discrepancies can arise between state records and actual asset changes, or the true behavior of assets may be overlooked in the numerical calculation logic. For example, the internal records may not synchronize with actual balances (due to state delays or missed updates), assumptions about asset quantities may be invalid (such as assuming that the amount transferred always equals the requested amount), and there may be systematic errors in calculation formulas. This can lead to discrepancies in shares, fees, rewards, and entitlement distributions. Additionally, cross-module or cross-asset records or calculations may not be consistently updated, resulting in duplicate calculations or omissions. |\n| MEV | The act of maximizing the extraction of economic value within a blockchain system by manipulating the ordering of transactions, front-running transactions, or reordering transactions within a block. This typically results in losses for users or unfair distribution of system resources. |\n| Upgradeable | When a contract is designed to be upgradeable (through proxy patterns, module replacements, etc.), but there are flaws in the upgrade logic, initialization processes, state storage consistency, upgrade permission protections, or compatibility of old states after an upgrade, it may allow unauthorized upgrades, initialization oversights, or other related vulnerabilities. |\n| ERC20 | When a contract interacts with ERC20 tokens, it may operate under erroneous assumptions about ERC20 behaviors, lack checks for return values, or fail to properly handle special token behaviors (such as fee-on-transfer, rebasing, non-standard return values, and unique approve rules). This can lead to unexpected results or vulnerabilities in the contract's functionality. |\n| call / delegatecall | When a protocol uses low-level Solidity calls (such as call(), delegatecall(), staticcall(), or inline Yul call instructions) for transfers or cross-contract interactions, if it does not check whether the return values indicate success and instead directly updates the state or assumes the operation has completed, it may lead to situations where the operation was not actually executed but is treated as successful. |\n| Uniswap | When integrating with Uniswap V2 / V3 / V4 , there are implementation errors or missing safeguards in core areas such as price calculation, path encoding, initialization constants, liquidity ratio calculation, and output validation. These issues lead to distorted or manipulable pricing bases (e.g., incorrect TWAP calculation, reliance on easily manipulated spot prices), corrupted trade path encoding (e.g., incorrect reversal of path bytes), incorrect initialization hash constants causing pair location failures, mistaken liquidity ratio and asset boundary assumptions (e.g., treating the entire pool as protocol assets, inaccurate share calculations, dust accumulation), and missing minimum-value checks on AMM operation min output values, which allow outputs that are not as expect. |\n| Cross-Chain | When a protocol designs or implements features such as cross-chain asset bridges, cross-chain messaging / proposal execution, or cross-chain governance, there may be defects in asset verification, message verification, inter-chain format compatibility, and state synchronization/rollback mechanisms. These issues can allow unsupported or unauthorized asset/address types to enter the cross-chain process; prevent assets from being automatically returned or rolled back after a cross-chain message fails on the target chain; and cause misinterpretation or asset loss due to differences in asset formats, decimal precision, or address formats between chains. They may also lead to unsynchronized state updates between source and target chains or malicious replay, resulting in unintended operations across chains, as well as a lack of permission checks or chain ID validation in cross-chain operations. |\n| ERC777 | When a contract executes an asset transfer that triggers an external ERC777 contract callback the tokensReceived() / tokensToSend() hook and performs sensitive asset calculations or state updates before the callback occurs (violating the Checks‑Effects‑Interactions pattern), or uses a revert that causes a DoS. |\n| Governance | In the logic for voting power calculation, threshold checks, snapshots, proposal processes, and member management, there are design flaws or missing validations that allow voting power to be temporarily manipulated (via flash loans or instant token acquisition/disposal), proposal processes to be bypassed or repeatedly triggered, valid proposals to be cancelled, threshold or ratio calculations to be incorrect so that insufficiently supported proposals can pass, and inconsistencies in member management where removed members can rejoin or retain privileges. Governance parameters or conditions can also be altered midway through voting, directly affecting the outcome, ultimately resulting in governance manipulation and even malicious fund extraction. |\n| Multisig | When a contract implements a multi-signature mechanism (Multi-signature wallet / multi-signature governance module) to authorize transactions or perform sensitive operations, flaws in signature verification, threshold counting, proposal execution process, and member management can allow unauthorized transactions to be executed, or enable bypassing of the authorization threshold, as well as errors in signature counting/threshold logic. |\n| Rebalance | When a protocol performs asset rebalancing or position redistribution operations to adjust the ratios of different assets or pools, design or validation flaws in processes such as calculation formulas, price dependencies, asset transfers, and state updates can result in incorrect rebalancing ratios, leading to asset allocation imbalances, share mismatches, and failure to properly synchronize state variables (e.g., pool balances, asset weights). This can cause subsequent logic errors or lock funds. Missing boundary checks may also allow a malicious user to exploit the rebalancing process to seize assets. |\n| ERC1155 | When a contract implements or extends the EIP‑1155 multi‑token standard and its business logic, flaws in standard behavior compliance, callback handling, supply and enumeration maintenance, and leasing/business validations may occur. These issues can lead to function behaviors that do not comply with the EIP‑1155 specification, breaking interoperability with other protocols, supply or token index miscalculations that cause data inconsistencies or asset mismatches, and the onERC1155Received callback being triggered or used at the wrong time. Such flaws can be exploited by attackers to perform reentrancy attacks or disrupt business processes.  |\n| XSS Attack | Refers to a vulnerability in a contract or Web3 application where improper filtering, encoding, or validation of external inputs allows an attacker to inject and execute malicious JavaScript code.  |\n| ERC721 | When a contract implements or extends the EIP‑721 NFT standard, flaws in standard compliance, tokenId generation and management, transfer/approval logic, callback security handling, and asset protection can occur. These issues can damage interoperability and composability with other protocols (by violating standard behaviors), allow malicious reentrancy, asset theft, or blocking (DoS), cause tokenId duplication or incorrect ownership records leading to asset mismatches, and result in insufficient business safeguards that let assets be burned, hijacked, or permanently locked. |\n| Gnosis safe | When an extension module (Guard, Extension, Handler) based on Gnosis Safe or other Safe‑like multi‑signature/smart wallets lacks necessary authorization checks, security validation, or state management in processes such as enabling, configuring, disabling, or parameter validation. |\n| Opensea | Issues related to Opensea integrations. |\n| EIP712 | When a contract’s signature verification or EIP‑712 typed data parsing process contains flaws such as incorrect encoding methods, mismatched hashing order, missing required fields, or insufficient nonce/replay protection, it can cause valid standard‑compliant signatures to fail verification (legitimate calls reverting), allow invalid or replayed signatures to pass verification, and enable attackers to reuse a signature across transactions or functions to repeatedly execute sensitive operations. |\n| Bridge | A protocol component used for transferring assets or data between different blockchain networks (L1, L2, or between different L1 networks). |\n| Zksync | Issues related to zkSync. |\n| Replay Attack | An attacker resubmits previously executed valid messages, transactions, or data.  |\n| Solmate | Issues related to Solmate library. |\n| Compound | Issues related to Compound protocol integrations. |\n| Solidity Version | Vulnerabilities caused by specific Solidity compiler versions or optimizer behavior. |\n| EIP4494 | Issues related to EIP-4494 (ERC721 Permit). |\n| TWAP | Covers all design or implementation errors related to obtaining, calculating, verifying, or using time-weighted average price (TWAP) data from an AMM, DEX, or oracle source.This includes incorrect TWAP computation formulas, failure to account for time between observations, use of inadequate observation windows susceptible to manipulation, reliance on spot prices instead of TWAP, handling of negative ticks or rounding errors incorrectly, processing outdated or zero-initialized data, reliance on low-liquidity pools for TWAP resulting in inaccurate or manipulable prices, missing validations on upstream oracle results, or design flaws that lock assets due to overly strict TWAP constraints.Vulnerabilities often lead to exploitable price manipulation, inaccurate valuations, DoS conditions in TWAP update loops, and incorrect automated trading or liquidation decisions. |\n| RCE | Covers all vulnerabilities that allow an attacker to remotely execute arbitrary code or commands on the target system (application server, backend service, node environment, or integrated off-chain component).This includes unsafe deserialization, injection into dynamic code execution functions, improper sandboxing, insecure use of eval or similar interpreters, lack of input sanitization in code compilation paths, and insecure integration with remote modules or plugins.Exploiting an RCE vulnerability enables an attacker to run arbitrary logic within the application's execution environment, potentially leading to complete system compromise, data exfiltration, service disruption, or lateral movement inside the infrastructure.  |\n\n#### Subtag definition\n\nIf two subtags share similar criteria, the system should select only the tag whose scenario provides the closest fit. Select all the subtags that fit the scenario.\n\n| Title | Description |\n|------|-------------|\n| Violating CEI / Missing nonReentrant | Issues related to violation of Checks-Effects-Interactions pattern or missing `nonReentrant` protection. |\n| Missing Approval | Missing `approve()` call before `transferFrom`, causing token transfers to fail. |\n| Inflation Attack | An exploit where a malicious user artificially inflates the asset or share baseline through manipulating initial conditions or specific parameters, resulting in unfair gain and unequal distribution of assets or shares within the system. |\n| Not EIP Compliant | Implementation does not adhere to relevant EIP standards, causing unexpected behavior or vulnerabilities. |\n| Asset Theft | Allows an unauthorized user to illicitly transfer or misappropriate assets from other. |\n| Rounding Error | Issues arising from incorrect rounding direction in numeric operations, causing value misallocation or minor deviations from the protocol’s or standard’s expected behavior. |\n| Invalid Validation | Missing or incorrect verification of inputs or required conditions, allowing operations to proceed without ensuring they meet expected safety or correctness requirements.  |\n| Cannot partial liquidations | Whales (large holders) cannot be liquidated due to specific limitations in the protocol. |\n| Liquidation – Dust repay / front run evade liquidation | Fine-grained errors related to dust repayment during liquidation and front running evasion. |\n| onERC721Received callback | Vulnerabilities associated with the `onERC721Received` callback function. |\n| Price Manipulation / Arbitrage opportunity | Opportunities for price manipulation or arbitrage within the system. |\n| Bypass Mechanism | This refers to flaws in the system's logic design, process control, or condition checks, allowing users or attackers to bypass intended security checks, charging processes, asset restrictions, or risk controls through specific sequences of operations or alternative processes. |\n| Invariant Violation | Breaches of assumed constants or invariants in system logic. |\n| Implementation Error | Implementation Error refers to design, logic, or coding flaws within the smart contract code.  |\n| Does not match with Doc | Contract behavior deviates from its documented specification, comments, or referenced standards, potentially leading to misuse, unexpected behavior, or integration errors.  |\n| Invalid Slippage Control / Missing slippage check | In price-sensitive operations such as swaps or liquidity changes, the contract omits any mechanism to enforce acceptable slippage (e.g., fails to require minOut, maxAmount, or equivalent constraints) where such protection is necessary. This includes cases with no slippage parameter at all or where the check is entirely absent. |\n| No Incentive to Liquidate | Lack of liquidation incentives leads to the generation of bad debts. |\n| Hardcoded Parameter | Important contract parameters, are hardcoded and cannot be dynamically configured, limiting flexibility and adaptability to changing conditions. |\n| minOut set to 0 | Setting minOut to zero disables slippage protection, allowing trades or liquidity operations to execute at any output amount regardless of price impact. This exposes users to unlimited slippage risk and potential severe asset loss.  |\n| Missing deadline | Missing deadline in swaps or other price-sensitive operations, allowing transactions to execute much later and exposing them to excessive price impact and slippage risk. |\n| Self liquidation | Vulnerabilities or issues that allow self liquidation under non-ideal conditions. |\n| Missing minOut / maxAmount | Errors related to missing or improperly set minimum output (minOut) or maximum spend (maxAmount) parameters, which are essential for slippage protection. |\n| Deprecated Library | Usage of outdated or unsupported function libraries, which may lead to operational disruptions or security vulnerabilities. |\n| Out of Gas | Transaction fails due to exceeding the gas limit allocated for its execution. |\n| Stale Value | The system uses outdated or obsolete data, which can be manipulated or exploited by attackers. |\n| Front Run | The act of exploiting transaction ordering to execute a transaction before another, in order to manipulate price, contract state, or system behavior for unfair advantage. |\n| Reward Manipulation | Exploiting weaknesses in a protocol’s reward distribution logic—such as timing, balance tracking, or eligibility checks—to gain more rewards than fairly earned. |\n| Token Decimal | The precision used to define token fractions in smart contracts, where incorrect setting or manipulation can cause calculation errors and transaction inaccuracies. |\n| Incorrect Parameter | A flaw where the value used in a calculation or passed to a function is wrong,  including wrong order, wrong type, or unintended variable reference. This covers both external inputs (function arguments) and internal values (state variables, constants) used in calculations. If the calculation formula itself is correct but a wrong value is used, it is classified as Incorrect Parameter.  |\n| No Recovery Mechanism | Lack of mechanism to recover from failed, frozen, or misconfigured components. |\n| Centralization Risk | Critical functions or system components are controlled by a single party, creating a risk of misuse, censorship, or manipulation. |\n| Precision Loss | Loss of numeric precision due to integer division or insufficient scaling (e.g., result becomes 0). |\n| Scaling | Failure to apply proper unit conversion or scaling factor in arithmetic operations involving tokens with different denominations or expected decimal precision. |\n| Peg / Depeg | Covers all design or implementation errors related to asset peg mechanisms, including improper maintenance of the peg (depeg), return biases, reliance on incorrect sources, or lack of detachment handling. |\n| State Update Inconsistency | State Update Inconsistency occurs when the state of a smart contract is updated in an inconsistent or incorrect manner, leading to discrepancies, inaccuracies, and unintended outcomes in future operations, calculations, or decisions. This may impact various aspects of the contract, such as pricing mechanisms, liquidation processes, or liquidity management, and could result in financial losses or manipulative opportunities.|\n| Duplicate Value | A vulnerability where two or more distinct entities (e.g. assets, records, or users) unintentionally share the same key or identifier (e.g. mapping key, oracle reference), causing one to overwrite or shadow the other. |\n| Arbitrary Add/Remove/Set/Call | The contract allows unauthorized addresses to arbitrarily add/remove/call or set key states or resources, leading to privilege abuse or system anomalies.  |\n| Storage Gap | In upgradeable contracts, to avoid storage slot conflicts and overwrites during upgrades, a fixed-length gap of empty storage space is reserved for future extension of contract state variables. The absence of or incorrect design of the storage gap may lead to state corruption or data overwriting after the upgrade. |\n| Missing Return Check | The return value  is not verified. |\n| Misuse of Dependency | When using external dependencies (libraries, modules, or contracts), failing to correctly reference them according to their security design, version security announcements, or the appropriate usage context can lead to functional anomalies, security risks, or upgrade failures. This includes but is not limited to: using versions of external libraries with known vulnerabilities, incorrectly integrating third-party module interfaces, or neglecting the security initialization processes of dependencies. |\n| Role Takeover | A situation where a user or contract illegitimately gains control over a privileged role by removing, overriding, or replacing the originally designated role holder. |\n| Missing Time Constraint | The contract does not check time-related conditions (such as block.timestamp, deadline, expiry) |\n| Unauthorized Upgrade | Refers to the lack of authorization checks during the contract upgrade process, allowing unauthorized addresses to perform contract upgrade operations. |\n| Missing Initialization | The contract does not properly initialize necessary states (such as permissions, dependencies, parameters), which may lead to the contract being unusable or exhibiting abnormal behavior. |\n| slot0 | The contract directly relies on Uniswap's slot0 (which provides instantaneous price and liquidity data) as its quoting source without applying any time-smoothing mechanisms (such as TWAP). This makes the price highly susceptible to short-term manipulations, for instance through flash loans. |\n| Bad Condition | This refers to errors or omissions in the conditional logic within the code that result in critical state checks, control flow branches, or security mechanisms not being triggered properly. Such errors can lead to severe issues, including loss of funds, permission bypasses, state inconsistencies, or logical corruption. |\n| Unfair Liquidation | This occurs when a user, despite not violating the protocol's rules, is liquidated due to insufficient protective measures or design flaws in the protocol.  |\n| Nonce | The absence or misuse of a nonce mechanism can lead to operations being re-executed, replayed, or subjected to race conditions.  |\n| Fee On Transfer Token | Vulnerability, incompatibility, or oversight arises due to the behavior of fee-on-transfer tokens — tokens that deduct a fee during transfers, causing the received amount to be less than the sent amount. |\n| payable / receive() | Improper design of payable or receive() / fallback() functions leading to issues in fund reception, control, or logic. |\n| Rebase Token | Covers security or accounting issues arising from the use or integration of Rebase Tokens, which have dynamic supply adjustment mechanisms. |\n| Whale | Involves situations where a single or a few addresses hold large amounts of assets, leading to asymmetric risks such as market manipulation, concentrated governance, unusual liquidations, and distorted rewards within the protocol. |\n| ERC777 Callback | When interacting with ERC777 tokens, misuse of callbacks can lead to external contracts controlling states unexpectedly, causing security risks or business logic errors. |\n| EVM Compatibility | The contract design or protocol assumes certain EVM behaviors (such as gas model, opcode support, call patterns, address format, precompile availability, etc.) are consistent across all chains. However, differences in these behaviors on various EVM-compatible chains or Layer 2 solutions can lead to logic errors, functionality failures, or security vulnerabilities. |\n| Case Sensitive | The comparison logic for user input, addresses, function names, or identifiers is case-sensitive, leading to behavior that does not match expectations. |\n| Execution Order Dependency | Protocol logic relies on a specific transaction order or execution timing.This can lead to issues such as repeated execution, asset loss, or state errors. |\n| Cross-Function Reentrancy | Cross-Function Reentrancy  refers to a scenario where a contract makes an external call during the execution of a function and is vulnerable to an attacker reentering through a different entry function upon the external call’s return. This can cause unsynchronized state reads, writes, or asset manipulations, leading to logic errors or security vulnerabilities. |\n| Missing Functionality |  Lacks necessary functionalities or is missing functions to implement specific features. |\n| Refund Failed | When a protocol sends or returns assets, the operation may fail if the recipient is blacklisted or if the callback or receiving function revert. |\n| Diamond | Issues related to the EIP-2535 Diamond standard or similar multi-facet, multi-delegate proxy architectures. |\n| Cannot Revoke | When a system or contract allows a function, module, role, or permission to be enabled or granted, but does not provide a corresponding mechanism for safe revocation or deactivation. This leads to a situation where users or contracts cannot revoke, disable, or reclaim the function or permission, even if it is no longer safe or needs to be disabled. |\n| Typo | Typographical errors in the source code or configuration. |\n| safeApprove | Unsafe safeApprove |\n| Missing Upper/Lower Bound Check | A vulnerability caused when smart contracts accept numeric inputs, token allowances, or other adjustable parameters without enforcing minimum or maximum limits. This allows unexpected or extreme values that can break contract logic, bypass intended constraints, or create financial loss. |\n| Unsafe Downcast | Larger integer type (e.g., uint256) is cast to a smaller type (e.g., uint128, uint64, uint32) without validation.  |\n| 1/64 Gas Rule | Caused by the EIP-150 gas forwarding rule, where only 63/64 of the remaining gas is forwarded in CALL, DELEGATECALL, STATICCALL, or CALLCODE. If the callee requires all remaining gas, the call may fail unexpectedly. |\n| Block Time / Block Number | The use of block.timestamp and block.number across different chains. |\n| Incorrect Formula | The protocol uses incorrect formulas or operator when calculating amounts, ratios, rewards, collateral rates, or other key economic variables, resulting in outcomes that do not align with expectations or design specifications. |"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        208,
+        64
+      ],
+      "id": "9fe92f4e-3475-4329-af25-e22bfa033551",
+      "name": "COT - Pause - Inaccessible pause/unpause",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "\"\"\"\nSplit bundled Solidity code into base contract and imported contracts.\n\nInput: item.json[\"chatInput\"] (bundled contract source with \"====== Code imported from: ... ======\" sections).\nOutput: one item per input item; each item's json is extended with:\n  - base_contract: str (the first contract, before any \"Code imported from\" section)\n  - imported_contracts: list of {\"source_path\": str, \"code\": str} for each imported block\n\"\"\"\n\nIMPORTED_DELIMITER = \"====== Code imported from: \"\nIMPORTED_END_MARKER = \" ======\"\n\n\ndef split_bundled_contract(bundled):\n    base_contract = \"\"\n    imported_contracts = []\n\n    if not bundled or not isinstance(bundled, str):\n        return {\"base_contract\": base_contract, \"imported_contracts\": imported_contracts}\n\n    parts = bundled.split(IMPORTED_DELIMITER)\n    base_contract = (parts[0].strip() if parts else \"\")\n\n    for i in range(1, len(parts)):\n        block = parts[i]\n        # block is like \"dataset/.../file.sol =======\\npragma...\"\n        idx = block.find(IMPORTED_END_MARKER)\n        if idx == -1:\n            source_path = block.strip()\n            code = \"\"\n        else:\n            source_path = block[:idx].strip()\n            code = block[idx + len(IMPORTED_END_MARKER):].strip()\n        imported_contracts.append({\"source_path\": source_path, \"code\": code})\n\n    return {\"base_contract\": base_contract, \"imported_contracts\": imported_contracts}\n\n\noutput_items = []\n\nfor item in _input.all():\n    code_snippet = item.json.get(\"chatInput\", \"\")\n    result = split_bundled_contract(code_snippet)\n\n    out = dict(item.json)\n    out[\"base_contract\"] = result[\"base_contract\"]\n    out[\"imported_contracts\"] = result[\"imported_contracts\"]\n    output_items.append({\"json\": out})\n\nreturn output_items"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -528,
+        272
+      ],
+      "id": "cc950af0-67ec-43cc-b51b-5adb3944f55b",
+      "name": "split bundle"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "\"\"\"\nCheck if the BASE contract (only) both:\n1) imports OpenZeppelin Pausable/PausableUpgradeable, AND\n2) directly inherits Pausable/PausableUpgradeable.\n\nInput: item.json[\"base_contract\"] (base contract source ONLY).\nOutput: list of items (or trimmed items) that match.\n\"\"\"\n\nimport re\n\nREGEX_OZ_PATH = re.compile(r\"@openzeppelin|openzeppelin-contracts|openzeppelin/contracts\", re.IGNORECASE)\nREGEX_IMPORT_STMT = re.compile(\n    r\"\"\"import\\s+(?:\\{[^}]*\\}\\s+from\\s+)?[\"']([^\"']+)[\"']\\s*;\"\"\",\n    re.IGNORECASE,\n)\nREGEX_PAUSABLE_NAME = re.compile(r\"\\bPausable(?:Upgradeable)?\\b\")\nREGEX_CONTRACT_IS = re.compile(r\"contract\\s+\\w+\\s+is\\s+([^{]+)\\{\", re.DOTALL)\n\n\ndef check_base_contract_oz_pausable_import_and_direct_inherit(source: str):\n    \"\"\"\n    Returns:\n      {\n        \"has_oz_pausable_import\": bool,\n        \"direct_inherits\": bool,\n        \"types\": [\"Pausable\"|\"PausableUpgradeable\"...],\n        \"import_lines\": [...],\n        \"inherit_lines\": [...]\n      }\n    \"\"\"\n    if not source or not isinstance(source, str):\n        return {\n            \"has_oz_pausable_import\": False,\n            \"direct_inherits\": False,\n            \"types\": [],\n            \"import_lines\": [],\n            \"inherit_lines\": [],\n        }\n\n    result = {\n        \"has_oz_pausable_import\": False,\n        \"direct_inherits\": False,\n        \"types\": [],\n        \"import_lines\": [],\n        \"inherit_lines\": [],\n    }\n    seen = set()\n\n    # 1) Import check\n    # We consider it a hit if an import statement references OZ + contains Pausable name\n    for m in REGEX_IMPORT_STMT.finditer(source):\n        full_stmt = m.group(0).strip()\n        path = (m.group(1) or \"\").strip()\n\n        if not REGEX_OZ_PATH.search(path) and not REGEX_OZ_PATH.search(full_stmt):\n            continue\n\n        if not REGEX_PAUSABLE_NAME.search(full_stmt) and not REGEX_PAUSABLE_NAME.search(path):\n            continue\n\n        result[\"has_oz_pausable_import\"] = True\n        result[\"import_lines\"].append(full_stmt[:200].replace(\"\\n\", \" \"))\n\n        for t in REGEX_PAUSABLE_NAME.finditer(full_stmt + \" \" + path):\n            name = t.group(0)\n            if name not in seen:\n                seen.add(name)\n                result[\"types\"].append(name)\n\n    # 2) Direct inheritance check\n    for m in REGEX_CONTRACT_IS.finditer(source):\n        inheritance_list = m.group(1)\n        hits = [x.group(0) for x in REGEX_PAUSABLE_NAME.finditer(inheritance_list)]\n        if not hits:\n            continue\n\n        result[\"direct_inherits\"] = True\n        result[\"inherit_lines\"].append(inheritance_list.strip().replace(\"\\n\", \" \")[:200])\n\n        for name in hits:\n            if name not in seen:\n                seen.add(name)\n                result[\"types\"].append(name)\n\n    return result\n\n\noutput_items = []\n\nfor item in _input.all():\n    base_contract = item.json.get(\"base_contract\", \"\")\n    check = check_base_contract_oz_pausable_import_and_direct_inherit(base_contract)\n\n    if check[\"has_oz_pausable_import\"] and check[\"direct_inherits\"]:\n        output_items.append({\"json\": {\"base_contract\": base_contract}})\n        # output_items.append(item)\nreturn output_items"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -272,
+        144
+      ],
+      "id": "68a83d4b-213c-47f8-901b-e179c17f9610",
+      "name": "Direct Pausable Inheritance Check"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3f9865ba-7aea-4b90-9f36-0087aa8b8a72",
+              "leftValue": "={{ $json }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -96,
+        368
+      ],
+      "id": "a6da6c3d-21fc-4729-898e-c8453fe2c0e2",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "output_items = []\n\nfor item in _input.all():\n    base_contract = item.json.get(\"base_contract\", \"\")\n    if isinstance(base_contract, str) and \"pause\" in base_contract.lower():\n        # output_items.append(item)\n        output_items.append({\n            \"json\": {\n                \"base_contract\": base_contract,\n                \"imported_contracts\": item.json.get(\"imported_contracts\", [])\n            }\n        })\n\nreturn output_items"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -272,
+        368
+      ],
+      "id": "e8146d32-d6d4-444a-a12c-86d96631c66d",
+      "name": "Navie pause-related check"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ \n  \"## Base contract\\n\\n\" + $json.base_contract + \n  \"\\n\\n## Imported contracts\\n\\n\" + ($json.imported_contracts || []).map(c =>\n  \"=== \" + c.source_path + \" ===\\n\" + c.code\n).join(\"\\n\\n\")\n}}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=## Overview\n\nYou are a smart contract security auditor. After reading the following knowledge about Pause vulnerability, follow the thinking process to detect the problem in the contract source code. You will focus on the specific vulnerability - Pause - Bypass Mechanism/State Update Inconsistency\n\n### Vulnerability Knowledge\n\nA pause mechanism exists to freeze critical behaviors during emergencies (exploit, extreme market, regulatory pause). A Pause vulnerability occurs when:\n\n1.\tCritical functions remain callable while paused\n• Any path that can move funds, change user positions, mint/burn shares, liquidate/deleverage, rebalance/harvest, or update sensitive state (oracle/TWAP/TWAV, accounting checkpoints) must be properly gated.\n2.\tPause can be bypassed via alternate entrypoints\n• Even if a “main” contract is protected, users might reach the same effect through a module/NFT/token wrapper/adapter contract that fails to check the same pause state.\n3.\tPartial / inconsistent pause flags\n• Custom “enabled/disabled” flags or per-vault/per-market pause states are checked in some flows but omitted in others.\n\n## Scope restriction (critical)\n\n(A) User-reachable only\n\nYou must ONLY report Pause vulnerabilities where the problematic function/path is user-reachable.\n•\tIf a function has a role check (e.g., onlyRole-style modifier), you should conclude that it is not user-reachable and do not report it, even if it is missing pause gating.\n\n(B) Base-contract-only findings (imports are reference-only)\n•\tThe input contains one base contract plus imported contracts.\n•\tYou must ONLY report vulnerabilities located in the base contract.\n•\tImported contracts are reference-only:\n\t•\tYou may read imported contracts only after you identify a suspicious pattern in the base contract and need extra context (e.g., modifier semantics, caller reachability, bypass confirmation).\n\t•\tDo not proactively scan imported contracts for issues.\n\t•\tDo not report findings whose missing check / buggy logic is located in an imported contract.\n•\tYour code_snippet MUST be in the format <BaseContractName>.<FunctionName> where the missing/incorrect pause logic resides.\n•\tIf you cannot confirm reachability/intent using the imported contracts, default to [] (avoid assumptions).\n\n## Thinking Process\n\nStep 1 — Identify the pause mechanism(s) (base first)\n1. Locate any pause state and its guards. Examples:\n•\tOZ Pausable: paused(), whenNotPaused, whenPaused, _pause(), _unpause()\n•\tCustom flags/modifiers: isPaused, pause, unpaused(p), ENABLED, ProtocolState, isActive, onlyWhenEnabled, etc.\n•\tCentral controller pauses: Hub / Config / Registry / VaultFactory storing pause state used by others.\n2.\tIdentify privilege model:\n•\tonlyOwner, onlyAdmin, onlyGuardian, onlyGov, onlyRole, keeper modifiers, etc.\nRecord:\n•\tWhere pause state is stored (contract + variable/function)\n•\tWhich modifiers/checks are used\n•\tWhether pause is global or scoped (per vault/market/module)\n\n(Only if the base contract shows a candidate Pause issue and you need more information, then consult imported contracts to interpret modifier bodies or pause sources.)\n\nStep 2 — Determine “user-reachable” entrypoints (STRICT, base first; imports only if needed))\nFor each external/public function in the base contract:, classify User-reachable using only provable code facts.\n\nClassify User-reachable = No if:\n•\tThere is a role check: onlyOwner/onlyRole/onlyGovernance/onlyAdmin-style modifier, or equivalent require(msg.sender==...)\n•\tNo callable via another user-reachable function (indirect path)\n•\tNo External wrapper reachability: token/NFT/module/executor exposes a callable function that triggers protocol-critical effects.\n\nNote: Don't assume user has any role (e.g., minter).\n\nStep 3 — Filter to user-reachable functions only\nFrom this point onward:\n•\tIgnore all non-user-reachable functions completely.\n•\tDo not flag missing pause gating on privileged-only functions.\n\nStep 4 — Among user-reachable functions, identify “critical effects”\nA user-reachable function is in-scope only if it can:\n•\tFund movement: transfer, withdraw, redeem, repay with transfers, unwrap, send ETH, safeTransferFrom\n•\tPosition/state change: borrow/lend, deposit/mint, withdraw/redeem shares, reduce position, liquidation, deleverage\n•\tRebalance/harvest\n•\tSensitive updates: TWAP/TWAV/oracle updates, checkpoints, indices, price observations, state that affects later redemption\n\nStep 4 — Infer intended pause mode purely from code (no comments)\nFor each function, infer whether it should require unpaused, should require paused, or is unaffected, using code-only signals.\n\n4A) Infer “pause intent” of a functional area by enforcement patterns\nWithin a contract/module, find clusters of related functions by:\n•\tshared internal sinks (_withdraw, _redeem, _liquidate, _rebalance, _updateOracle)\n•\tshared state variables (vault position mappings, share supply, debt records)\n•\tshared external interactions (same token, same pool, same vault)\n\nThen observe existing gating patterns:\n•\tIf most user-facing functions that change a given state are whenNotPaused (or check !paused), infer that the entire state-changing area is intended to be blocked when paused.\n•\tIf some privileged functions are explicitly whenPaused, infer that those are emergency-only operations.\n•\tIf the protocol uses a per-market/vault ENABLED / isActive guard consistently, infer it is part of pause/disable semantics for that area.\n\n4B) Decide intended mode per function\nChoose exactly one:\n\nMode A — Must require unpaused (blocked when paused) if:\n•\tuser-reachable AND critical, AND\n•\tfunction touches the same sinks/state as other functions that are unpaused-gated, OR\n•\tfunction performs the same class of operations that are commonly paused in the codebase (withdraw/redeem/borrow/liquidate), AND there is a pause mechanism present.\n\nMode B — Must require paused (only during pause) if:\n•\tfunction is privileged-only AND\n•\tit is part of a “recovery / emergency control” cluster as evidenced by code, e.g.:\n•\tit is callable only by admin/guardian AND\n•\tit alters frozen user states in a way that implies emergency override (forced unwind, special execution path, rescue flows) AND\n•\tthere exists at least one other function in the system explicitly gated by whenPaused or a paused == true check (strong signal that “paused-only” mode is used)\n\nIf there is no code evidence that “paused-only” mode is a thing (no whenPaused usage anywhere), then do not assume a function must be paused-only; instead classify it as Mode C unless it clearly violates freeze semantics.\n\nMode C — Unaffected by pause if:\n•\tnon-critical, OR\n•\tprivileged-only operational function that does not move funds / change positions / change sensitive accounting, AND\n•\tit cannot be composed into a bypass path for user operations.\n\nStep 5 — Check correctness of implementation vs inferred intent\n•\tIf Mode A (require unpaused):\n•\tverify presence of whenNotPaused or equivalent check against the correct pause source/scope.\n•\tflag if missing, or checking wrong scope (e.g., checks a different vault’s flag), or check is after effects.\n•\tIf Mode B (require paused):\n•\tverify whenPaused or equivalent require(paused) check.\n•\tflag if missing (only privilege gating is not enough if the system already expresses paused-only semantics elsewhere).\n•\tIf Mode C (unaffected):\n•\tconfirm no bypass risk: it must not call critical sinks that user actions can also reach.\n\nStep 6 — Bypass analysis (cross-contract / alternate entrypoints)\nFor every critical sink that is intended to be blocked when paused:\n•\tensure all user-reachable external/public paths reaching that sink are unpaused-gated.\n•\tcheck token/NFT/module contracts for user-callable functions that reach the same effect without pause checks.\n•\tcheck overloaded entrypoints (withdraw, redeem, exit, close, reduce, burn, claim) for inconsistent gating.\n\nIf a bypass exists, classify as Pause / Bypass Mechanism.\n\nStep 7 — Decide severity (rule of thumb)\n•\tHigh: funds can leave protocol / positions can be reduced / withdrawals or redeems possible while paused; or pause can be bypassed to steal funds during emergency.\n•\tMedium: significant state changes possible (rebalance/harvest/fee minting/liquidations) while paused; could worsen losses or break guarantees.\n•\tLow: non-fund-moving state changes (e.g., some bookkeeping) but still violates pause expectations or creates operational risk.\n\n### Output Format\n\nIf the input is not a cryptocurrency smart contracts, report with a empty array:\n\n[]\n\nIf the conclusion of a function is “No vulnerability”, report with a empty array:\n\n[]\n\nIf vulnerabilities found in a function, report with a json:\n\n[     {         \"tag\":  \"Main vulnerability category\",         \"subtag\": \"Specific vulnerability subtype\",         \"severity\": \"Severity level of the vulnerability\"         \"description\": \"Detailed description of the vulnerability\"         \"code_snippet: \"MUST be in the format: <ContractName>.<FunctionName>\"     } ]\n\n#### Tag definition\n\nVulnerability, incompatibility, or oversight arises due to the behavior of fee-on-transfer tokens — tokens that deduct a fee during transfers, causing the received amount to be less than the sent amount.#### Tag definition\n\nIf two tags share similar criteria, the system should select only the tag whose scenario provides the closest fit. Select all the tags that fit the scenario\n\n| Title | Description |\n|------|-------------|\n| DAO | Security vulnerabilities related to governance logic, permission control, voting mechanisms, member management, or cross-chain governance information verification in Decentralized Autonomous Organizations (DAOs). |\n| DoS | When there are flaws in the logic of a contract or protocol, it can lead to certain operations (such as deposits, withdrawals, transfers, proposals, liquidations, etc.) being unable to execute successfully for an extended period or permanently, which constitutes a type of Denial of Service (DoS) vulnerability.Such issues prevent the affected functionalities from being restored under unchanged contract states and hinder legitimate users from performing expected actions, often resulting in locked funds/assets, governance standoffs, or disruptions to business processes. |\n| Flashloan | When a protocol relies on instantaneous states (such as spot prices, real-time asset ratios, or current voting rights) to calculate yields, voting rights, minting limits, and liquidity operations without implementing time-weighted mechanisms or stabilization constraints, it allows attackers to temporarily dominate the system's ratios through flash loans or large capital within a single transaction or a few blocks. This manipulation can skew calculation results, enabling them to gain undue benefits or manipulate governance outcomes before the state is restored.|\n| Oracle | When a protocol obtains data from on-chain or off-chain external price sources, any flaws in the selection of data sources, update frequency, verification methods, scaling conversions, or calculation methods can lead to distorted, outdated, manipulated, or unusable prices. This, in turn, can affect critical functions such as trade matching, collateral liquidation, asset valuation, and minting/redeeming processes, which constitutes such vulnerabilities. |\n| Logic error | When there are logical errors in the implementation of a protocol that do not conform to the expected design or specification, such as issues with conditional statements, loop logic, index boundaries, variable update order, cross-module state synchronization, and special case handling, resulting in incorrect fund calculations, inaccurate balances/shares, incorrect states, or the inability to execute functions correctly, these are considered vulnerabilities of this type. |\n| Reentrancy | When a contract updates critical states before implementing a locking mechanism (such as nonReentrant or the Checks-Effects-Interactions pattern) and executes external calls (like transfer, call, safeTransferFrom, ERC777/1155 callbacks, etc.), it may allow malicious contracts (or token standards with hooks) to re-enter the original contract's functions or other related functions during the external call. This can lead to repeated execution of business logic, circumvention of condition checks, or state alteration for the purpose of stealing assets or manipulating processes, which constitutes such vulnerabilities. |\n| Access Control | The lack of proper authentication, authorization checks, or controls for key functions can result in unauthorized users being able to perform operations that should only be executable by specific roles (such as owner, admin, governance, etc.). Additionally, defects in authorization revocation, role transfer, or state-checking logic can lead to ongoing privilege leaks, which may ultimately be exploited to steal assets, compromise system configurations, or permanently lock funds. |\n| Liquidation | When there are design flaws in the liquidation process of lending or collateral contracts, including errors in triggering conditions, authorization checks, incentive mechanisms, calculation logic, and asset transfer steps this can result in defaults or under-collateralized positions not being liquidated as expected, being over-liquidated, or liquidators taking advantage of logical errors to steal assets or harm the interests of other users. |\n| Slippage | When a contract performs operations that require interaction with external prices, such as executing trades, exchanging tokens, adding or removing liquidity, and minting/redeeming assets it may lack mechanisms like minimum acceptable output (minOut), maximum acceptable prices, market volatility/slippage protection, and deadline checks. This can lead to users experiencing slippage beyond their expectations during transactions and suffering losses due to price manipulation or Miner Extractable Value (MEV) attacks (such as front-running or sandwich attacks).|\n| ERC4626 | When an asset pool (Vault) based on the ERC-4626 standard is implemented without adhering to the specifications for design and mathematical handling, such as method behaviors, boundary conditions, rounding direction, and consistency between return values and states or if there are vulnerabilities in the economic design like initial deposit manipulation or share inflation attacks, this can result in the Vault being incompatible with other protocols, incorrect calculations of user assets, or malicious damage to the system. |\n| Input Validation | When a contract lacks proper input parameter checks, asset/authority ownership verification, state validity checks, or invariants verification during the handling of critical processes (such as transactions, liquidations, governance, fund transfers, asset minting/burning, etc.), it may allow malicious or improper inputs to bypass intended restrictions. This can lead to asset theft, logical inconsistencies, irreversible system failures, or the compromise of the protocol. |\n| Bad Randomness | When a contract relies on randomness to determine outcomes (such as selecting a tokenId, choosing a winner, validators, conducting lottery draws, or sorting), flaws in the generation or usage patterns of random numbers, such as using predictable or manipulatable on-chain variables (like block information, timestamps, or miner-controllable values), allowing users to control the seed, lacking verification of result submissions, or having issues with re-draw/re-use can enable attackers or privileged roles to bias or select specific outcomes, thereby undermining fairness. |\n| Chainlink | When a contract relies on Chainlink oracles as a source for prices or randomness but utilizes outdated APIs, lacks necessary data validity checks (such as update times, round completeness, or min/max boundaries), is missing protective or fallback mechanisms, or uses incorrect feeds, it can result in the oracle returning values that may be outdated, erroneous, or manipulatable. |\n| Arithmetic | When there are flaws in the mathematical calculation logic of a contract, including issues such as overflow/underflow, division by zero, unsafe type conversions, incorrect precision scaling, rounding direction errors, and deviations from the intended design rules in computation formulas, it can lead to abnormal numerical results, incorrect asset calculations, and errors in incentives or penalties. |\n| Re-org Attack | A vulnerability that arises when smart contract logic assumes finality or determinism in block ordering, making it exploitable via chain reorganizations that reorder or replace recent blocks. |\n| Pause | When a contract provides mechanisms to pause system functionalities (such as Pausable, whenPaused, or whenNotPaused modifiers), flaws in the logic design or usage, such as allowing disallowed operations to be executed while in a paused state, failing to include pause checks in necessary functions, enabling circumvention of pause restrictions, or permanently locking the system can lead to an irrecoverable contract state or allow privileged roles to perform unauthorized actions. |\n| Accounting Error | When a protocol tracks, calculates, or synchronizes assets, discrepancies can arise between state records and actual asset changes, or the true behavior of assets may be overlooked in the numerical calculation logic. For example, the internal records may not synchronize with actual balances (due to state delays or missed updates), assumptions about asset quantities may be invalid (such as assuming that the amount transferred always equals the requested amount), and there may be systematic errors in calculation formulas. This can lead to discrepancies in shares, fees, rewards, and entitlement distributions. Additionally, cross-module or cross-asset records or calculations may not be consistently updated, resulting in duplicate calculations or omissions. |\n| MEV | The act of maximizing the extraction of economic value within a blockchain system by manipulating the ordering of transactions, front-running transactions, or reordering transactions within a block. This typically results in losses for users or unfair distribution of system resources. |\n| Upgradeable | When a contract is designed to be upgradeable (through proxy patterns, module replacements, etc.), but there are flaws in the upgrade logic, initialization processes, state storage consistency, upgrade permission protections, or compatibility of old states after an upgrade, it may allow unauthorized upgrades, initialization oversights, or other related vulnerabilities. |\n| ERC20 | When a contract interacts with ERC20 tokens, it may operate under erroneous assumptions about ERC20 behaviors, lack checks for return values, or fail to properly handle special token behaviors (such as fee-on-transfer, rebasing, non-standard return values, and unique approve rules). This can lead to unexpected results or vulnerabilities in the contract's functionality. |\n| call / delegatecall | When a protocol uses low-level Solidity calls (such as call(), delegatecall(), staticcall(), or inline Yul call instructions) for transfers or cross-contract interactions, if it does not check whether the return values indicate success and instead directly updates the state or assumes the operation has completed, it may lead to situations where the operation was not actually executed but is treated as successful. |\n| Uniswap | When integrating with Uniswap V2 / V3 / V4 , there are implementation errors or missing safeguards in core areas such as price calculation, path encoding, initialization constants, liquidity ratio calculation, and output validation. These issues lead to distorted or manipulable pricing bases (e.g., incorrect TWAP calculation, reliance on easily manipulated spot prices), corrupted trade path encoding (e.g., incorrect reversal of path bytes), incorrect initialization hash constants causing pair location failures, mistaken liquidity ratio and asset boundary assumptions (e.g., treating the entire pool as protocol assets, inaccurate share calculations, dust accumulation), and missing minimum-value checks on AMM operation min output values, which allow outputs that are not as expect. |\n| Cross-Chain | When a protocol designs or implements features such as cross-chain asset bridges, cross-chain messaging / proposal execution, or cross-chain governance, there may be defects in asset verification, message verification, inter-chain format compatibility, and state synchronization/rollback mechanisms. These issues can allow unsupported or unauthorized asset/address types to enter the cross-chain process; prevent assets from being automatically returned or rolled back after a cross-chain message fails on the target chain; and cause misinterpretation or asset loss due to differences in asset formats, decimal precision, or address formats between chains. They may also lead to unsynchronized state updates between source and target chains or malicious replay, resulting in unintended operations across chains, as well as a lack of permission checks or chain ID validation in cross-chain operations. |\n| ERC777 | When a contract executes an asset transfer that triggers an external ERC777 contract callback the tokensReceived() / tokensToSend() hook and performs sensitive asset calculations or state updates before the callback occurs (violating the Checks‑Effects‑Interactions pattern), or uses a revert that causes a DoS. |\n| Governance | In the logic for voting power calculation, threshold checks, snapshots, proposal processes, and member management, there are design flaws or missing validations that allow voting power to be temporarily manipulated (via flash loans or instant token acquisition/disposal), proposal processes to be bypassed or repeatedly triggered, valid proposals to be cancelled, threshold or ratio calculations to be incorrect so that insufficiently supported proposals can pass, and inconsistencies in member management where removed members can rejoin or retain privileges. Governance parameters or conditions can also be altered midway through voting, directly affecting the outcome, ultimately resulting in governance manipulation and even malicious fund extraction. |\n| Multisig | When a contract implements a multi-signature mechanism (Multi-signature wallet / multi-signature governance module) to authorize transactions or perform sensitive operations, flaws in signature verification, threshold counting, proposal execution process, and member management can allow unauthorized transactions to be executed, or enable bypassing of the authorization threshold, as well as errors in signature counting/threshold logic. |\n| Rebalance | When a protocol performs asset rebalancing or position redistribution operations to adjust the ratios of different assets or pools, design or validation flaws in processes such as calculation formulas, price dependencies, asset transfers, and state updates can result in incorrect rebalancing ratios, leading to asset allocation imbalances, share mismatches, and failure to properly synchronize state variables (e.g., pool balances, asset weights). This can cause subsequent logic errors or lock funds. Missing boundary checks may also allow a malicious user to exploit the rebalancing process to seize assets. |\n| ERC1155 | When a contract implements or extends the EIP‑1155 multi‑token standard and its business logic, flaws in standard behavior compliance, callback handling, supply and enumeration maintenance, and leasing/business validations may occur. These issues can lead to function behaviors that do not comply with the EIP‑1155 specification, breaking interoperability with other protocols, supply or token index miscalculations that cause data inconsistencies or asset mismatches, and the onERC1155Received callback being triggered or used at the wrong time. Such flaws can be exploited by attackers to perform reentrancy attacks or disrupt business processes.  |\n| XSS Attack | Refers to a vulnerability in a contract or Web3 application where improper filtering, encoding, or validation of external inputs allows an attacker to inject and execute malicious JavaScript code.  |\n| ERC721 | When a contract implements or extends the EIP‑721 NFT standard, flaws in standard compliance, tokenId generation and management, transfer/approval logic, callback security handling, and asset protection can occur. These issues can damage interoperability and composability with other protocols (by violating standard behaviors), allow malicious reentrancy, asset theft, or blocking (DoS), cause tokenId duplication or incorrect ownership records leading to asset mismatches, and result in insufficient business safeguards that let assets be burned, hijacked, or permanently locked. |\n| Gnosis safe | When an extension module (Guard, Extension, Handler) based on Gnosis Safe or other Safe‑like multi‑signature/smart wallets lacks necessary authorization checks, security validation, or state management in processes such as enabling, configuring, disabling, or parameter validation. |\n| Opensea | Issues related to Opensea integrations. |\n| EIP712 | When a contract’s signature verification or EIP‑712 typed data parsing process contains flaws such as incorrect encoding methods, mismatched hashing order, missing required fields, or insufficient nonce/replay protection, it can cause valid standard‑compliant signatures to fail verification (legitimate calls reverting), allow invalid or replayed signatures to pass verification, and enable attackers to reuse a signature across transactions or functions to repeatedly execute sensitive operations. |\n| Bridge | A protocol component used for transferring assets or data between different blockchain networks (L1, L2, or between different L1 networks). |\n| Zksync | Issues related to zkSync. |\n| Replay Attack | An attacker resubmits previously executed valid messages, transactions, or data.  |\n| Solmate | Issues related to Solmate library. |\n| Compound | Issues related to Compound protocol integrations. |\n| Solidity Version | Vulnerabilities caused by specific Solidity compiler versions or optimizer behavior. |\n| EIP4494 | Issues related to EIP-4494 (ERC721 Permit). |\n| TWAP | Covers all design or implementation errors related to obtaining, calculating, verifying, or using time-weighted average price (TWAP) data from an AMM, DEX, or oracle source.This includes incorrect TWAP computation formulas, failure to account for time between observations, use of inadequate observation windows susceptible to manipulation, reliance on spot prices instead of TWAP, handling of negative ticks or rounding errors incorrectly, processing outdated or zero-initialized data, reliance on low-liquidity pools for TWAP resulting in inaccurate or manipulable prices, missing validations on upstream oracle results, or design flaws that lock assets due to overly strict TWAP constraints.Vulnerabilities often lead to exploitable price manipulation, inaccurate valuations, DoS conditions in TWAP update loops, and incorrect automated trading or liquidation decisions. |\n| RCE | Covers all vulnerabilities that allow an attacker to remotely execute arbitrary code or commands on the target system (application server, backend service, node environment, or integrated off-chain component).This includes unsafe deserialization, injection into dynamic code execution functions, improper sandboxing, insecure use of eval or similar interpreters, lack of input sanitization in code compilation paths, and insecure integration with remote modules or plugins.Exploiting an RCE vulnerability enables an attacker to run arbitrary logic within the application's execution environment, potentially leading to complete system compromise, data exfiltration, service disruption, or lateral movement inside the infrastructure.  |\n\n#### Subtag definition\n\nIf two subtags share similar criteria, the system should select only the tag whose scenario provides the closest fit. Select all the subtags that fit the scenario.\n\n| Title | Description |\n|------|-------------|\n| Violating CEI / Missing nonReentrant | Issues related to violation of Checks-Effects-Interactions pattern or missing nonReentrant protection. |\n| Missing Approval | Missing approve() call before transferFrom, causing token transfers to fail. |\n| Inflation Attack | An exploit where a malicious user artificially inflates the asset or share baseline through manipulating initial conditions or specific parameters, resulting in unfair gain and unequal distribution of assets or shares within the system. |\n| Not EIP Compliant | Implementation does not adhere to relevant EIP standards, causing unexpected behavior or vulnerabilities. |\n| Asset Theft | Allows an unauthorized user to illicitly transfer or misappropriate assets from other. |\n| Rounding Error | Issues arising from incorrect rounding direction in numeric operations, causing value misallocation or minor deviations from the protocol’s or standard’s expected behavior. |\n| Invalid Validation | Missing or incorrect verification of inputs or required conditions, allowing operations to proceed without ensuring they meet expected safety or correctness requirements.  |\n| Cannot partial liquidations | Whales (large holders) cannot be liquidated due to specific limitations in the protocol. |\n| Liquidation – Dust repay / front run evade liquidation | Fine-grained errors related to dust repayment during liquidation and front running evasion. |\n| onERC721Received callback | Vulnerabilities associated with the onERC721Received callback function. |\n| Price Manipulation / Arbitrage opportunity | Opportunities for price manipulation or arbitrage within the system. |\n| Bypass Mechanism | This refers to flaws in the system's logic design, process control, or condition checks, allowing users or attackers to bypass intended security checks, charging processes, asset restrictions, or risk controls through specific sequences of operations or alternative processes. |\n| Invariant Violation | Breaches of assumed constants or invariants in system logic. |\n| Implementation Error | Implementation Error refers to design, logic, or coding flaws within the smart contract code.  |\n| Does not match with Doc | Contract behavior deviates from its documented specification, comments, or referenced standards, potentially leading to misuse, unexpected behavior, or integration errors.  |\n| Invalid Slippage Control / Missing slippage check | In price-sensitive operations such as swaps or liquidity changes, the contract omits any mechanism to enforce acceptable slippage (e.g., fails to require minOut, maxAmount, or equivalent constraints) where such protection is necessary. This includes cases with no slippage parameter at all or where the check is entirely absent. |\n| No Incentive to Liquidate | Lack of liquidation incentives leads to the generation of bad debts. |\n| Hardcoded Parameter | Important contract parameters, are hardcoded and cannot be dynamically configured, limiting flexibility and adaptability to changing conditions. |\n| minOut set to 0 | Setting minOut to zero disables slippage protection, allowing trades or liquidity operations to execute at any output amount regardless of price impact. This exposes users to unlimited slippage risk and potential severe asset loss.  |\n| Missing deadline | Missing deadline in swaps or other price-sensitive operations, allowing transactions to execute much later and exposing them to excessive price impact and slippage risk. |\n| Self liquidation | Vulnerabilities or issues that allow self liquidation under non-ideal conditions. |\n| Missing minOut / maxAmount | Errors related to missing or improperly set minimum output (minOut) or maximum spend (maxAmount) parameters, which are essential for slippage protection. |\n| Deprecated Library | Usage of outdated or unsupported function libraries, which may lead to operational disruptions or security vulnerabilities. |\n| Out of Gas | Transaction fails due to exceeding the gas limit allocated for its execution. |\n| Stale Value | The system uses outdated or obsolete data, which can be manipulated or exploited by attackers. |\n| Front Run | The act of exploiting transaction ordering to execute a transaction before another, in order to manipulate price, contract state, or system behavior for unfair advantage. |\n| Reward Manipulation | Exploiting weaknesses in a protocol’s reward distribution logic—such as timing, balance tracking, or eligibility checks—to gain more rewards than fairly earned. |\n| Token Decimal | The precision used to define token fractions in smart contracts, where incorrect setting or manipulation can cause calculation errors and transaction inaccuracies. |\n| Incorrect Parameter | A flaw where the value used in a calculation or passed to a function is wrong,  including wrong order, wrong type, or unintended variable reference. This covers both external inputs (function arguments) and internal values (state variables, constants) used in calculations. If the calculation formula itself is correct but a wrong value is used, it is classified as Incorrect Parameter.  |\n| No Recovery Mechanism | Lack of mechanism to recover from failed, frozen, or misconfigured components. |\n| Centralization Risk | Critical functions or system components are controlled by a single party, creating a risk of misuse, censorship, or manipulation. |\n| Precision Loss | Loss of numeric precision due to integer division or insufficient scaling (e.g., result becomes 0). |\n| Scaling | Failure to apply proper unit conversion or scaling factor in arithmetic operations involving tokens with different denominations or expected decimal precision. |\n| Peg / Depeg | Covers all design or implementation errors related to asset peg mechanisms, including improper maintenance of the peg (depeg), return biases, reliance on incorrect sources, or lack of detachment handling. |\n| State Update Inconsistency | State Update Inconsistency occurs when the state of a smart contract is updated in an inconsistent or incorrect manner, leading to discrepancies, inaccuracies, and unintended outcomes in future operations, calculations, or decisions. This may impact various aspects of the contract, such as pricing mechanisms, liquidation processes, or liquidity management, and could result in financial losses or manipulative opportunities.|\n| Duplicate Value | A vulnerability where two or more distinct entities (e.g. assets, records, or users) unintentionally share the same key or identifier (e.g. mapping key, oracle reference), causing one to overwrite or shadow the other. |\n| Arbitrary Add/Remove/Set/Call | The contract allows unauthorized addresses to arbitrarily add/remove/call or set key states or resources, leading to privilege abuse or system anomalies.  |\n| Storage Gap | In upgradeable contracts, to avoid storage slot conflicts and overwrites during upgrades, a fixed-length gap of empty storage space is reserved for future extension of contract state variables. The absence of or incorrect design of the storage gap may lead to state corruption or data overwriting after the upgrade. |\n| Missing Return Check | The return value  is not verified. |\n| Misuse of Dependency | When using external dependencies (libraries, modules, or contracts), failing to correctly reference them according to their security design, version security announcements, or the appropriate usage context can lead to functional anomalies, security risks, or upgrade failures. This includes but is not limited to: using versions of external libraries with known vulnerabilities, incorrectly integrating third-party module interfaces, or neglecting the security initialization processes of dependencies. |\n| Role Takeover | A situation where a user or contract illegitimately gains control over a privileged role by removing, overriding, or replacing the originally designated role holder. |\n| Missing Time Constraint | The contract does not check time-related conditions (such as block.timestamp, deadline, expiry) |\n| Unauthorized Upgrade | Refers to the lack of authorization checks during the contract upgrade process, allowing unauthorized addresses to perform contract upgrade operations. |\n| Missing Initialization | The contract does not properly initialize necessary states (such as permissions, dependencies, parameters), which may lead to the contract being unusable or exhibiting abnormal behavior. |\n| slot0 | The contract directly relies on Uniswap's slot0 (which provides instantaneous price and liquidity data) as its quoting source without applying any time-smoothing mechanisms (such as TWAP). This makes the price highly susceptible to short-term manipulations, for instance through flash loans. |\n| Bad Condition | This refers to errors or omissions in the conditional logic within the code that result in critical state checks, control flow branches, or security mechanisms not being triggered properly. Such errors can lead to severe issues, including loss of funds, permission bypasses, state inconsistencies, or logical corruption. |\n| Unfair Liquidation | This occurs when a user, despite not violating the protocol's rules, is liquidated due to insufficient protective measures or design flaws in the protocol.  |\n| Nonce | The absence or misuse of a nonce mechanism can lead to operations being re-executed, replayed, or subjected to race conditions.  |\n| Fee On Transfer Token | Vulnerability, incompatibility, or oversight arises due to the behavior of fee-on-transfer tokens — tokens that deduct a fee during transfers, causing the received amount to be less than the sent amount. |\n| payable / receive() | Improper design of payable or receive() / fallback() functions leading to issues in fund reception, control, or logic. |\n| Rebase Token | Covers security or accounting issues arising from the use or integration of Rebase Tokens, which have dynamic supply adjustment mechanisms. |\n| Whale | Involves situations where a single or a few addresses hold large amounts of assets, leading to asymmetric risks such as market manipulation, concentrated governance, unusual liquidations, and distorted rewards within the protocol. |\n| ERC777 Callback | When interacting with ERC777 tokens, misuse of callbacks can lead to external contracts controlling states unexpectedly, causing security risks or business logic errors. |\n| EVM Compatibility | The contract design or protocol assumes certain EVM behaviors (such as gas model, opcode support, call patterns, address format, precompile availability, etc.) are consistent across all chains. However, differences in these behaviors on various EVM-compatible chains or Layer 2 solutions can lead to logic errors, functionality failures, or security vulnerabilities. |\n| Case Sensitive | The comparison logic for user input, addresses, function names, or identifiers is case-sensitive, leading to behavior that does not match expectations. |\n| Execution Order Dependency | Protocol logic relies on a specific transaction order or execution timing.This can lead to issues such as repeated execution, asset loss, or state errors. |\n| Cross-Function Reentrancy | Cross-Function Reentrancy  refers to a scenario where a contract makes an external call during the execution of a function and is vulnerable to an attacker reentering through a different entry function upon the external call’s return. This can cause unsynchronized state reads, writes, or asset manipulations, leading to logic errors or security vulnerabilities. |\n| Missing Functionality |  Lacks necessary functionalities or is missing functions to implement specific features. |\n| Refund Failed | When a protocol sends or returns assets, the operation may fail if the recipient is blacklisted or if the callback or receiving function revert. |\n| Diamond | Issues related to the EIP-2535 Diamond standard or similar multi-facet, multi-delegate proxy architectures. |\n| Cannot Revoke | When a system or contract allows a function, module, role, or permission to be enabled or granted, but does not provide a corresponding mechanism for safe revocation or deactivation. This leads to a situation where users or contracts cannot revoke, disable, or reclaim the function or permission, even if it is no longer safe or needs to be disabled. |\n| Typo | Typographical errors in the source code or configuration. |\n| safeApprove | Unsafe safeApprove |\n| Missing Upper/Lower Bound Check | A vulnerability caused when smart contracts accept numeric inputs, token allowances, or other adjustable parameters without enforcing minimum or maximum limits. This allows unexpected or extreme values that can break contract logic, bypass intended constraints, or create financial loss. |\n| Unsafe Downcast | Larger integer type (e.g., uint256) is cast to a smaller type (e.g., uint128, uint64, uint32) without validation.  |\n| 1/64 Gas Rule | Caused by the EIP-150 gas forwarding rule, where only 63/64 of the remaining gas is forwarded in CALL, DELEGATECALL, STATICCALL, or CALLCODE. If the callee requires all remaining gas, the call may fail unexpectedly. |\n| Block Time / Block Number | The use of block.timestamp and block.number across different chains. |\n| Incorrect Formula | The protocol uses incorrect formulas or operator when calculating amounts, ratios, rewards, collateral rates, or other key economic variables, resulting in outcomes that do not align with expectations or design specifications. |"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        208,
+        432
+      ],
+      "id": "9f92f8da-2542-4096-a868-01bf35982dd1",
+      "name": "COT - Pause - Critical functions cannot be paused",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "COT - Pause - Inaccessible pause/unpause",
+            "type": "ai_outputParser",
+            "index": 0
+          },
+          {
+            "node": "COT - Pause - Critical functions cannot be paused",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM for answer": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "COT - Pause - Inaccessible pause/unpause",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "COT - Pause - Critical functions cannot be paused",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "split bundle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "split bundle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "COT - Pause - Inaccessible pause/unpause",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "COT - Pause - Inaccessible pause/unpause": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "split bundle": {
+      "main": [
+        [
+          {
+            "node": "Direct Pausable Inheritance Check",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Navie pause-related check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Direct Pausable Inheritance Check": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "COT - Pause - Critical functions cannot be paused",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Navie pause-related check": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "COT - Pause - Critical functions cannot be paused": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a31bb0a0-c452-42e3-bf4f-99292638abab",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f839b7ae33d4bab8c0e6053fad2787e1ad0bd33854a965624f05316a09f93d09"
+  },
+  "id": "yJ1m8TsO9w6joTLP",
+  "tags": []
+}
