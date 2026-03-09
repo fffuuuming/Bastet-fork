@@ -9,7 +9,7 @@ from tree_sitter import Language, Query, QueryCursor
 
 
 EXCLUDE_DIRS = {
-    "test", "tests", "interfaces",
+    "test", "tests", "interface", "interfaces", "mock", "mocks",
     "script", "scripts", "deploy",
 }
 
