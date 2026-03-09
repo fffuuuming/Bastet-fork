@@ -207,8 +207,7 @@ class SourceBundler:
         """
         # First pass: extract all import relationships
         for root, dirs, files in os.walk(project_root):
-            # prune excluded dirs
-            dirs[:] = [d for d in dirs if d not in EXCLUDE_DIRS]
+            dirs[:] = [d for d in dirs if d.lower() not in EXCLUDE_DIRS]
 
             for filename in files:
                 file_path = os.path.join(root, filename)
