@@ -3,20 +3,6 @@
   "nodes": [
     {
       "parameters": {
-        "options": {}
-      },
-      "id": "21752e48-5b46-4ec4-a50d-a16f0af07f59",
-      "name": "When chat message received",
-      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-      "typeVersion": 1.1,
-      "position": [
-        -64,
-        464
-      ],
-      "webhookId": "471f4f97-1fd4-4312-b3ee-6fcc3310611d"
-    },
-    {
-      "parameters": {
         "numberInputs": 3
       },
       "type": "n8n-nodes-base.merge",
@@ -32,7 +18,7 @@
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "gpt-4o-mini",
+          "value": "gpt-5",
           "mode": "list",
           "cachedResultName": "os-azure-gpt5-chat"
         },
@@ -48,8 +34,8 @@
       "name": "OpenAI Chat Model",
       "credentials": {
         "openAiApi": {
-          "id": "xh48UcOAH3uxiiEh",
-          "name": "OpenAi account"
+          "id": "F5xPdtkX2MMhrfbc",
+          "name": "OpenAI Credentials"
         }
       }
     },
@@ -191,21 +177,24 @@
       "id": "e831813d-fa70-4550-8df8-f4438c38074f",
       "name": "Reentrancy",
       "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -160,
+        496
+      ],
+      "id": "7dcd59f4-858b-4c81-8793-b6796e8a97dd",
+      "name": "When chat message received",
+      "webhookId": "ca7a75d5-14bd-4d66-9493-ee2659aa62d7"
     }
   ],
   "pinData": {},
   "connections": {
-    "When chat message received": {
-      "main": [
-        [
-          {
-            "node": "Reentrancy",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Merge": {
       "main": [
         [
@@ -305,16 +294,27 @@
           }
         ]
       ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Reentrancy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "bb67f47d-714b-4624-80ab-e1f3ca9d85e5",
+  "versionId": "f9d93b31-3cd5-466b-924d-fbcfdf792d3e",
   "meta": {
-    "instanceId": "ffbfcea2270f886479cb80f368253453ece6dc6be326441d212d54dd4fdc9e73"
+    "instanceId": "f839b7ae33d4bab8c0e6053fad2787e1ad0bd33854a965624f05316a09f93d09"
   },
-  "id": "ahcQtDrJSoy67vN4",
+  "id": "Z8SlvJg6KjkYPGLZ",
   "tags": []
 }
