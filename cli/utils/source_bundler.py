@@ -204,6 +204,11 @@ class SourceBundler:
 
         Args:
             project_root: Root directory of the project to analyze
+            
+        Returns:
+            Dict: A mapping of file paths to their bundled source code.
+                  This represents ONLY the files that are in-scope for auditing 
+                  (i.e., files that are not in excluded directories like test/, mock/, etc.).
         """
         # First pass: extract all import relationships
         for root, dirs, files in os.walk(project_root):
@@ -214,13 +219,15 @@ class SourceBundler:
                 file_path = os.path.normpath(file_path)
                 if self._detect_language(file_path):
                     self._extract_imports(file_path, project_root)
-        for root, _, files in os.walk(project_root):
+        in_scope_bundles = {}
+        for root, dirs, files in os.walk(project_root):
+            dirs[:] = [d for d in dirs if d.lower() not in EXCLUDE_DIRS]
             for file in files:
                 file_path = os.path.join(root, file)
                 file_path = os.path.normpath(file_path)
                 if self._detect_language(file_path):
-                    self._build_concatenated_source(file_path)
-        return self.concatenated_sources
+                    in_scope_bundles[file_path] = self._build_concatenated_source(file_path)
+        return in_scope_bundles
 
     def _build_concatenated_source(self, file_path: str) -> str:
         """
