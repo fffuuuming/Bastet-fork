@@ -60,7 +60,7 @@ def scan_static(
     for report in findings:
         path_str, line = _parse_location(report.code_snippet)
         if path_str is not None and line is not None:
-            # Use path_str directly as folder_path for the simplified _project_from_path
+            # Use path_str directly as the file path for the simplified _project_from_path
             project = _project_from_path(path_str)
         else:
             project = "unknown"

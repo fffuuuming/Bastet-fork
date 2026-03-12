@@ -140,7 +140,7 @@ def scan_v2(
                                         "\033[91m❌ Duplicate vulnerability found, skipping...\033[0m"
                                     )
                                     continue
-                                repo_path = _project_from_path(folder_path)
+                                repo_path = _project_from_path(contract_path)
                                 vulnerabilities.append((repo_path, vulnerability))
                                 vul_key_set.add(vul_key)
                                 cnt += 1
