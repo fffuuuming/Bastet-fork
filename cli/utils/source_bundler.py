@@ -217,7 +217,7 @@ class SourceBundler:
             for filename in files:
                 file_path = os.path.join(root, filename)
                 file_path = os.path.normpath(file_path)
-                if self._detect_language(file_path):
+                if os.path.isfile(file_path) and self._detect_language(file_path):
                     self._extract_imports(file_path, project_root)
         in_scope_bundles = {}
         for root, dirs, files in os.walk(project_root):
@@ -225,7 +225,7 @@ class SourceBundler:
             for file in files:
                 file_path = os.path.join(root, file)
                 file_path = os.path.normpath(file_path)
-                if self._detect_language(file_path):
+                if os.path.isfile(file_path) and self._detect_language(file_path):
                     in_scope_bundles[file_path] = self._build_concatenated_source(file_path)
         return in_scope_bundles
 

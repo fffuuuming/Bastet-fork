@@ -1,5 +1,6 @@
 from collections import defaultdict
 from pathlib import Path
+from utils.path_helpers import _project_from_path
 
 
 def _parse_location(code_snippet: str) -> tuple[str | None, int | None]:
@@ -10,22 +11,6 @@ def _parse_location(code_snippet: str) -> tuple[str | None, int | None]:
     if len(parts) != 2 or not parts[1].strip().isdigit():
         return None, None
     return parts[0].strip(), int(parts[1].strip())
-
-
-def _project_from_path(path_str: str, folder_path: str) -> str:
-    """Extract repo name (first subdirectory) from file path."""
-    folder = Path(folder_path).resolve()
-    path = Path(path_str).resolve()
-    try:
-        relative = path.relative_to(folder)
-    except ValueError:
-        relative = Path(path_str)
-    dir_part = relative.parent
-    segments = [p for p in dir_part.parts if p != "."]
-    if not segments:
-        return "unknown"
-    return segments[0]
-
 
 
 def scan_static(
@@ -52,7 +37,7 @@ def scan_static(
         tqdm.write(f"\033[91mFolder not found: {root}\033[0m")
         return empty_df
 
-    sol_files = list(root.rglob("*.sol"))
+    sol_files = [file for file in root.rglob("*.sol") if file.is_file()]
     if not sol_files:
         tqdm.write(f"\033[91mNo .sol files found in {root}\033[0m")
         return empty_df
@@ -75,7 +60,8 @@ def scan_static(
     for report in findings:
         path_str, line = _parse_location(report.code_snippet)
         if path_str is not None and line is not None:
-            project = _project_from_path(path_str, folder_path)
+            # Use path_str directly as folder_path for the simplified _project_from_path
+            project = _project_from_path(path_str)
         else:
             project = "unknown"
         key = (project, tuple(report.tag), tuple(report.subtag), report.severity)

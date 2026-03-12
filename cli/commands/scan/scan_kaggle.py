@@ -1,19 +1,5 @@
 from pathlib import Path
-
-
-def _project_from_path(path_str: str, folder_path: str) -> str:
-    """Extract repo name (first subdirectory) from file path."""
-    folder = Path(folder_path).resolve()
-    path = Path(path_str).resolve()
-    try:
-        relative = path.relative_to(folder)
-    except ValueError:
-        relative = Path(path_str)
-    dir_part = relative.parent
-    segments = [p for p in dir_part.parts if p != "."]
-    if not segments:
-        return "unknown"
-    return segments[0]
+from utils.path_helpers import _project_from_path
 
 
 def scan_v2(
@@ -154,7 +140,7 @@ def scan_v2(
                                         "\033[91m❌ Duplicate vulnerability found, skipping...\033[0m"
                                     )
                                     continue
-                                repo_path = _project_from_path(contract_path, folder_path)
+                                repo_path = _project_from_path(folder_path)
                                 vulnerabilities.append((repo_path, vulnerability))
                                 vul_key_set.add(vul_key)
                                 cnt += 1
