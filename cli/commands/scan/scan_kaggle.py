@@ -1,3 +1,21 @@
+from pathlib import Path
+
+
+def _project_from_path(path_str: str, folder_path: str) -> str:
+    """Extract repo name (first subdirectory) from file path."""
+    folder = Path(folder_path).resolve()
+    path = Path(path_str).resolve()
+    try:
+        relative = path.relative_to(folder)
+    except ValueError:
+        relative = Path(path_str)
+    dir_part = relative.parent
+    segments = [p for p in dir_part.parts if p != "."]
+    if not segments:
+        return "unknown"
+    return segments[0]
+
+
 def scan_v2(
     folder_path: str,
     n8n_url: str,
@@ -39,7 +57,7 @@ def scan_v2(
         tqdm.write(f"Found {len(workflows)} active processor workflows.")
         tqdm.write(f"-" * 50)
         vul_key_set = set()
-        vulnerabilities: list[AuditReportV2] = []
+        vulnerabilities: list[tuple[str, AuditReportV2]] = []
         # audit_reports: list[AuditReport] = []
         for contract_path, contract_content in tqdm(
             contract_files.items(),
@@ -136,7 +154,8 @@ def scan_v2(
                                         "\033[91m❌ Duplicate vulnerability found, skipping...\033[0m"
                                     )
                                     continue
-                                vulnerabilities.append(vulnerability)
+                                repo_path = _project_from_path(contract_path, folder_path)
+                                vulnerabilities.append((repo_path, vulnerability))
                                 vul_key_set.add(vul_key)
                                 cnt += 1
                             except ValidationError as e:
@@ -159,25 +178,27 @@ def scan_v2(
             df = pd.DataFrame(
                 [
                     {
-                        "tag": ",".join(report.tag),
-                        "subtag": ",".join(report.subtag),
-                        "severity": report.severity,
-                        "description": report.description,
+                        "Repo_path": repo_path,
+                        "Tag": ",".join(report.tag),
+                        "Subtag": ",".join(report.subtag),
+                        "Severity": report.severity,
+                        "Description": report.description,
                     }
-                    for report in vulnerabilities
+                    for repo_path, report in vulnerabilities
                 ]
             )
         else:
             df = pd.DataFrame(
                 [
                     {
+                        "Repo_path": repo_path,
                         "Tag": ",".join(report.tag),
                         "Subtag": ",".join(report.subtag),
                         "Severity": report.severity,
                         "Description": report.description,
-                        "Code Snippet": report.code_snippet,
+                        "Code_snippet": report.code_snippet,
                     }
-                    for report in vulnerabilities
+                    for repo_path, report in vulnerabilities
                 ]
             )
 

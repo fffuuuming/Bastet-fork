@@ -13,7 +13,7 @@ def _parse_location(code_snippet: str) -> tuple[str | None, int | None]:
 
 
 def _project_from_path(path_str: str, folder_path: str) -> str:
-    """Compute project: always returns the first subdirectory segment under folder_path."""
+    """Extract repo name (first subdirectory) from file path."""
     folder = Path(folder_path).resolve()
     path = Path(path_str).resolve()
     try:
@@ -42,11 +42,11 @@ def scan_static(
 
     if mode == "normal":
         empty_df = pd.DataFrame(
-            columns=["tag", "subtag", "severity", "description"]
+            columns=["repo_path", "tag", "subtag", "severity", "description"]
         )
     else:
         empty_df = pd.DataFrame(
-            columns=["Project", "Tag", "Subtag", "Severity", "Description", "Code Snippet"]
+            columns=["repo_path", "tag", "subtag", "severity", "description", "code_snippet"]
         )
     if not root.exists():
         tqdm.write(f"\033[91mFolder not found: {root}\033[0m")
@@ -87,22 +87,23 @@ def scan_static(
         if mode == "normal":
             rows.append(
                 {
-                    "tag": ",".join(tag),
-                    "subtag": ",".join(subtag),
-                    "severity": severity,
-                    "description": description,
+                    "Repo_path": project,
+                    "Tag": ",".join(tag),
+                    "Subtag": ",".join(subtag),
+                    "Severity": severity,
+                    "Description": description,
                 }
             )
         else:
             code_snippet_value = "\n".join(r.code_snippet for r in group if r.code_snippet)
             rows.append(
                 {
-                    "Project": project,
+                    "Repo_path": project,
                     "Tag": ",".join(tag),
                     "Subtag": ",".join(subtag),
                     "Severity": severity,
                     "Description": description,
-                    "Code Snippet": code_snippet_value,
+                    "Code_snippet": code_snippet_value,
                 }
             )
 

@@ -13,9 +13,10 @@ def generate_csv(df,output_path: str,report_name: str):
 
     if df.empty:
         with open(csv_file_path, "w") as f:
-            f.write("File Name,Tag,Subtag,Severity,Description\n")
+            f.write("Property,Repo_path,Tag,Subtag,Severity,Description\n")
         tqdm.write(f"⚠️ CSV generated (empty): {csv_file_path}")
     else:
+        df.insert(0, 'property', range(1, len(df) + 1))
         df.to_csv(csv_file_path, index=False)
         tqdm.write(f"✅ CSV successfully generated: {csv_file_path}")
 
