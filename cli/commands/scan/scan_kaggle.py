@@ -164,25 +164,26 @@ def scan_v2(
             df = pd.DataFrame(
                 [
                     {
-                        "Repo_path": repo_path,
-                        "Tag": ",".join(report.tag),
-                        "Subtag": ",".join(report.subtag),
-                        "Severity": report.severity,
-                        "Description": report.description,
+                        "repo_path": repo_path,
+                        "severity": report.severity,
+                        "tag": ",".join(report.tag),
+                        "subtag": ",".join(report.subtag),
+                        "description": report.description,
                     }
                     for repo_path, report in vulnerabilities
                 ]
             )
+            # df = df[["Property", "repo_path", "severity", "tag", "subtag", "description"]]
         else:
             df = pd.DataFrame(
                 [
                     {
-                        "Repo_path": repo_path,
-                        "Tag": ",".join(report.tag),
-                        "Subtag": ",".join(report.subtag),
-                        "Severity": report.severity,
-                        "Description": report.description,
-                        "Code_snippet": report.code_snippet,
+                        "repo_path": repo_path,
+                        "severity": report.severity,
+                        "tag": ",".join(report.tag),
+                        "subtag": ",".join(report.subtag),
+                        "description": report.description,
+                        "code_snippet": report.code_snippet,
                     }
                     for repo_path, report in vulnerabilities
                 ]

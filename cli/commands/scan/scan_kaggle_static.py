@@ -73,24 +73,26 @@ def scan_static(
         if mode == "normal":
             rows.append(
                 {
-                    "Repo_path": project,
-                    "Tag": ",".join(tag),
-                    "Subtag": ",".join(subtag),
-                    "Severity": severity,
-                    "Description": description,
+                    "repo_path": project,
+                    "severity": severity,
+                    "tag": ",".join(tag),
+                    "subtag": ",".join(subtag),
+                    "description": description,
                 }
             )
         else:
             code_snippet_value = "\n".join(r.code_snippet for r in group if r.code_snippet)
             rows.append(
                 {
-                    "Repo_path": project,
-                    "Tag": ",".join(tag),
-                    "Subtag": ",".join(subtag),
-                    "Severity": severity,
-                    "Description": description,
-                    "Code_snippet": code_snippet_value,
+                    "repo_path": project,
+                    "severity": severity,
+                    "tag": ",".join(tag),
+                    "subtag": ",".join(subtag),
+                    "description": description,
+                    "code_snippet": code_snippet_value,
                 }
             )
 
-    return pd.DataFrame(rows)
+    df = pd.DataFrame(rows)
+    # df = df[["Property", "repo_path", "severity", "tag", "subtag", "description"]]
+    return df
