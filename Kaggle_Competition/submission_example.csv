@@ -1,5 +1,8 @@
-Tag,Subtag,Severity,Description
-Reentrancy,Violating CEI / Missing nonReentrant,high,"The withdraw function reduces the user's share before transferring tokens, which could allow a reentrant call to exploit the contract."
-Chainlink,Deprecated Library,medium,"Chainlink's `latestAnswer()` is deprecated. Prefer `latestRoundData()` and perform proper data validity checks (e.g., updatedAt != 0, answeredInRound, round completeness) to avoid using stale/invalid answers (including unexpected 0)."
-Solmate,Missing Return Check,medium,"Solmate's SafeTransferLib does not check that the token has code. Ensure the token address is a contract before calling."
-Slippage,Missing minOut / maxAmount,medium,"The swap function does not enforce minimum output amount, allowing for sandwich attacks."
+Property,repo_path,severity,tag,subtag,description
+1,xxxxx,Medium,Accounting Error,"Peg / Depeg, Price Manipulation / Arbitrage opportunity, Reward Manipulation","this is a example of description"
+2,yyyyy,High,Oracle Manipulation,"Price Manipulation / Arbitrage opportunity","this is a example of description"
+3,empty,empty,empty,empty,empty
+4,empty,empty,empty,empty,empty
+...
+...
+400,empty,empty,empty,empty,empty

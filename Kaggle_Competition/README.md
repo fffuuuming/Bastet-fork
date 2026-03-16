@@ -63,10 +63,21 @@ Submit a CSV file with the following columns. All columns are required (values m
 
 | Column | Description |
 |--------|-------------|
-| Tag | Vulnerability category |
-| Subtag | Vulnerability subcategory |
-| Severity | high / medium / low |
-| Description | Vulnerability description |
+| Property | Identifier of the vulnerability finding |
+| repo_path | File path of the vulnerable code within the repository |
+| severity | high / medium / low |
+| tag | Vulnerability category |
+| subtag | Vulnerability subcategory |
+| description | Brief description of the vulnerability |
+
+### Requirements
+
+- The **total number of rows in the submission must be exactly 400**.
+- If your detected findings are **fewer than 400**, you must **pad the remaining rows** using the following format:
+``` CSV
+Property,repo_path,tag,subtag,severity,description
+xxx,empty,empty,empty,empty,empty
+```
 
 See [submission_example.csv](./submission_example.csv) for reference.
 
