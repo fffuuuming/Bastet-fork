@@ -189,6 +189,8 @@ def scan_v2(
                 ]
             )
 
+        df = df.fillna("empty").replace(r"^\s*$", "empty", regex=True)
+        
         return df
 
     else:
