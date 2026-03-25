@@ -22,6 +22,7 @@ def scan_static(
     import pandas as pd
     from tqdm import tqdm
     from utils.rule_runner import execute_rules
+    from utils.solidity_scope import collect_solidity_files
 
     root = Path(folder_path)
 
@@ -37,7 +38,7 @@ def scan_static(
         tqdm.write(f"\033[91mFolder not found: {root}\033[0m")
         return empty_df
 
-    sol_files = [file for file in root.rglob("*.sol") if file.is_file()]
+    sol_files = collect_solidity_files(root)
     if not sol_files:
         tqdm.write(f"\033[91mNo .sol files found in {root}\033[0m")
         return empty_df

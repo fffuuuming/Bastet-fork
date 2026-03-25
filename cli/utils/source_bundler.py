@@ -6,28 +6,7 @@ from typing import Dict, List, Optional
 import tree_sitter
 import tree_sitter_solidity
 from tree_sitter import Language, Query, QueryCursor
-
-
-EXCLUDE_DIRS = {
-    "test", "tests", "mock", "mocks",
-    "script", "scripts", "deploy", "broadcast", "cache", "out",
-    "interface", "interfaces",
-    "testcontracts", "test-forge", "forge-std", "ds-test",
-
-    "openzeppelin", "openzeppelin-contracts", "openzeppelin-contracts-upgradeable",
-    "openzeppelin-community-contracts",
-
-    "solmate", "solady", "prb-math", "abdk-libraries-solidity",
-
-    "gnosis-safe", "safe-contracts", "safe-smart-account",
-
-    "uniswap-v2-core", "uniswap-v2-periphery",
-    "uniswap-v3-core", "uniswap-v3-periphery",
-    "uniswap-v4-core", "uniswap-v4-periphery",
-    "permit2", "universal-router",
-
-    "multicall",
-}
+from utils.solidity_scope import prune_excluded_dirs
 
 class SourceBundler:
     """
@@ -228,7 +207,7 @@ class SourceBundler:
         """
         # First pass: extract all import relationships
         for root, dirs, files in os.walk(project_root):
-            dirs[:] = [d for d in dirs if d.lower() not in EXCLUDE_DIRS]
+            prune_excluded_dirs(dirs)
 
             for filename in files:
                 file_path = os.path.join(root, filename)
@@ -237,7 +216,7 @@ class SourceBundler:
                     self._extract_imports(file_path, project_root)
         in_scope_bundles = {}
         for root, dirs, files in os.walk(project_root):
-            dirs[:] = [d for d in dirs if d.lower() not in EXCLUDE_DIRS]
+            prune_excluded_dirs(dirs)
             for file in files:
                 file_path = os.path.join(root, file)
                 file_path = os.path.normpath(file_path)
