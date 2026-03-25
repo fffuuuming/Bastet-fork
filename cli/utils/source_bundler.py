@@ -9,11 +9,24 @@ from tree_sitter import Language, Query, QueryCursor
 
 
 EXCLUDE_DIRS = {
-    "test", "tests", "interface", "interfaces", "mock", "mocks",
-    "script", "scripts", "deploy", "testcontracts", "test-forge", "forge-std",
+    "test", "tests", "mock", "mocks",
+    "script", "scripts", "deploy", "broadcast", "cache", "out",
+    "interface", "interfaces",
+    "testcontracts", "test-forge", "forge-std", "ds-test",
+
     "openzeppelin", "openzeppelin-contracts", "openzeppelin-contracts-upgradeable",
-    "solmate", "ds-test", "multicall"
-    "gnosis-safe", "uniswap-v3-core", "uniswap-v3-periphery",
+    "openzeppelin-community-contracts",
+
+    "solmate", "solady", "prb-math", "abdk-libraries-solidity",
+
+    "gnosis-safe", "safe-contracts", "safe-smart-account",
+
+    "uniswap-v2-core", "uniswap-v2-periphery",
+    "uniswap-v3-core", "uniswap-v3-periphery",
+    "uniswap-v4-core", "uniswap-v4-periphery",
+    "permit2", "universal-router",
+
+    "multicall",
 }
 
 class SourceBundler:
