@@ -18,7 +18,7 @@
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "=slippage_minAmount",
+        "path": "pause",
         "responseMode": "responseNode",
         "options": {}
       },

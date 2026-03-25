@@ -4,7 +4,7 @@
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "=slippage_minAmount",
+        "path": "eip712",
         "responseMode": "responseNode",
         "options": {}
       },
