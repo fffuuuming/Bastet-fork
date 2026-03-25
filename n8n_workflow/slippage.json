@@ -11,8 +11,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -544,
-        112
+        -896,
+        96
       ],
       "id": "5250a143-6bd1-4a9b-908f-bb48db40b654",
       "name": "Webhook",
@@ -22,7 +22,7 @@
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "gpt-5",
+          "value": "os-azure-gpt5-chat",
           "mode": "list",
           "cachedResultName": "os-azure-gpt5-chat"
         },
@@ -31,14 +31,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        1056,
-        368
+        880,
+        496
       ],
       "id": "340ebf63-f35e-4030-94be-9e230ec8ac74",
       "name": "LLM for answer",
       "credentials": {
         "openAiApi": {
-          "id": "F5xPdtkX2MMhrfbc",
+          "id": "XzJBboMUaMwvTkhO",
           "name": "OpenAI Credentials"
         }
       }
@@ -60,8 +60,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        128,
-        112
+        -224,
+        96
       ],
       "id": "1116de4f-81c3-4732-9d39-3815dbdc753f",
       "name": "Edit Fields"
@@ -75,8 +75,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        -96,
-        32
+        -448,
+        16
       ],
       "id": "5e43c271-62b5-4d1d-bc8c-25bf5dc6e8df",
       "name": "Respond to Webhook"
@@ -109,8 +109,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -320,
-        112
+        -672,
+        96
       ],
       "id": "d98e6337-c7e9-4d7b-9d9c-2847492fa140",
       "name": "If"
@@ -123,25 +123,11 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        1712,
-        112
+        2352,
+        96
       ],
       "id": "a1bd02a7-0d2a-401d-9af8-1fa7a26a9614",
       "name": "Respond to Webhook1"
-    },
-    {
-      "parameters": {
-        "language": "python",
-        "pythonCode": "\"\"\"\nSplit bundled Solidity code into base contract and imported contracts.\n\nInput: item.json[\"chatInput\"] (bundled contract source with \"====== Code imported from: ... ======\" sections).\nOutput: one item per input item; each item's json is extended with:\n  - base_contract: str (the first contract, before any \"Code imported from\" section)\n  - imported_contracts: list of {\"source_path\": str, \"code\": str} for each imported block\n\"\"\"\n\nIMPORTED_DELIMITER = \"====== Code imported from: \"\nIMPORTED_END_MARKER = \" ======\"\n\n\ndef split_bundled_contract(bundled):\n    base_contract = \"\"\n    imported_contracts = []\n\n    if not bundled or not isinstance(bundled, str):\n        return {\"base_contract\": base_contract, \"imported_contracts\": imported_contracts}\n\n    parts = bundled.split(IMPORTED_DELIMITER)\n    base_contract = (parts[0].strip() if parts else \"\")\n\n    for i in range(1, len(parts)):\n        block = parts[i]\n        # block is like \"dataset/.../file.sol =======\\npragma...\"\n        idx = block.find(IMPORTED_END_MARKER)\n        if idx == -1:\n            source_path = block.strip()\n            code = \"\"\n        else:\n            source_path = block[:idx].strip()\n            code = block[idx + len(IMPORTED_END_MARKER):].strip()\n        imported_contracts.append({\"source_path\": source_path, \"code\": code})\n\n    return {\"base_contract\": base_contract, \"imported_contracts\": imported_contracts}\n\n\noutput_items = []\n\nfor item in _input.all():\n    code_snippet = item.json.get(\"chatInput\", \"\")\n    result = split_bundled_contract(code_snippet)\n\n    out = dict(item.json)\n    out[\"base_contract\"] = result[\"base_contract\"]\n    out[\"imported_contracts\"] = result[\"imported_contracts\"]\n    output_items.append({\"json\": out})\n\nreturn output_items"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        368,
-        192
-      ],
-      "id": "9139bf94-3cc6-40af-b4d9-5cb049017f04",
-      "name": "split bundle"
     },
     {
       "parameters": {
@@ -161,12 +147,13 @@
     {
       "parameters": {
         "schemaType": "manual",
-        "inputSchema": "{\n  \"type\": \"array\",\n  \"items\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"tag\": {\n        \"type\": \"array\",\n        \"items\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"DAO\",\n            \"DoS\",\n            \"Flashloan\",\n            \"Oracle\",\n            \"Logic error\",\n            \"Reentrancy\",\n            \"Access Control\",\n            \"Liquidation\",\n            \"Slippage\",\n            \"ERC4626\",\n            \"Input Validation\",\n            \"Bad Randomness\",\n            \"Chainlink\",\n            \"Arithmetic\",\n            \"Re-org Attack\",\n            \"Pause\",\n            \"Accounting Error\",\n            \"MEV\",\n            \"Upgradeable\",\n            \"ERC20\",\n            \"call / delegatecall\",\n            \"Uniswap\",\n            \"Cross-Chain\",\n            \"ERC777\",\n            \"Governance\",\n            \"Multisig\",\n            \"Rebalance\",\n            \"ERC1155\",\n            \"XSS Attack\",\n            \"ERC721\",\n            \"Gnosis safe\",\n            \"Opensea\",\n            \"EIP712\",\n            \"Bridge\",\n            \"Zksync\",\n            \"Replay Attack\",\n            \"Solmate\",\n            \"Compound\",\n            \"Solidity Version\",\n            \"EIP4494\"\n          ]\n        },\n        \"description\": \"Main vulnerability category, choose all of the matched category in your vulberbility\"\n      },\n      \"subtag\": {\n        \"type\": \"array\",\n        \"items\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"Violating CEI / Missing nonReentrant\",\n            \"Missing Approval\",\n            \"Inflation Attack\",\n            \"Not EIP Compliant\",\n            \"Asset Theft\",\n            \"Rounding Error\",\n            \"Invalid Validation\",\n            \"Cannot partial liquidations\",\n            \"Liquidation – Dust repay / front run evade liquidation\",\n            \"onERC721Received callback\",\n            \"Price Manipulation / Arbitrage opportunity\",\n            \"Bypass Mechanism\",\n            \"Invariant Violation\",\n            \"Does not match with Doc / Implementation Error\",\n            \"Invalid Slippage Control / Missing slippage check\",\n            \"No Incentive to Liquidate\",\n            \"Hardcoded Parameter\",\n            \"minOut set to 0\",\n            \"Missing deadline\",\n            \"Self liquidation\",\n            \"Missing minOut / maxAmount\",\n            \"Deprecated Library\",\n            \"Out of Gas\",\n            \"Stale Value\",\n            \"Front Run\",\n            \"Reward Manipulation\",\n            \"Token Decimal\",\n            \"Incorrect Parameter\",\n            \"No Recovery Mechanism\",\n            \"Centralization Risk\",\n            \"Precision Loss\",\n            \"Scaling\",\n            \"Peg / Depeg\",\n            \"State Update Inconsistency\",\n            \"Duplicate Value\",\n            \"Arbitrary Add/Remove/Set/ Call\",\n            \"Storage Gap\",\n            \"Missing Return Check\",\n            \"Misuse of Dependency\",\n            \"Role Takeover\",\n            \"Missing Time Constraint\",\n            \"Unauthorized Upgrade\",\n            \"Missing Initialization\",\n            \"slot0\",\n            \"Bad Condition\",\n            \"Unfair Liquidation\",\n            \"Nonce\",\n            \"Fee On Transfer Token\",\n            \"payable / receive()\",\n            \"Rebase Token\",\n            \"Whale\",\n            \"ERC777 Callback\",\n            \"EVM Compatibility\",\n            \"Case Sensitive\",\n            \"Execution Order Dependency\",\n            \"Cross-Function Reentrancy\",\n            \"Missing Functionality\",\n            \"Refund Failed\",\n            \"Diamond\",\n            \"Cannot Revoke\",\n            \"Typo\",\n            \"safeApprove\",\n            \"Missing Upper/Lower Bound Check\",\n            \"Unsafe Downcast\",\n            \"1/64 Gas Rule\",\n            \"Block Time / Block Number\",\n            \"Incorrect Formula\"\n          ]\n        },\n        \"description\": \"Specific vulnerability subtype\"\n      },\n      \"severity\": {\n        \"type\": \"string\",\n        \"enum\": [\"high\", \"medium\"],\n        \"description\": \"Severity level of the vulnerability. Definition of severity -> high : Assets can be stolen/lost/compromised directly / medium: Assets not at direct risk, but function/availability of the protocol could be impacted or leak value\"\n      },\n      \"description\": {\n        \"type\": \"string\",\n        \"description\": \"Detailed description of the vulnerability\"\n      },\n      \"code_snippet\": {\n        \"type\": \"string\",\n        \"description\": \"The function name where the root cause of the vulnerability discovered, if cannot find the function, just return empty string\"\n      }\n    },\n    \"required\": [\"tag\", \"subtag\", \"severity\", \"description\", \"code_snippet\"],\n    \"additionalProperties\": false\n  }\n}"
+        "inputSchema": "{\n  \"type\": \"array\",\n  \"items\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"tag\": {\n        \"type\": \"array\",\n        \"items\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"DAO\",\n            \"DoS\",\n            \"Flashloan\",\n            \"Oracle\",\n            \"Logic error\",\n            \"Reentrancy\",\n            \"Access Control\",\n            \"Liquidation\",\n            \"Slippage\",\n            \"ERC4626\",\n            \"Input Validation\",\n            \"Bad Randomness\",\n            \"Chainlink\",\n            \"Arithmetic\",\n            \"Re-org Attack\",\n            \"Pause\",\n            \"Accounting Error\",\n            \"MEV\",\n            \"Upgradeable\",\n            \"ERC20\",\n            \"call / delegatecall\",\n            \"Uniswap\",\n            \"Cross-Chain\",\n            \"ERC777\",\n            \"Governance\",\n            \"Multisig\",\n            \"Rebalance\",\n            \"ERC1155\",\n            \"XSS Attack\",\n            \"ERC721\",\n            \"Gnosis safe\",\n            \"Opensea\",\n            \"EIP712\",\n            \"Bridge\",\n            \"Zksync\",\n            \"Replay Attack\",\n            \"Solmate\",\n            \"Compound\",\n            \"Solidity Version\",\n            \"EIP4494\"\n          ]\n        },\n        \"description\": \"Main vulnerability category, choose all of the matched category in your vulberbility\"\n      },\n      \"subtag\": {\n        \"type\": \"array\",\n        \"items\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"Violating CEI / Missing nonReentrant\",\n            \"Missing Approval\",\n            \"Inflation Attack\",\n            \"Not EIP Compliant\",\n            \"Asset Theft\",\n            \"Rounding Error\",\n            \"Invalid Validation\",\n            \"Cannot partial liquidations\",\n            \"Liquidation – Dust repay / front run evade liquidation\",\n            \"onERC721Received callback\",\n            \"Price Manipulation / Arbitrage opportunity\",\n            \"Bypass Mechanism\",\n            \"Invariant Violation\",\n            \"Does not match with Doc / Implementation Error\",\n            \"Invalid Slippage Control / Missing slippage check\",\n            \"No Incentive to Liquidate\",\n            \"Hardcoded Parameter\",\n            \"minOut set to 0\",\n            \"Missing deadline\",\n            \"Self liquidation\",\n            \"Missing minOut / maxAmount\",\n            \"Deprecated Library\",\n            \"Out of Gas\",\n            \"Stale Value\",\n            \"Front Run\",\n            \"Reward Manipulation\",\n            \"Token Decimal\",\n            \"Incorrect Parameter\",\n            \"No Recovery Mechanism\",\n            \"Centralization Risk\",\n            \"Precision Loss\",\n            \"Scaling\",\n            \"Peg / Depeg\",\n            \"State Update Inconsistency\",\n            \"Duplicate Value\",\n            \"Arbitrary Add/Remove/Set/ Call\",\n            \"Storage Gap\",\n            \"Missing Return Check\",\n            \"Misuse of Dependency\",\n            \"Role Takeover\",\n            \"Missing Time Constraint\",\n            \"Unauthorized Upgrade\",\n            \"Missing Initialization\",\n            \"slot0\",\n            \"Bad Condition\",\n            \"Unfair Liquidation\",\n            \"Nonce\",\n            \"Fee On Transfer Token\",\n            \"payable / receive()\",\n            \"Rebase Token\",\n            \"Whale\",\n            \"ERC777 Callback\",\n            \"EVM Compatibility\",\n            \"Case Sensitive\",\n            \"Execution Order Dependency\",\n            \"Cross-Function Reentrancy\",\n            \"Missing Functionality\",\n            \"Refund Failed\",\n            \"Diamond\",\n            \"Cannot Revoke\",\n            \"Typo\",\n            \"safeApprove\",\n            \"Missing Upper/Lower Bound Check\",\n            \"Unsafe Downcast\",\n            \"1/64 Gas Rule\",\n            \"Block Time / Block Number\",\n            \"Incorrect Formula\"\n          ]\n        },\n        \"description\": \"Specific vulnerability subtype\"\n      },\n      \"severity\": {\n        \"type\": \"string\",\n        \"enum\": [\"high\", \"medium\"],\n        \"description\": \"Severity level of the vulnerability. Definition of severity -> high : Assets can be stolen/lost/compromised directly / medium: Assets not at direct risk, but function/availability of the protocol could be impacted or leak value\"\n      },\n      \"description\": {\n        \"type\": \"string\",\n        \"description\": \"Detailed description of the vulnerability\"\n      },\n      \"code_snippet\": {\n        \"type\": \"string\",\n        \"description\": \"The function name where the root cause of the vulnerability discovered, if cannot find the function, just return empty string\"\n      }\n    },\n    \"required\": [\"tag\", \"subtag\", \"severity\", \"description\", \"code_snippet\"],\n    \"additionalProperties\": false\n  }\n}",
+        "autoFix": true
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.2,
       "position": [
-        1440,
+        1040,
         368
       ],
       "id": "3886c5d8-d954-4608-b857-1d913b1b4e84",
@@ -175,7 +162,8 @@
     {
       "parameters": {
         "schemaType": "manual",
-        "inputSchema": "{\n  \"type\": \"array\",\n  \"description\": \"List of all functions identified as performing slippage-sensitive actions (swap / add/remove liquidity / mint/burn LP / join/exit pool).\",\n  \"items\": {\n    \"type\": \"object\",\n    \"additionalProperties\": false,\n    \"required\": [\"code_snippet\", \"signature\", \"type\", \"description\"],\n    \"properties\": {\n      \"code_snippet\": {\n        \"type\": \"string\",\n        \"pattern\": \"^[A-Za-z_][A-Za-z0-9_]*\\\\.[A-Za-z_][A-Za-z0-9_]*$\",\n        \"description\": \"Must be ContractName.FunctionName\"\n      },\n      \"signature\": {\n        \"type\": \"string\",\n        \"minLength\": 1,\n        \"description\": \"Full Solidity function signature string.\"\n      },\n      \"type\": {\n        \"type\": \"string\",\n        \"enum\": [\n          \"swaps\",\n          \"add_liquidity\",\n          \"remove_liquidity\",\n          \"mint_lp\",\n          \"burn_lp\",\n          \"join_pool\",\n          \"exit_pool\"\n        ],\n        \"description\": \"Action type performed or directly triggered by this function.\"\n      },\n      \"description\": {\n        \"type\": \"string\",\n        \"minLength\": 1,\n        \"maxLength\": 300,\n        \"description\": \"Brief reason why this function belongs to the specified type. Must mention the concrete call/action (e.g., router.swap, vault.joinPool/exitPool, poolAction.join/exit, add_liquidity/remove_liquidity, mint/burn LP as part of liquidity).\"\n      }\n    }\n  }\n}"
+        "inputSchema": "{\n  \"type\": \"array\",\n  \"description\": \"List of functions that perform slippage-sensitive or execution-price-sensitive state-dependent conversions.\",\n  \"items\": {\n    \"type\": \"object\",\n    \"additionalProperties\": false,\n    \"required\": [\n      \"code_snippet\",\n      \"signature\",\n      \"mechanism\",\n      \"user_gives\",\n      \"user_gets\",\n      \"mutable_state_source\",\n      \"user_exposure\",\n      \"why_candidate\",\n      \"executed_path\"\n    ],\n    \"properties\": {\n      \"code_snippet\": {\n        \"type\": \"string\",\n        \"pattern\": \"^[A-Za-z_][A-Za-z0-9_]*\\\\.[A-Za-z_][A-Za-z0-9_]*$\",\n        \"description\": \"Format: ContractName.FunctionName.\"\n      },\n      \"signature\": {\n        \"type\": \"string\",\n        \"minLength\": 1,\n        \"description\": \"Full Solidity function signature.\"\n      },\n      \"mechanism\": {\n        \"type\": \"string\",\n        \"enum\": [\n          \"swap\",\n          \"add_liquidity\",\n          \"remove_liquidity\",\n          \"share_mint\",\n          \"share_burn\",\n          \"bond_purchase\",\n          \"fixed_price_sale\",\n          \"state_dependent_purchase\",\n          \"other_state_dependent_conversion\"\n        ],\n        \"description\": \"The state-dependent execution mechanism that determines what the user ultimately gives or receives.\"\n      },\n      \"user_gives\": {\n        \"type\": \"string\",\n        \"minLength\": 1,\n        \"maxLength\": 300,\n        \"description\": \"What the user pays, deposits, transfers, burns, or otherwise parts with.\"\n      },\n      \"user_gets\": {\n        \"type\": \"string\",\n        \"minLength\": 1,\n        \"maxLength\": 300,\n        \"description\": \"What the user receives, mints, withdraws, or otherwise obtains.\"\n      },\n      \"mutable_state_source\": {\n        \"type\": \"string\",\n        \"minLength\": 1,\n        \"maxLength\": 300,\n        \"description\": \"Which mutable onchain or protocol-controlled state determines the effective price, rate, quantity, or asset mix.\"\n      },\n      \"user_exposure\": {\n        \"type\": \"string\",\n        \"minLength\": 1,\n        \"maxLength\": 300,\n        \"description\": \"How adverse execution can harm the user, such as less output, more input, worse share rate, or poorer asset composition.\"\n      },\n      \"why_candidate\": {\n        \"type\": \"string\",\n        \"minLength\": 1,\n        \"maxLength\": 500,\n        \"description\": \"Why this function needs slippage or execution-price protection in principle.\"\n      },\n      \"executed_path\": {\n        \"type\": \"string\",\n        \"minLength\": 1,\n        \"maxLength\": 500,\n        \"description\": \"A short execution trace from the user entrypoint to the final state-dependent conversion step.\"\n      }\n    }\n  }\n}",
+        "autoFix": true
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.2,
@@ -188,17 +176,202 @@
     },
     {
       "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -224,
+        304
+      ],
+      "id": "feeffc64-fb5c-488f-b47c-d9da2647d507",
+      "name": "When chat message received",
+      "webhookId": "d1ad4522-7d0f-4dc9-a806-3231193acfe7"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "import re\n\nIMPORTED_DELIMITER = \"====== Code imported from: \"\nIMPORTED_END_MARKER = \" ======\"\n\n\ndef strip_comments(code: str) -> str:\n    if not code:\n        return \"\"\n    code = re.sub(r\"/\\*.*?\\*/\", \"\", code, flags=re.DOTALL)\n    code = re.sub(r\"//.*\", \"\", code)\n    return code\n\n\ndef split_bundled_contract(bundled):\n    base_contract = \"\"\n    imported_contracts = []\n\n    if not bundled or not isinstance(bundled, str):\n        return {\"base_contract\": base_contract, \"imported_contracts\": imported_contracts}\n\n    parts = bundled.split(IMPORTED_DELIMITER)\n    base_contract = parts[0].strip() if parts else \"\"\n\n    for i in range(1, len(parts)):\n        block = parts[i]\n        idx = block.find(IMPORTED_END_MARKER)\n        if idx == -1:\n            source_path = block.strip()\n            code = \"\"\n        else:\n            source_path = block[:idx].strip()\n            code = block[idx + len(IMPORTED_END_MARKER):].strip()\n\n        imported_contracts.append({\n            \"source_path\": source_path,\n            \"code\": code\n        })\n\n    return {\n        \"base_contract\": base_contract,\n        \"imported_contracts\": imported_contracts\n    }\n\n\ndef is_interface_only_base_contract(code: str) -> bool:\n    cleaned = strip_comments(code)\n\n    has_interface = re.search(\n        r\"\\binterface\\s+[A-Za-z_][A-Za-z0-9_]*\\b\",\n        cleaned,\n        flags=re.IGNORECASE\n    ) is not None\n\n    has_abstract_contract = re.search(\n        r\"\\babstract\\s+contract\\s+[A-Za-z_][A-Za-z0-9_]*\\b\",\n        cleaned,\n        flags=re.IGNORECASE\n    ) is not None\n\n    # remove abstract contract declarations before checking concrete contract\n    cleaned_no_abstract = re.sub(\n        r\"\\babstract\\s+contract\\s+[A-Za-z_][A-Za-z0-9_]*\\b\",\n        \"\",\n        cleaned,\n        flags=re.IGNORECASE\n    )\n\n    has_concrete_contract = re.search(\n        r\"\\bcontract\\s+[A-Za-z_][A-Za-z0-9_]*\\b\",\n        cleaned_no_abstract,\n        flags=re.IGNORECASE\n    ) is not None\n\n    return has_interface and not has_concrete_contract and not has_abstract_contract\n\n\noutput_items = []\n\nfor item in _input.all():\n    contract_bunlde = item.json.get(\"chatInput\", \"\")\n    splitted_bundle = split_bundled_contract(contract_bunlde)\n\n    base_contract = splitted_bundle[\"base_contract\"]\n    is_interface_base = is_interface_only_base_contract(base_contract)\n\n    if is_interface_base: \n        return [\n            {\n                \"json\": {\n                    \"output\": []\n                }\n            }\n        ]\n    else:\n        out = dict(item.json)\n        out[\"base_contract\"] = base_contract\n        out[\"imported_contracts\"] = splitted_bundle[\"imported_contracts\"]\n    \n        output_items.append({\"json\": out})\n\nreturn output_items"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        48,
+        160
+      ],
+      "id": "cd133d3b-33ce-4507-a75a-531ba0e0941f",
+      "name": "split bundle + filter out interface-only contracts"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "714590be-5dc3-4f31-9f08-b275c4c684e6",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "empty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "e912ed8c-eec0-42a1-bbe4-05f7dd2a1102",
+              "leftValue": "={{ $json.base_contract}}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        288,
+        160
+      ],
+      "id": "2c99935e-a64a-4d4e-a690-4097f74f8122",
+      "name": "If1"
+    },
+    {
+      "parameters": {
         "schemaType": "manual",
-        "inputSchema": "{\n  \"type\": \"object\",\n  \"additionalProperties\": false,\n  \"required\": [\"has_slippage_controls\", \"no_slippage_controls\"],\n  \"properties\": {\n    \"has_slippage_controls\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"additionalProperties\": false,\n        \"required\": [\"code_snippet\", \"signature\", \"controls\", \"description\"],\n        \"properties\": {\n          \"code_snippet\": {\n            \"type\": \"string\",\n            \"pattern\": \"^[A-Za-z_][A-Za-z0-9_]*\\\\.[A-Za-z_][A-Za-z0-9_]*$\",\n            \"description\": \"Must be BaseContract.EntryFunction\"\n          },\n          \"signature\": {\n            \"type\": \"string\",\n            \"minLength\": 1\n          },\n          \"controls\": {\n            \"type\": \"array\",\n            \"minItems\": 1,\n            \"items\": {\n              \"type\": \"object\",\n              \"additionalProperties\": false,\n              \"required\": [\"type\", \"name\", \"mechanism\"],\n              \"properties\": {\n                \"type\": {\n                  \"type\": \"string\",\n                  \"enum\": [\"minOut\", \"maxIn\", \"priceLimit\", \"deadline\", \"other\"]\n                },\n                \"name\": {\n                  \"type\": \"string\",\n                  \"minLength\": 1,\n                  \"description\": \"Parameter/field/variable name used as a slippage-related control (e.g., amountOutMin, SwapParams.limit, sqrtPriceLimitX96).\"\n                },\n                \"mechanism\": {\n                  \"type\": \"string\",\n                  \"enum\": [\"passed\", \"checked\", \"both\"]\n                }\n              }\n            }\n          },\n          \"description\": {\n            \"type\": \"string\",\n            \"minLength\": 1,\n            \"maxLength\": 300,\n            \"description\": \"Brief path-based explanation of what slippage bounds are enforced on the executed path. Mention the executed external call site(s) and which control(s) (minOut/maxIn/priceLimit/deadline/other) are passed/checked.\"\n          }\n        }\n      }\n    },\n    \"no_slippage_controls\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"additionalProperties\": false,\n        \"required\": [\"code_snippet\", \"signature\", \"controls\", \"description\"],\n        \"properties\": {\n          \"code_snippet\": {\n            \"type\": \"string\",\n            \"pattern\": \"^[A-Za-z_][A-Za-z0-9_]*\\\\.[A-Za-z_][A-Za-z0-9_]*$\",\n            \"description\": \"Must be BaseContract.EntryFunction\"\n          },\n          \"signature\": {\n            \"type\": \"string\",\n            \"minLength\": 1\n          },\n          \"controls\": {\n            \"type\": \"array\",\n            \"maxItems\": 0,\n            \"items\": false,\n            \"description\": \"Must be an empty array for the no_slippage_controls group.\"\n          },\n          \"description\": {\n            \"type\": \"string\",\n            \"minLength\": 1,\n            \"maxLength\": 300,\n            \"description\": \"Brief path-based reason why this entry function lacks slippage controls. Mention executed call site(s) and the missing bound(s) (e.g., no minOut/maxIn/priceLimit). Do not speculate about opaque payloads or imported contract internals.\"\n          }\n        }\n      }\n    }\n  }\n}\n"
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"final_report\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"tag\": {\n            \"type\": \"array\",\n            \"items\": {\n              \"type\": \"string\",\n              \"enum\": [\n                \"DAO\",\n                \"DoS\",\n                \"Flashloan\",\n                \"Oracle\",\n                \"Logic error\",\n                \"Reentrancy\",\n                \"Access Control\",\n                \"Liquidation\",\n                \"Slippage\",\n                \"ERC4626\",\n                \"Input Validation\",\n                \"Bad Randomness\",\n                \"Chainlink\",\n                \"Arithmetic\",\n                \"Re-org Attack\",\n                \"Pause\",\n                \"Accounting Error\",\n                \"MEV\",\n                \"Upgradeable\",\n                \"ERC20\",\n                \"call / delegatecall\",\n                \"Uniswap\",\n                \"Cross-Chain\",\n                \"ERC777\",\n                \"Governance\",\n                \"Multisig\",\n                \"Rebalance\",\n                \"ERC1155\",\n                \"XSS Attack\",\n                \"ERC721\",\n                \"Gnosis safe\",\n                \"Opensea\",\n                \"EIP712\",\n                \"Bridge\",\n                \"Zksync\",\n                \"Replay Attack\",\n                \"Solmate\",\n                \"Compound\",\n                \"Solidity Version\",\n                \"EIP4494\"\n              ]\n            }\n          },\n          \"subtag\": {\n            \"type\": \"array\",\n            \"items\": {\n              \"type\": \"string\",\n              \"enum\": [\n                \"Violating CEI / Missing nonReentrant\",\n                \"Missing Approval\",\n                \"Inflation Attack\",\n                \"Not EIP Compliant\",\n                \"Asset Theft\",\n                \"Rounding Error\",\n                \"Invalid Validation\",\n                \"Cannot partial liquidations\",\n                \"Liquidation – Dust repay / front run evade liquidation\",\n                \"onERC721Received callback\",\n                \"Price Manipulation / Arbitrage opportunity\",\n                \"Bypass Mechanism\",\n                \"Invariant Violation\",\n                \"Does not match with Doc / Implementation Error\",\n                \"Invalid Slippage Control / Missing slippage check\",\n                \"No Incentive to Liquidate\",\n                \"Hardcoded Parameter\",\n                \"minOut set to 0\",\n                \"Missing deadline\",\n                \"Self liquidation\",\n                \"Missing minOut / maxAmount\",\n                \"Deprecated Library\",\n                \"Out of Gas\",\n                \"Stale Value\",\n                \"Front Run\",\n                \"Reward Manipulation\",\n                \"Token Decimal\",\n                \"Incorrect Parameter\",\n                \"No Recovery Mechanism\",\n                \"Centralization Risk\",\n                \"Precision Loss\",\n                \"Scaling\",\n                \"Peg / Depeg\",\n                \"State Update Inconsistency\",\n                \"Duplicate Value\",\n                \"Arbitrary Add/Remove/Set/ Call\",\n                \"Storage Gap\",\n                \"Missing Return Check\",\n                \"Misuse of Dependency\",\n                \"Role Takeover\",\n                \"Missing Time Constraint\",\n                \"Unauthorized Upgrade\",\n                \"Missing Initialization\",\n                \"slot0\",\n                \"Bad Condition\",\n                \"Unfair Liquidation\",\n                \"Nonce\",\n                \"Fee On Transfer Token\",\n                \"payable / receive()\",\n                \"Rebase Token\",\n                \"Whale\",\n                \"ERC777 Callback\",\n                \"EVM Compatibility\",\n                \"Case Sensitive\",\n                \"Execution Order Dependency\",\n                \"Cross-Function Reentrancy\",\n                \"Missing Functionality\",\n                \"Refund Failed\",\n                \"Diamond\",\n                \"Cannot Revoke\",\n                \"Typo\",\n                \"safeApprove\",\n                \"Missing Upper/Lower Bound Check\",\n                \"Unsafe Downcast\",\n                \"1/64 Gas Rule\",\n                \"Block Time / Block Number\",\n                \"Incorrect Formula\"\n              ]\n            }\n          },\n          \"severity\": {\n            \"type\": \"string\",\n            \"enum\": [\"high\", \"medium\"]\n          },\n          \"description\": {\n            \"type\": \"string\"\n          },\n          \"code_snippet\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\"tag\", \"subtag\", \"severity\", \"description\", \"code_snippet\"],\n        \"additionalProperties\": false\n      }\n    },\n    \"debug_report\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"original_code_snippet\": {\n            \"type\": \"string\"\n          },\n          \"decision\": {\n            \"type\": \"string\",\n            \"enum\": [\"kept\", \"trimmed\", \"removed\", \"skipped\"]\n          },\n          \"reason\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\"original_code_snippet\", \"decision\", \"reason\"],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\"final_report\", \"debug_report\"],\n  \"additionalProperties\": false\n}",
+        "autoFix": true
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.2,
       "position": [
-        912,
+        1392,
         368
       ],
-      "id": "3da50f7c-1ee2-4bd5-9cad-735a9a1e8cf0",
-      "name": "Stage 2 Parser"
+      "id": "f569f50c-ab07-4457-9c23-401aea49b88b",
+      "name": "Final Output Parser1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{\n  \"## Stage 1 result (slippage classification)\\n\\n\" +\n  JSON.stringify({\n    functions_need_slippage: (($json.output) || [])\n  }, null, 2) +\n\n  \"\\n\\n## Base contract\\n\\n\" + $json.base_contract +\n\n  \"\\n\\n## Imported contracts\\n\\n\" +\n  ($json.imported_contracts || []).map(c =>\n    \"=== \" + c.source_path + \" ===\\n\" + c.code\n  ).join(\"\\n\\n\")\n}}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=## Task to perform\n\nYou are a DeFi white hat hired to break this protocol.\nYou will receive:\n\n1) A base contract (primary analysis target)\n2) Imported contracts (reference only when needed)\n3) An array of functions claimed to require slippage protection\n\nYour task is to determine whether a user-accessible function could realistically be exploited via due to \n- Missing slippage control: There's no any slippage control exists\n- Hardcoded Slippage: Slippage control is preset into a fixed constant and cannot be modified by the user.\n- Slippage control set to 0: Slippage control (e.g., minOut) is set to 0 and is not user-adjustable.\n\nYou MUST only focus on functions inside the array, for each function and its description, executed_path: \n- Check if it has any of the above vulnerability\n- Classify the function into vulnerable/non-vulnerable\n\n### Report Format\n\nIf the conclusion is “No vulnerability”, report with an empty array:\n\n```\n[]\n```\n\nIf vulnerabilities found, report with a json:\n\n```\n[\n    {\n        \"tag\":  \"Main vulnerability category\",\n        \"subtag\": \"Specific vulnerability subtype\",\n        \"severity\": \"Severity level of the vulnerability\"\n        \"description\": \"Detailed description of the vulnerability\"\n        \"code_snippet: \"MUST be in the format: <ContractName>.<FunctionName>\"\n    }\n]\n```\n\n#### Deduplication & Consolidation Rules (MANDATORY)\n\nYou MUST consolidate findings that share the same:\n\n- Root cause\n- Vulnerability mechanism\n- Impact\n\nDo NOT report the same vulnerability separately for multiple functions if they stem from the same design flaw.\n\nIf multiple functions are affected by the same root issue:\n\n- Report them as ONE vulnerability entry.\n- Clearly list all affected functions inside the description.\n- The \"code_snippet\" field MUST include all affected functions, separated by comma, in the format:\n  <ContractName>.<Function1>, <ContractName>.<Function2>, ...\n\nOnly split findings into multiple entries if:\n- The root cause is different, OR\n- The vulnerability mechanism is materially different, OR\n- The impact category is different.\n\n#### Tag definition\n\nIf two tags share similar criteria, the system should select only the tag whose scenario provides the closest fit. Select all the tags that fit the scenario\n\n| Title | Description |\n|------|-------------|\n| DAO | Security vulnerabilities related to governance logic, permission control, voting mechanisms, member management, or cross-chain governance information verification in Decentralized Autonomous Organizations (DAOs). |\n| DoS | When there are flaws in the logic of a contract or protocol, it can lead to certain operations (such as deposits, withdrawals, transfers, proposals, liquidations, etc.) being unable to execute successfully for an extended period or permanently, which constitutes a type of Denial of Service (DoS) vulnerability.Such issues prevent the affected functionalities from being restored under unchanged contract states and hinder legitimate users from performing expected actions, often resulting in locked funds/assets, governance standoffs, or disruptions to business processes. |\n| Flashloan | When a protocol relies on instantaneous states (such as spot prices, real-time asset ratios, or current voting rights) to calculate yields, voting rights, minting limits, and liquidity operations without implementing time-weighted mechanisms or stabilization constraints, it allows attackers to temporarily dominate the system's ratios through flash loans or large capital within a single transaction or a few blocks. This manipulation can skew calculation results, enabling them to gain undue benefits or manipulate governance outcomes before the state is restored.|\n| Oracle | When a protocol obtains data from on-chain or off-chain external price sources, any flaws in the selection of data sources, update frequency, verification methods, scaling conversions, or calculation methods can lead to distorted, outdated, manipulated, or unusable prices. This, in turn, can affect critical functions such as trade matching, collateral liquidation, asset valuation, and minting/redeeming processes, which constitutes such vulnerabilities. |\n| Logic error | When there are logical errors in the implementation of a protocol that do not conform to the expected design or specification, such as issues with conditional statements, loop logic, index boundaries, variable update order, cross-module state synchronization, and special case handling, resulting in incorrect fund calculations, inaccurate balances/shares, incorrect states, or the inability to execute functions correctly, these are considered vulnerabilities of this type. |\n| Reentrancy | When a contract updates critical states before implementing a locking mechanism (such as nonReentrant or the Checks-Effects-Interactions pattern) and executes external calls (like transfer, call, safeTransferFrom, ERC777/1155 callbacks, etc.), it may allow malicious contracts (or token standards with hooks) to re-enter the original contract's functions or other related functions during the external call. This can lead to repeated execution of business logic, circumvention of condition checks, or state alteration for the purpose of stealing assets or manipulating processes, which constitutes such vulnerabilities. |\n| Access Control | The lack of proper authentication, authorization checks, or controls for key functions can result in unauthorized users being able to perform operations that should only be executable by specific roles (such as owner, admin, governance, etc.). Additionally, defects in authorization revocation, role transfer, or state-checking logic can lead to ongoing privilege leaks, which may ultimately be exploited to steal assets, compromise system configurations, or permanently lock funds. |\n| Liquidation | When there are design flaws in the liquidation process of lending or collateral contracts, including errors in triggering conditions, authorization checks, incentive mechanisms, calculation logic, and asset transfer steps this can result in defaults or under-collateralized positions not being liquidated as expected, being over-liquidated, or liquidators taking advantage of logical errors to steal assets or harm the interests of other users. |\n| Slippage | When a contract performs operations that require interaction with external prices, such as executing trades, exchanging tokens, adding or removing liquidity, and minting/redeeming assets it may lack mechanisms like minimum acceptable output (minOut), maximum acceptable prices, market volatility/slippage protection, and deadline checks. This can lead to users experiencing slippage beyond their expectations during transactions and suffering losses due to price manipulation or Miner Extractable Value (MEV) attacks (such as front-running or sandwich attacks).|\n| ERC4626 | When an asset pool (Vault) based on the ERC-4626 standard is implemented without adhering to the specifications for design and mathematical handling, such as method behaviors, boundary conditions, rounding direction, and consistency between return values and states or if there are vulnerabilities in the economic design like initial deposit manipulation or share inflation attacks, this can result in the Vault being incompatible with other protocols, incorrect calculations of user assets, or malicious damage to the system. |\n| Input Validation | When a contract lacks proper input parameter checks, asset/authority ownership verification, state validity checks, or invariants verification during the handling of critical processes (such as transactions, liquidations, governance, fund transfers, asset minting/burning, etc.), it may allow malicious or improper inputs to bypass intended restrictions. This can lead to asset theft, logical inconsistencies, irreversible system failures, or the compromise of the protocol. |\n| Bad Randomness | When a contract relies on randomness to determine outcomes (such as selecting a tokenId, choosing a winner, validators, conducting lottery draws, or sorting), flaws in the generation or usage patterns of random numbers, such as using predictable or manipulatable on-chain variables (like block information, timestamps, or miner-controllable values), allowing users to control the seed, lacking verification of result submissions, or having issues with re-draw/re-use can enable attackers or privileged roles to bias or select specific outcomes, thereby undermining fairness. |\n| Chainlink | When a contract relies on Chainlink oracles as a source for prices or randomness but utilizes outdated APIs, lacks necessary data validity checks (such as update times, round completeness, or min/max boundaries), is missing protective or fallback mechanisms, or uses incorrect feeds, it can result in the oracle returning values that may be outdated, erroneous, or manipulatable. |\n| Arithmetic | When there are flaws in the mathematical calculation logic of a contract, including issues such as overflow/underflow, division by zero, unsafe type conversions, incorrect precision scaling, rounding direction errors, and deviations from the intended design rules in computation formulas, it can lead to abnormal numerical results, incorrect asset calculations, and errors in incentives or penalties. |\n| Re-org Attack | A vulnerability that arises when smart contract logic assumes finality or determinism in block ordering, making it exploitable via chain reorganizations that reorder or replace recent blocks. |\n| Pause | When a contract provides mechanisms to pause system functionalities (such as Pausable, whenPaused, or whenNotPaused modifiers), flaws in the logic design or usage, such as allowing disallowed operations to be executed while in a paused state, failing to include pause checks in necessary functions, enabling circumvention of pause restrictions, or permanently locking the system can lead to an irrecoverable contract state or allow privileged roles to perform unauthorized actions. |\n| Accounting Error | When a protocol tracks, calculates, or synchronizes assets, discrepancies can arise between state records and actual asset changes, or the true behavior of assets may be overlooked in the numerical calculation logic. For example, the internal records may not synchronize with actual balances (due to state delays or missed updates), assumptions about asset quantities may be invalid (such as assuming that the amount transferred always equals the requested amount), and there may be systematic errors in calculation formulas. This can lead to discrepancies in shares, fees, rewards, and entitlement distributions. Additionally, cross-module or cross-asset records or calculations may not be consistently updated, resulting in duplicate calculations or omissions. |\n| MEV | The act of maximizing the extraction of economic value within a blockchain system by manipulating the ordering of transactions, front-running transactions, or reordering transactions within a block. This typically results in losses for users or unfair distribution of system resources. |\n| Upgradeable | When a contract is designed to be upgradeable (through proxy patterns, module replacements, etc.), but there are flaws in the upgrade logic, initialization processes, state storage consistency, upgrade permission protections, or compatibility of old states after an upgrade, it may allow unauthorized upgrades, initialization oversights, or other related vulnerabilities. |\n| ERC20 | When a contract interacts with ERC20 tokens, it may operate under erroneous assumptions about ERC20 behaviors, lack checks for return values, or fail to properly handle special token behaviors (such as fee-on-transfer, rebasing, non-standard return values, and unique approve rules). This can lead to unexpected results or vulnerabilities in the contract's functionality. |\n| call / delegatecall | When a protocol uses low-level Solidity calls (such as call(), delegatecall(), staticcall(), or inline Yul call instructions) for transfers or cross-contract interactions, if it does not check whether the return values indicate success and instead directly updates the state or assumes the operation has completed, it may lead to situations where the operation was not actually executed but is treated as successful. |\n| Uniswap | When integrating with Uniswap V2 / V3 / V4 , there are implementation errors or missing safeguards in core areas such as price calculation, path encoding, initialization constants, liquidity ratio calculation, and output validation. These issues lead to distorted or manipulable pricing bases (e.g., incorrect TWAP calculation, reliance on easily manipulated spot prices), corrupted trade path encoding (e.g., incorrect reversal of path bytes), incorrect initialization hash constants causing pair location failures, mistaken liquidity ratio and asset boundary assumptions (e.g., treating the entire pool as protocol assets, inaccurate share calculations, dust accumulation), and missing minimum-value checks on AMM operation min output values, which allow outputs that are not as expect. |\n| Cross-Chain | When a protocol designs or implements features such as cross-chain asset bridges, cross-chain messaging / proposal execution, or cross-chain governance, there may be defects in asset verification, message verification, inter-chain format compatibility, and state synchronization/rollback mechanisms. These issues can allow unsupported or unauthorized asset/address types to enter the cross-chain process; prevent assets from being automatically returned or rolled back after a cross-chain message fails on the target chain; and cause misinterpretation or asset loss due to differences in asset formats, decimal precision, or address formats between chains. They may also lead to unsynchronized state updates between source and target chains or malicious replay, resulting in unintended operations across chains, as well as a lack of permission checks or chain ID validation in cross-chain operations. |\n| ERC777 | When a contract executes an asset transfer that triggers an external ERC777 contract callback the tokensReceived() / tokensToSend() hook and performs sensitive asset calculations or state updates before the callback occurs (violating the Checks‑Effects‑Interactions pattern), or uses a revert that causes a DoS. |\n| Governance | In the logic for voting power calculation, threshold checks, snapshots, proposal processes, and member management, there are design flaws or missing validations that allow voting power to be temporarily manipulated (via flash loans or instant token acquisition/disposal), proposal processes to be bypassed or repeatedly triggered, valid proposals to be cancelled, threshold or ratio calculations to be incorrect so that insufficiently supported proposals can pass, and inconsistencies in member management where removed members can rejoin or retain privileges. Governance parameters or conditions can also be altered midway through voting, directly affecting the outcome, ultimately resulting in governance manipulation and even malicious fund extraction. |\n| Multisig | When a contract implements a multi-signature mechanism (Multi-signature wallet / multi-signature governance module) to authorize transactions or perform sensitive operations, flaws in signature verification, threshold counting, proposal execution process, and member management can allow unauthorized transactions to be executed, or enable bypassing of the authorization threshold, as well as errors in signature counting/threshold logic. |\n| Rebalance | When a protocol performs asset rebalancing or position redistribution operations to adjust the ratios of different assets or pools, design or validation flaws in processes such as calculation formulas, price dependencies, asset transfers, and state updates can result in incorrect rebalancing ratios, leading to asset allocation imbalances, share mismatches, and failure to properly synchronize state variables (e.g., pool balances, asset weights). This can cause subsequent logic errors or lock funds. Missing boundary checks may also allow a malicious user to exploit the rebalancing process to seize assets. |\n| ERC1155 | When a contract implements or extends the EIP‑1155 multi‑token standard and its business logic, flaws in standard behavior compliance, callback handling, supply and enumeration maintenance, and leasing/business validations may occur. These issues can lead to function behaviors that do not comply with the EIP‑1155 specification, breaking interoperability with other protocols, supply or token index miscalculations that cause data inconsistencies or asset mismatches, and the onERC1155Received callback being triggered or used at the wrong time. Such flaws can be exploited by attackers to perform reentrancy attacks or disrupt business processes.  |\n| XSS Attack | Refers to a vulnerability in a contract or Web3 application where improper filtering, encoding, or validation of external inputs allows an attacker to inject and execute malicious JavaScript code.  |\n| ERC721 | When a contract implements or extends the EIP‑721 NFT standard, flaws in standard compliance, tokenId generation and management, transfer/approval logic, callback security handling, and asset protection can occur. These issues can damage interoperability and composability with other protocols (by violating standard behaviors), allow malicious reentrancy, asset theft, or blocking (DoS), cause tokenId duplication or incorrect ownership records leading to asset mismatches, and result in insufficient business safeguards that let assets be burned, hijacked, or permanently locked. |\n| Gnosis safe | When an extension module (Guard, Extension, Handler) based on Gnosis Safe or other Safe‑like multi‑signature/smart wallets lacks necessary authorization checks, security validation, or state management in processes such as enabling, configuring, disabling, or parameter validation. |\n| Opensea | Issues related to Opensea integrations. |\n| EIP712 | When a contract’s signature verification or EIP‑712 typed data parsing process contains flaws such as incorrect encoding methods, mismatched hashing order, missing required fields, or insufficient nonce/replay protection, it can cause valid standard‑compliant signatures to fail verification (legitimate calls reverting), allow invalid or replayed signatures to pass verification, and enable attackers to reuse a signature across transactions or functions to repeatedly execute sensitive operations. |\n| Bridge | A protocol component used for transferring assets or data between different blockchain networks (L1, L2, or between different L1 networks). |\n| Zksync | Issues related to zkSync. |\n| Replay Attack | An attacker resubmits previously executed valid messages, transactions, or data.  |\n| Solmate | Issues related to Solmate library. |\n| Compound | Issues related to Compound protocol integrations. |\n| Solidity Version | Vulnerabilities caused by specific Solidity compiler versions or optimizer behavior. |\n| EIP4494 | Issues related to EIP-4494 (ERC721 Permit). |\n| TWAP | Covers all design or implementation errors related to obtaining, calculating, verifying, or using time-weighted average price (TWAP) data from an AMM, DEX, or oracle source.This includes incorrect TWAP computation formulas, failure to account for time between observations, use of inadequate observation windows susceptible to manipulation, reliance on spot prices instead of TWAP, handling of negative ticks or rounding errors incorrectly, processing outdated or zero-initialized data, reliance on low-liquidity pools for TWAP resulting in inaccurate or manipulable prices, missing validations on upstream oracle results, or design flaws that lock assets due to overly strict TWAP constraints.Vulnerabilities often lead to exploitable price manipulation, inaccurate valuations, DoS conditions in TWAP update loops, and incorrect automated trading or liquidation decisions. |\n| RCE | Covers all vulnerabilities that allow an attacker to remotely execute arbitrary code or commands on the target system (application server, backend service, node environment, or integrated off-chain component).This includes unsafe deserialization, injection into dynamic code execution functions, improper sandboxing, insecure use of eval or similar interpreters, lack of input sanitization in code compilation paths, and insecure integration with remote modules or plugins.Exploiting an RCE vulnerability enables an attacker to run arbitrary logic within the application's execution environment, potentially leading to complete system compromise, data exfiltration, service disruption, or lateral movement inside the infrastructure.  |\n\n#### Subtag definition\n\nIf two subtags share similar criteria, the system should select only the tag whose scenario provides the closest fit. Select all the subtags that fit the scenario.\n\n| Title | Description |\n|------|-------------|\n| Violating CEI / Missing nonReentrant | Issues related to violation of Checks-Effects-Interactions pattern or missing `nonReentrant` protection. |\n| Missing Approval | Missing `approve()` call before `transferFrom`, causing token transfers to fail. |\n| Inflation Attack | An exploit where a malicious user artificially inflates the asset or share baseline through manipulating initial conditions or specific parameters, resulting in unfair gain and unequal distribution of assets or shares within the system. |\n| Not EIP Compliant | Implementation does not adhere to relevant EIP standards, causing unexpected behavior or vulnerabilities. |\n| Asset Theft | Allows an unauthorized user to illicitly transfer or misappropriate assets from other. |\n| Rounding Error | Issues arising from incorrect rounding direction in numeric operations, causing value misallocation or minor deviations from the protocol’s or standard’s expected behavior. |\n| Invalid Validation | Missing or incorrect verification of inputs or required conditions, allowing operations to proceed without ensuring they meet expected safety or correctness requirements.  |\n| Cannot partial liquidations | Whales (large holders) cannot be liquidated due to specific limitations in the protocol. |\n| Liquidation – Dust repay / front run evade liquidation | Fine-grained errors related to dust repayment during liquidation and front running evasion. |\n| onERC721Received callback | Vulnerabilities associated with the `onERC721Received` callback function. |\n| Price Manipulation / Arbitrage opportunity | Opportunities for price manipulation or arbitrage within the system. |\n| Bypass Mechanism | This refers to flaws in the system's logic design, process control, or condition checks, allowing users or attackers to bypass intended security checks, charging processes, asset restrictions, or risk controls through specific sequences of operations or alternative processes. |\n| Invariant Violation | Breaches of assumed constants or invariants in system logic. |\n| Implementation Error | Implementation Error refers to design, logic, or coding flaws within the smart contract code.  |\n| Does not match with Doc | Contract behavior deviates from its documented specification, comments, or referenced standards, potentially leading to misuse, unexpected behavior, or integration errors.  |\n| Invalid Slippage Control / Missing slippage check | In price-sensitive operations such as swaps or liquidity changes, the contract omits any mechanism to enforce acceptable slippage (e.g., fails to require minOut, maxAmount, or equivalent constraints) where such protection is necessary. This includes cases with no slippage parameter at all or where the check is entirely absent. |\n| No Incentive to Liquidate | Lack of liquidation incentives leads to the generation of bad debts. |\n| Hardcoded Parameter | Important contract parameters, are hardcoded and cannot be dynamically configured, limiting flexibility and adaptability to changing conditions. |\n| minOut set to 0 | Setting minOut to zero disables slippage protection, allowing trades or liquidity operations to execute at any output amount regardless of price impact. This exposes users to unlimited slippage risk and potential severe asset loss.  |\n| Missing deadline | Missing deadline in swaps or other price-sensitive operations, allowing transactions to execute much later and exposing them to excessive price impact and slippage risk. |\n| Self liquidation | Vulnerabilities or issues that allow self liquidation under non-ideal conditions. |\n| Missing minOut / maxAmount | Errors related to missing or improperly set minimum output (minOut) or maximum spend (maxAmount) parameters, which are essential for slippage protection. |\n| Deprecated Library | Usage of outdated or unsupported function libraries, which may lead to operational disruptions or security vulnerabilities. |\n| Out of Gas | Transaction fails due to exceeding the gas limit allocated for its execution. |\n| Stale Value | The system uses outdated or obsolete data, which can be manipulated or exploited by attackers. |\n| Front Run | The act of exploiting transaction ordering to execute a transaction before another, in order to manipulate price, contract state, or system behavior for unfair advantage. |\n| Reward Manipulation | Exploiting weaknesses in a protocol’s reward distribution logic—such as timing, balance tracking, or eligibility checks—to gain more rewards than fairly earned. |\n| Token Decimal | The precision used to define token fractions in smart contracts, where incorrect setting or manipulation can cause calculation errors and transaction inaccuracies. |\n| Incorrect Parameter | A flaw where the value used in a calculation or passed to a function is wrong,  including wrong order, wrong type, or unintended variable reference. This covers both external inputs (function arguments) and internal values (state variables, constants) used in calculations. If the calculation formula itself is correct but a wrong value is used, it is classified as Incorrect Parameter.  |\n| No Recovery Mechanism | Lack of mechanism to recover from failed, frozen, or misconfigured components. |\n| Centralization Risk | Critical functions or system components are controlled by a single party, creating a risk of misuse, censorship, or manipulation. |\n| Precision Loss | Loss of numeric precision due to integer division or insufficient scaling (e.g., result becomes 0). |\n| Scaling | Failure to apply proper unit conversion or scaling factor in arithmetic operations involving tokens with different denominations or expected decimal precision. |\n| Peg / Depeg | Covers all design or implementation errors related to asset peg mechanisms, including improper maintenance of the peg (depeg), return biases, reliance on incorrect sources, or lack of detachment handling. |\n| State Update Inconsistency | State Update Inconsistency occurs when the state of a smart contract is updated in an inconsistent or incorrect manner, leading to discrepancies, inaccuracies, and unintended outcomes in future operations, calculations, or decisions. This may impact various aspects of the contract, such as pricing mechanisms, liquidation processes, or liquidity management, and could result in financial losses or manipulative opportunities.|\n| Duplicate Value | A vulnerability where two or more distinct entities (e.g. assets, records, or users) unintentionally share the same key or identifier (e.g. mapping key, oracle reference), causing one to overwrite or shadow the other. |\n| Arbitrary Add/Remove/Set/Call | The contract allows unauthorized addresses to arbitrarily add/remove/call or set key states or resources, leading to privilege abuse or system anomalies.  |\n| Storage Gap | In upgradeable contracts, to avoid storage slot conflicts and overwrites during upgrades, a fixed-length gap of empty storage space is reserved for future extension of contract state variables. The absence of or incorrect design of the storage gap may lead to state corruption or data overwriting after the upgrade. |\n| Missing Return Check | The return value  is not verified. |\n| Misuse of Dependency | When using external dependencies (libraries, modules, or contracts), failing to correctly reference them according to their security design, version security announcements, or the appropriate usage context can lead to functional anomalies, security risks, or upgrade failures. This includes but is not limited to: using versions of external libraries with known vulnerabilities, incorrectly integrating third-party module interfaces, or neglecting the security initialization processes of dependencies. |\n| Role Takeover | A situation where a user or contract illegitimately gains control over a privileged role by removing, overriding, or replacing the originally designated role holder. |\n| Missing Time Constraint | The contract does not check time-related conditions (such as block.timestamp, deadline, expiry) |\n| Unauthorized Upgrade | Refers to the lack of authorization checks during the contract upgrade process, allowing unauthorized addresses to perform contract upgrade operations. |\n| Missing Initialization | The contract does not properly initialize necessary states (such as permissions, dependencies, parameters), which may lead to the contract being unusable or exhibiting abnormal behavior. |\n| slot0 | The contract directly relies on Uniswap's slot0 (which provides instantaneous price and liquidity data) as its quoting source without applying any time-smoothing mechanisms (such as TWAP). This makes the price highly susceptible to short-term manipulations, for instance through flash loans. |\n| Bad Condition | This refers to errors or omissions in the conditional logic within the code that result in critical state checks, control flow branches, or security mechanisms not being triggered properly. Such errors can lead to severe issues, including loss of funds, permission bypasses, state inconsistencies, or logical corruption. |\n| Unfair Liquidation | This occurs when a user, despite not violating the protocol's rules, is liquidated due to insufficient protective measures or design flaws in the protocol.  |\n| Nonce | The absence or misuse of a nonce mechanism can lead to operations being re-executed, replayed, or subjected to race conditions.  |\n| Fee On Transfer Token | Vulnerability, incompatibility, or oversight arises due to the behavior of fee-on-transfer tokens — tokens that deduct a fee during transfers, causing the received amount to be less than the sent amount. |\n| payable / receive() | Improper design of payable or receive() / fallback() functions leading to issues in fund reception, control, or logic. |\n| Rebase Token | Covers security or accounting issues arising from the use or integration of Rebase Tokens, which have dynamic supply adjustment mechanisms. |\n| Whale | Involves situations where a single or a few addresses hold large amounts of assets, leading to asymmetric risks such as market manipulation, concentrated governance, unusual liquidations, and distorted rewards within the protocol. |\n| ERC777 Callback | When interacting with ERC777 tokens, misuse of callbacks can lead to external contracts controlling states unexpectedly, causing security risks or business logic errors. |\n| EVM Compatibility | The contract design or protocol assumes certain EVM behaviors (such as gas model, opcode support, call patterns, address format, precompile availability, etc.) are consistent across all chains. However, differences in these behaviors on various EVM-compatible chains or Layer 2 solutions can lead to logic errors, functionality failures, or security vulnerabilities. |\n| Case Sensitive | The comparison logic for user input, addresses, function names, or identifiers is case-sensitive, leading to behavior that does not match expectations. |\n| Execution Order Dependency | Protocol logic relies on a specific transaction order or execution timing.This can lead to issues such as repeated execution, asset loss, or state errors. |\n| Cross-Function Reentrancy | Cross-Function Reentrancy  refers to a scenario where a contract makes an external call during the execution of a function and is vulnerable to an attacker reentering through a different entry function upon the external call’s return. This can cause unsynchronized state reads, writes, or asset manipulations, leading to logic errors or security vulnerabilities. |\n| Missing Functionality |  Lacks necessary functionalities or is missing functions to implement specific features. |\n| Refund Failed | When a protocol sends or returns assets, the operation may fail if the recipient is blacklisted or if the callback or receiving function revert. |\n| Diamond | Issues related to the EIP-2535 Diamond standard or similar multi-facet, multi-delegate proxy architectures. |\n| Cannot Revoke | When a system or contract allows a function, module, role, or permission to be enabled or granted, but does not provide a corresponding mechanism for safe revocation or deactivation. This leads to a situation where users or contracts cannot revoke, disable, or reclaim the function or permission, even if it is no longer safe or needs to be disabled. |\n| Typo | Typographical errors in the source code or configuration. |\n| safeApprove | Unsafe safeApprove |\n| Missing Upper/Lower Bound Check | A vulnerability caused when smart contracts accept numeric inputs, token allowances, or other adjustable parameters without enforcing minimum or maximum limits. This allows unexpected or extreme values that can break contract logic, bypass intended constraints, or create financial loss. |\n| Unsafe Downcast | Larger integer type (e.g., uint256) is cast to a smaller type (e.g., uint128, uint64, uint32) without validation.  |\n| 1/64 Gas Rule | Caused by the EIP-150 gas forwarding rule, where only 63/64 of the remaining gas is forwarded in CALL, DELEGATECALL, STATICCALL, or CALLCODE. If the callee requires all remaining gas, the call may fail unexpectedly. |\n| Block Time / Block Number | The use of block.timestamp and block.number across different chains. |\n| Incorrect Formula | The protocol uses incorrect formulas or operator when calculating amounts, ratios, rewards, collateral rates, or other key economic variables, resulting in outcomes that do not align with expectations or design specifications. |"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        976,
+        112
+      ],
+      "id": "dc0682bf-82c3-40bd-bc1e-2b7a100fbeef",
+      "name": "check slippage existence/effective",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ \n  \"## Base contract\\n\\n\" + $json.base_contract + \n  \"\\n\\n## Imported contracts\\n\\n\" + ($json.imported_contracts || []).map(c =>\n  \"=== \" + c.source_path + \" ===\\n\" + c.code\n).join(\"\\n\\n\")\n}}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=## Task to perform\n\nYou are a DeFi white hat hired to break the protocol and focus on the potential explotable slippage vulnerability.\n\nYour task is to identify user-callable functions that need slippage protection.\n\nA function needs slippage / execution-price protection if the user enters an economic conversion and the final execution terms can become worse between transaction submission and execution because they depend on mutable state.\n\nAt this stage, DO NOT decide whether the function is already safe.\nOnly identify candidate functions that need such protection in principle.\n\n## Scope restriction (critical)\n\nBase-contract-only findings.\n- The input contains one base contract plus imported contracts.\n- You MUST first read the base contract.\n- Consult imported contracts only after identifying a suspicious pattern in the base contract and only for minimal context.\n- Do NOT proactively scan imported contracts for unrelated issues.\n\n## What counts as a candidate function\n\nReport a function if BOTH are true:\n\n### A. It performs a user-facing economic conversion\nExamples:\n- pay token(s) -> receive token(s)\n- pay assets -> receive shares / LP / bonds / receipt tokens / sale allocation\n- burn shares / LP -> receive underlying assets\n- deposit assets -> receive LP / vault shares\n- redeem / sell / bond / subscribe / mint against reserves or pool state\n\n### B. The final execution terms depend on mutable state at execution time\nExamples of mutable state:\n- AMM reserves / ticks / balances / routing quotes\n- pool ratios or vault TVL composition\n- total supply / exchange rate / share price\n- reserve balances / treasury balances\n- admin/governance-updatable price variables\n- strategist-controlled state, rebalance results\n- any other execution-time state that determines amount in / amount out / shares minted / shares burned / asset mix consumed or returned\n\n## Explicit exclusions\n\nDo NOT report:\n- plain transfer / transferFrom / approve\n- pure bookkeeping with fixed amounts and no state-dependent conversion\n- pure validation checks\n- pure oracle reads with no economic conversion\n- deterministic 1:1 wrap/unwrap with no execution-time variable rate\n- lending/borrowing/repay flows where transferred amounts are fixed and not execution-price-sensitive\n\n## Review style\n\nBe adversarial.\nAsk:\n- Can the user submit expecting execution terms X,\n  but actually receive worse terms Y because state changed before execution?\nIf yes, report the function as a candidate.\n\nDo NOT ask whether a slippage parameter already exists.\nThat belongs to Stage 2.\n\n## Output format (JSON)\n\nReturn a JSON array:\n\n[\n  {\n    \"code_snippet\": \"ContractName.FunctionName\",\n    \"signature\": \"function ...\",\n    \"mechanism\": \"swap | add_liquidity | remove_liquidity | share_mint | share_burn | bond_purchase | fixed_price_sale | state_dependent_purchase | other_state_dependent_conversion\",\n    \"user_gives\": \"What the user pays / deposits / burns\",\n    \"user_gets\": \"What the user receives\",\n    \"mutable_state_source\": \"pool reserves | tvl composition | total supply | admin-set price | strategist rebalance | reserve balance | ...\",\n    \"user_exposure\": \"amountOut can decrease | amountIn can increase | shares minted can decrease | asset mix can worsen | ...\",\n    \"why_candidate\": \"Explain why this function needs slippage/execution-price protection in principle.\",\n    \"executed_path\": \"Short execution trace from user entrypoint to the final state-dependent conversion step.\"\n  }\n]"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        624,
+        112
+      ],
+      "id": "7ba61481-4218-40b6-a395-bce6a57c3b8a",
+      "name": "detect function needs to be protected",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{\n  \"## Base contract\\n\\n\" +\n  $json.base_contract +\n  \"\\n\\n## Reports\\n\\n\" +\n  JSON.stringify($json.output, null, 2)\n}}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "## Task to perform\n\nGiven the contract and the reports, judge if each report is valid.\n\nJudgement rules:\n- Check whether the reported function really needs slippage protection.\n- Functions that are inside interface and have no implementation should not be reported.\n- If the slippage parameter is user-controllable, do not report it as hardcoded or minOut set to 0.\n- If a report is fully valid, keep it.\n- If a report is partially invalid, keep only the valid portion and remove the invalid portion.\n- If a report is invalid, remove it.\n- If there is no original report, final_report should be an empty array.\n\n## Output requirements\n\nYou MUST output a single JSON object with exactly two fields:\n\n1. `final_report`: the cleaned report that will be used by downstream systems / webhook.\n2. `debug_report`: explanation for each original report, including whether it was kept, trimmed, removed, or skipped, and why.\n\nAdditionally, produce a separate debug report explaining why original findings were kept, trimmed, removed, or skipped.\n\n## Output format\n\n{\n  \"final_report\": [\n    {\n      \"tag\": [\"...\"],\n      \"subtag\": [\"...\"],\n      \"severity\": \"high or medium\",\n      \"description\": \"...\",\n      \"code_snippet\": \"ContractName.FunctionName\"\n    }\n  ],\n  \"debug_report\": [\n    {\n      \"original_code_snippet\": \"ContractName.FunctionName\",\n      \"decision\": \"kept | trimmed | removed | skipped\",\n      \"reason\": \"...\"\n    }\n  ]\n}"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1328,
+        112
+      ],
+      "id": "903c7801-aa44-4e92-96f8-f92030dfa12c",
+      "name": "Final validation"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "from pyodide.ffi import JsProxy\n\noutput_items = []\n\nfor item in _input.all():\n    raw_output = item.json.get(\"output\", {})\n\n    # Convert JsProxy to native Python object\n    if isinstance(raw_output, JsProxy):\n        raw_output = raw_output.to_py()\n\n    # Also convert nested JsProxy if needed\n    if hasattr(raw_output, \"to_py\"):\n        try:\n            raw_output = raw_output.to_py()\n        except Exception:\n            pass\n\n    if isinstance(raw_output, dict):\n        debug_report = raw_output.get(\"debug_report\", [])\n    elif isinstance(raw_output, list):\n        debug_report = raw_output\n    else:\n        debug_report = []\n\n    output_items.append({\n        \"json\": {\n            \"output\": debug_report\n        }\n    })\n\nreturn output_items"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1664,
+        -96
+      ],
+      "id": "51a2be57-ad58-4f0a-b26c-390854184146",
+      "name": "debug report"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "from pyodide.ffi import JsProxy\n\noutput_items = []\n\nfor item in _input.all():\n    raw_output = item.json.get(\"output\", {})\n\n    # Convert JsProxy to native Python object\n    if isinstance(raw_output, JsProxy):\n        raw_output = raw_output.to_py()\n\n    # Also convert nested JsProxy if needed\n    if hasattr(raw_output, \"to_py\"):\n        try:\n            raw_output = raw_output.to_py()\n        except Exception:\n            pass\n\n    if isinstance(raw_output, dict):\n        final_report = raw_output.get(\"final_report\", [])\n    elif isinstance(raw_output, list):\n        final_report = raw_output\n    else:\n        final_report = []\n\n    output_items.append({\n        \"json\": {\n            \"output\": final_report\n        }\n    })\n\nreturn output_items"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1664,
+        112
+      ],
+      "id": "1f70988b-3fb4-49db-becb-91e60cec057e",
+      "name": "final report"
+    },
+    {
+      "parameters": {
+        "mode": "chooseBranch"
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        2240,
+        -256
+      ],
+      "id": "f451fa84-e7dd-4b47-9689-da6ef2cfcc21",
+      "name": "Merge3"
     },
     {
       "parameters": {
@@ -212,94 +385,8 @@
         1216,
         -176
       ],
-      "id": "f33077c9-4061-4973-8477-7166a1d23915",
-      "name": "Merge1"
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "={{\n  \"## Stage 1 result (slippage classification)\\n\\n\" +\n  JSON.stringify({\n    has_slippage_controls: (($json.output && $json.output.has_slippage_controls) || []),\n    no_slippage_controls:  (($json.output && $json.output.no_slippage_controls)  || []),\n  }, null, 2) +\n\n  \"\\n\\n## Base contract\\n\\n\" + $json.base_contract +\n\n  \"\\n\\n## Imported contracts\\n\\n\" +\n  ($json.imported_contracts || []).map(c =>\n    \"=== \" + c.source_path + \" ===\\n\" + c.code\n  ).join(\"\\n\\n\")\n}}",
-        "hasOutputParser": true,
-        "messages": {
-          "messageValues": [
-            {
-              "message": "=## Task to perform\n\nYou are a smart contract security auditor. You will receive:\n1) a base contract source\n2) imported contracts (reference-only unless needed)\n3) two groups:\n   - `no_slippage_controls`: entry functions claimed to have no slippage controls\n   - `has_slippage_controls`: entry functions claimed to have slippage controls\n\nYour job is to VERIFY and, if needed, CORRECT the Stage-1 classification by resolving the real executed paths and checking whether the claimed controls are effective.\n\n### What to verify\n\n#### A) Verify `no_slippage_controls` candidates\nFor each listed function:\n1) **Does it actually perform (or trigger) a swap/join/exit/add liquidity/remove liquidity**\n   - If NO: simply skip and remove it (it does not need slippage protection).\n2) **On the executed path, is there any slippage control?** (existence only; do NOT judge correctness/strength)\n   - Check both:\n     - controls passed into external protocol calls (e.g., amountOutMinimum, amountInMaximum, limits arrays, minAmountsOut, sqrtPriceLimitX96, etc.)\n     - controls checked in contract before/after the call (require on minOut, maxIn, price bounds, etc.)\n   - If YES: move it to `has_slippage_controls` and record the control(s).\n   - If still NO: keep it in `no_slippage_controls` and explain why (call site + missing bounds).\n\n#### B) Verify `has_slippage_controls` candidates (control effectiveness)\nFor each listed function and each claimed control:\n1) Confirm the control is **actually used on the executed path** (not dead code / wrong branch).\n2) Check whether the control is **rendered ineffective**, including:\n   - explicitly set to 0 by code (e.g., amountOutMinimum = 0, minAmountsOut[i]=0)\n   - explicitly set to “infinite” / unbounded by code (e.g., amountInMaximum = type(uint256).max)\n   - explicitly hardcoded to a constant that ignores user input\n3) If a control is ineffective, reclassify the function into `no_slippage_controls` and explain.\n\n### Required reasoning artifacts per function\nFor every function you keep/reclassify, you MUST provide:\n- executed path summary: `entry → ... → external call site(s)`\n- call site(s) name(s) (e.g., `uniRouter.exactInput`, `balancerVault.batchSwap`, `kyberRouter.call`, `delegatecall(poolAction.join)`)\n- slippage-relevant parameters at the call site(s) and their sources\n- whether each control is `passed`, `checked`, or `both`\n- for ineffective controls: state the exact reason (0/unbounded/hardcoded/unused)\n\n### Report Format\n\nIf the conclusion is “No vulnerability”, report with an empty array:\n\n```\n[]\n```\n\nIf vulnerabilities found, report with a json:\n\n```\n[\n    {\n        \"tag\":  \"Main vulnerability category\",\n        \"subtag\": \"Specific vulnerability subtype\",\n        \"severity\": \"Severity level of the vulnerability\"\n        \"description\": \"Detailed description of the vulnerability\"\n        \"code_snippet: \"MUST be in the format: <ContractName>.<FunctionName>\"\n    }\n]\n```\n\n#### Deduplication & Consolidation Rules (MANDATORY)\n\nYou MUST consolidate findings that share the same:\n\n- Root cause\n- Vulnerability mechanism\n- Impact\n\nDo NOT report the same vulnerability separately for multiple functions if they stem from the same design flaw.\n\nIf multiple functions are affected by the same root issue:\n\n- Report them as ONE vulnerability entry.\n- Clearly list all affected functions inside the description.\n- The \"code_snippet\" field MUST include all affected functions, separated by comma, in the format:\n  <ContractName>.<Function1>, <ContractName>.<Function2>, ...\n\nOnly split findings into multiple entries if:\n- The root cause is different, OR\n- The vulnerability mechanism is materially different, OR\n- The impact category is different.\n\n#### Tag definition\n\nIf two tags share similar criteria, the system should select only the tag whose scenario provides the closest fit. Select all the tags that fit the scenario\n\n| Title | Description |\n|------|-------------|\n| DAO | Security vulnerabilities related to governance logic, permission control, voting mechanisms, member management, or cross-chain governance information verification in Decentralized Autonomous Organizations (DAOs). |\n| DoS | When there are flaws in the logic of a contract or protocol, it can lead to certain operations (such as deposits, withdrawals, transfers, proposals, liquidations, etc.) being unable to execute successfully for an extended period or permanently, which constitutes a type of Denial of Service (DoS) vulnerability.Such issues prevent the affected functionalities from being restored under unchanged contract states and hinder legitimate users from performing expected actions, often resulting in locked funds/assets, governance standoffs, or disruptions to business processes. |\n| Flashloan | When a protocol relies on instantaneous states (such as spot prices, real-time asset ratios, or current voting rights) to calculate yields, voting rights, minting limits, and liquidity operations without implementing time-weighted mechanisms or stabilization constraints, it allows attackers to temporarily dominate the system's ratios through flash loans or large capital within a single transaction or a few blocks. This manipulation can skew calculation results, enabling them to gain undue benefits or manipulate governance outcomes before the state is restored.|\n| Oracle | When a protocol obtains data from on-chain or off-chain external price sources, any flaws in the selection of data sources, update frequency, verification methods, scaling conversions, or calculation methods can lead to distorted, outdated, manipulated, or unusable prices. This, in turn, can affect critical functions such as trade matching, collateral liquidation, asset valuation, and minting/redeeming processes, which constitutes such vulnerabilities. |\n| Logic error | When there are logical errors in the implementation of a protocol that do not conform to the expected design or specification, such as issues with conditional statements, loop logic, index boundaries, variable update order, cross-module state synchronization, and special case handling, resulting in incorrect fund calculations, inaccurate balances/shares, incorrect states, or the inability to execute functions correctly, these are considered vulnerabilities of this type. |\n| Reentrancy | When a contract updates critical states before implementing a locking mechanism (such as nonReentrant or the Checks-Effects-Interactions pattern) and executes external calls (like transfer, call, safeTransferFrom, ERC777/1155 callbacks, etc.), it may allow malicious contracts (or token standards with hooks) to re-enter the original contract's functions or other related functions during the external call. This can lead to repeated execution of business logic, circumvention of condition checks, or state alteration for the purpose of stealing assets or manipulating processes, which constitutes such vulnerabilities. |\n| Access Control | The lack of proper authentication, authorization checks, or controls for key functions can result in unauthorized users being able to perform operations that should only be executable by specific roles (such as owner, admin, governance, etc.). Additionally, defects in authorization revocation, role transfer, or state-checking logic can lead to ongoing privilege leaks, which may ultimately be exploited to steal assets, compromise system configurations, or permanently lock funds. |\n| Liquidation | When there are design flaws in the liquidation process of lending or collateral contracts, including errors in triggering conditions, authorization checks, incentive mechanisms, calculation logic, and asset transfer steps this can result in defaults or under-collateralized positions not being liquidated as expected, being over-liquidated, or liquidators taking advantage of logical errors to steal assets or harm the interests of other users. |\n| Slippage | When a contract performs operations that require interaction with external prices, such as executing trades, exchanging tokens, adding or removing liquidity, and minting/redeeming assets it may lack mechanisms like minimum acceptable output (minOut), maximum acceptable prices, market volatility/slippage protection, and deadline checks. This can lead to users experiencing slippage beyond their expectations during transactions and suffering losses due to price manipulation or Miner Extractable Value (MEV) attacks (such as front-running or sandwich attacks).|\n| ERC4626 | When an asset pool (Vault) based on the ERC-4626 standard is implemented without adhering to the specifications for design and mathematical handling, such as method behaviors, boundary conditions, rounding direction, and consistency between return values and states or if there are vulnerabilities in the economic design like initial deposit manipulation or share inflation attacks, this can result in the Vault being incompatible with other protocols, incorrect calculations of user assets, or malicious damage to the system. |\n| Input Validation | When a contract lacks proper input parameter checks, asset/authority ownership verification, state validity checks, or invariants verification during the handling of critical processes (such as transactions, liquidations, governance, fund transfers, asset minting/burning, etc.), it may allow malicious or improper inputs to bypass intended restrictions. This can lead to asset theft, logical inconsistencies, irreversible system failures, or the compromise of the protocol. |\n| Bad Randomness | When a contract relies on randomness to determine outcomes (such as selecting a tokenId, choosing a winner, validators, conducting lottery draws, or sorting), flaws in the generation or usage patterns of random numbers, such as using predictable or manipulatable on-chain variables (like block information, timestamps, or miner-controllable values), allowing users to control the seed, lacking verification of result submissions, or having issues with re-draw/re-use can enable attackers or privileged roles to bias or select specific outcomes, thereby undermining fairness. |\n| Chainlink | When a contract relies on Chainlink oracles as a source for prices or randomness but utilizes outdated APIs, lacks necessary data validity checks (such as update times, round completeness, or min/max boundaries), is missing protective or fallback mechanisms, or uses incorrect feeds, it can result in the oracle returning values that may be outdated, erroneous, or manipulatable. |\n| Arithmetic | When there are flaws in the mathematical calculation logic of a contract, including issues such as overflow/underflow, division by zero, unsafe type conversions, incorrect precision scaling, rounding direction errors, and deviations from the intended design rules in computation formulas, it can lead to abnormal numerical results, incorrect asset calculations, and errors in incentives or penalties. |\n| Re-org Attack | A vulnerability that arises when smart contract logic assumes finality or determinism in block ordering, making it exploitable via chain reorganizations that reorder or replace recent blocks. |\n| Pause | When a contract provides mechanisms to pause system functionalities (such as Pausable, whenPaused, or whenNotPaused modifiers), flaws in the logic design or usage, such as allowing disallowed operations to be executed while in a paused state, failing to include pause checks in necessary functions, enabling circumvention of pause restrictions, or permanently locking the system can lead to an irrecoverable contract state or allow privileged roles to perform unauthorized actions. |\n| Accounting Error | When a protocol tracks, calculates, or synchronizes assets, discrepancies can arise between state records and actual asset changes, or the true behavior of assets may be overlooked in the numerical calculation logic. For example, the internal records may not synchronize with actual balances (due to state delays or missed updates), assumptions about asset quantities may be invalid (such as assuming that the amount transferred always equals the requested amount), and there may be systematic errors in calculation formulas. This can lead to discrepancies in shares, fees, rewards, and entitlement distributions. Additionally, cross-module or cross-asset records or calculations may not be consistently updated, resulting in duplicate calculations or omissions. |\n| MEV | The act of maximizing the extraction of economic value within a blockchain system by manipulating the ordering of transactions, front-running transactions, or reordering transactions within a block. This typically results in losses for users or unfair distribution of system resources. |\n| Upgradeable | When a contract is designed to be upgradeable (through proxy patterns, module replacements, etc.), but there are flaws in the upgrade logic, initialization processes, state storage consistency, upgrade permission protections, or compatibility of old states after an upgrade, it may allow unauthorized upgrades, initialization oversights, or other related vulnerabilities. |\n| ERC20 | When a contract interacts with ERC20 tokens, it may operate under erroneous assumptions about ERC20 behaviors, lack checks for return values, or fail to properly handle special token behaviors (such as fee-on-transfer, rebasing, non-standard return values, and unique approve rules). This can lead to unexpected results or vulnerabilities in the contract's functionality. |\n| call / delegatecall | When a protocol uses low-level Solidity calls (such as call(), delegatecall(), staticcall(), or inline Yul call instructions) for transfers or cross-contract interactions, if it does not check whether the return values indicate success and instead directly updates the state or assumes the operation has completed, it may lead to situations where the operation was not actually executed but is treated as successful. |\n| Uniswap | When integrating with Uniswap V2 / V3 / V4 , there are implementation errors or missing safeguards in core areas such as price calculation, path encoding, initialization constants, liquidity ratio calculation, and output validation. These issues lead to distorted or manipulable pricing bases (e.g., incorrect TWAP calculation, reliance on easily manipulated spot prices), corrupted trade path encoding (e.g., incorrect reversal of path bytes), incorrect initialization hash constants causing pair location failures, mistaken liquidity ratio and asset boundary assumptions (e.g., treating the entire pool as protocol assets, inaccurate share calculations, dust accumulation), and missing minimum-value checks on AMM operation min output values, which allow outputs that are not as expect. |\n| Cross-Chain | When a protocol designs or implements features such as cross-chain asset bridges, cross-chain messaging / proposal execution, or cross-chain governance, there may be defects in asset verification, message verification, inter-chain format compatibility, and state synchronization/rollback mechanisms. These issues can allow unsupported or unauthorized asset/address types to enter the cross-chain process; prevent assets from being automatically returned or rolled back after a cross-chain message fails on the target chain; and cause misinterpretation or asset loss due to differences in asset formats, decimal precision, or address formats between chains. They may also lead to unsynchronized state updates between source and target chains or malicious replay, resulting in unintended operations across chains, as well as a lack of permission checks or chain ID validation in cross-chain operations. |\n| ERC777 | When a contract executes an asset transfer that triggers an external ERC777 contract callback the tokensReceived() / tokensToSend() hook and performs sensitive asset calculations or state updates before the callback occurs (violating the Checks‑Effects‑Interactions pattern), or uses a revert that causes a DoS. |\n| Governance | In the logic for voting power calculation, threshold checks, snapshots, proposal processes, and member management, there are design flaws or missing validations that allow voting power to be temporarily manipulated (via flash loans or instant token acquisition/disposal), proposal processes to be bypassed or repeatedly triggered, valid proposals to be cancelled, threshold or ratio calculations to be incorrect so that insufficiently supported proposals can pass, and inconsistencies in member management where removed members can rejoin or retain privileges. Governance parameters or conditions can also be altered midway through voting, directly affecting the outcome, ultimately resulting in governance manipulation and even malicious fund extraction. |\n| Multisig | When a contract implements a multi-signature mechanism (Multi-signature wallet / multi-signature governance module) to authorize transactions or perform sensitive operations, flaws in signature verification, threshold counting, proposal execution process, and member management can allow unauthorized transactions to be executed, or enable bypassing of the authorization threshold, as well as errors in signature counting/threshold logic. |\n| Rebalance | When a protocol performs asset rebalancing or position redistribution operations to adjust the ratios of different assets or pools, design or validation flaws in processes such as calculation formulas, price dependencies, asset transfers, and state updates can result in incorrect rebalancing ratios, leading to asset allocation imbalances, share mismatches, and failure to properly synchronize state variables (e.g., pool balances, asset weights). This can cause subsequent logic errors or lock funds. Missing boundary checks may also allow a malicious user to exploit the rebalancing process to seize assets. |\n| ERC1155 | When a contract implements or extends the EIP‑1155 multi‑token standard and its business logic, flaws in standard behavior compliance, callback handling, supply and enumeration maintenance, and leasing/business validations may occur. These issues can lead to function behaviors that do not comply with the EIP‑1155 specification, breaking interoperability with other protocols, supply or token index miscalculations that cause data inconsistencies or asset mismatches, and the onERC1155Received callback being triggered or used at the wrong time. Such flaws can be exploited by attackers to perform reentrancy attacks or disrupt business processes.  |\n| XSS Attack | Refers to a vulnerability in a contract or Web3 application where improper filtering, encoding, or validation of external inputs allows an attacker to inject and execute malicious JavaScript code.  |\n| ERC721 | When a contract implements or extends the EIP‑721 NFT standard, flaws in standard compliance, tokenId generation and management, transfer/approval logic, callback security handling, and asset protection can occur. These issues can damage interoperability and composability with other protocols (by violating standard behaviors), allow malicious reentrancy, asset theft, or blocking (DoS), cause tokenId duplication or incorrect ownership records leading to asset mismatches, and result in insufficient business safeguards that let assets be burned, hijacked, or permanently locked. |\n| Gnosis safe | When an extension module (Guard, Extension, Handler) based on Gnosis Safe or other Safe‑like multi‑signature/smart wallets lacks necessary authorization checks, security validation, or state management in processes such as enabling, configuring, disabling, or parameter validation. |\n| Opensea | Issues related to Opensea integrations. |\n| EIP712 | When a contract’s signature verification or EIP‑712 typed data parsing process contains flaws such as incorrect encoding methods, mismatched hashing order, missing required fields, or insufficient nonce/replay protection, it can cause valid standard‑compliant signatures to fail verification (legitimate calls reverting), allow invalid or replayed signatures to pass verification, and enable attackers to reuse a signature across transactions or functions to repeatedly execute sensitive operations. |\n| Bridge | A protocol component used for transferring assets or data between different blockchain networks (L1, L2, or between different L1 networks). |\n| Zksync | Issues related to zkSync. |\n| Replay Attack | An attacker resubmits previously executed valid messages, transactions, or data.  |\n| Solmate | Issues related to Solmate library. |\n| Compound | Issues related to Compound protocol integrations. |\n| Solidity Version | Vulnerabilities caused by specific Solidity compiler versions or optimizer behavior. |\n| EIP4494 | Issues related to EIP-4494 (ERC721 Permit). |\n| TWAP | Covers all design or implementation errors related to obtaining, calculating, verifying, or using time-weighted average price (TWAP) data from an AMM, DEX, or oracle source.This includes incorrect TWAP computation formulas, failure to account for time between observations, use of inadequate observation windows susceptible to manipulation, reliance on spot prices instead of TWAP, handling of negative ticks or rounding errors incorrectly, processing outdated or zero-initialized data, reliance on low-liquidity pools for TWAP resulting in inaccurate or manipulable prices, missing validations on upstream oracle results, or design flaws that lock assets due to overly strict TWAP constraints.Vulnerabilities often lead to exploitable price manipulation, inaccurate valuations, DoS conditions in TWAP update loops, and incorrect automated trading or liquidation decisions. |\n| RCE | Covers all vulnerabilities that allow an attacker to remotely execute arbitrary code or commands on the target system (application server, backend service, node environment, or integrated off-chain component).This includes unsafe deserialization, injection into dynamic code execution functions, improper sandboxing, insecure use of eval or similar interpreters, lack of input sanitization in code compilation paths, and insecure integration with remote modules or plugins.Exploiting an RCE vulnerability enables an attacker to run arbitrary logic within the application's execution environment, potentially leading to complete system compromise, data exfiltration, service disruption, or lateral movement inside the infrastructure.  |\n\n#### Subtag definition\n\nIf two subtags share similar criteria, the system should select only the tag whose scenario provides the closest fit. Select all the subtags that fit the scenario.\n\n| Title | Description |\n|------|-------------|\n| Violating CEI / Missing nonReentrant | Issues related to violation of Checks-Effects-Interactions pattern or missing `nonReentrant` protection. |\n| Missing Approval | Missing `approve()` call before `transferFrom`, causing token transfers to fail. |\n| Inflation Attack | An exploit where a malicious user artificially inflates the asset or share baseline through manipulating initial conditions or specific parameters, resulting in unfair gain and unequal distribution of assets or shares within the system. |\n| Not EIP Compliant | Implementation does not adhere to relevant EIP standards, causing unexpected behavior or vulnerabilities. |\n| Asset Theft | Allows an unauthorized user to illicitly transfer or misappropriate assets from other. |\n| Rounding Error | Issues arising from incorrect rounding direction in numeric operations, causing value misallocation or minor deviations from the protocol’s or standard’s expected behavior. |\n| Invalid Validation | Missing or incorrect verification of inputs or required conditions, allowing operations to proceed without ensuring they meet expected safety or correctness requirements.  |\n| Cannot partial liquidations | Whales (large holders) cannot be liquidated due to specific limitations in the protocol. |\n| Liquidation – Dust repay / front run evade liquidation | Fine-grained errors related to dust repayment during liquidation and front running evasion. |\n| onERC721Received callback | Vulnerabilities associated with the `onERC721Received` callback function. |\n| Price Manipulation / Arbitrage opportunity | Opportunities for price manipulation or arbitrage within the system. |\n| Bypass Mechanism | This refers to flaws in the system's logic design, process control, or condition checks, allowing users or attackers to bypass intended security checks, charging processes, asset restrictions, or risk controls through specific sequences of operations or alternative processes. |\n| Invariant Violation | Breaches of assumed constants or invariants in system logic. |\n| Implementation Error | Implementation Error refers to design, logic, or coding flaws within the smart contract code.  |\n| Does not match with Doc | Contract behavior deviates from its documented specification, comments, or referenced standards, potentially leading to misuse, unexpected behavior, or integration errors.  |\n| Invalid Slippage Control / Missing slippage check | In price-sensitive operations such as swaps or liquidity changes, the contract omits any mechanism to enforce acceptable slippage (e.g., fails to require minOut, maxAmount, or equivalent constraints) where such protection is necessary. This includes cases with no slippage parameter at all or where the check is entirely absent. |\n| No Incentive to Liquidate | Lack of liquidation incentives leads to the generation of bad debts. |\n| Hardcoded Parameter | Important contract parameters, are hardcoded and cannot be dynamically configured, limiting flexibility and adaptability to changing conditions. |\n| minOut set to 0 | Setting minOut to zero disables slippage protection, allowing trades or liquidity operations to execute at any output amount regardless of price impact. This exposes users to unlimited slippage risk and potential severe asset loss.  |\n| Missing deadline | Missing deadline in swaps or other price-sensitive operations, allowing transactions to execute much later and exposing them to excessive price impact and slippage risk. |\n| Self liquidation | Vulnerabilities or issues that allow self liquidation under non-ideal conditions. |\n| Missing minOut / maxAmount | Errors related to missing or improperly set minimum output (minOut) or maximum spend (maxAmount) parameters, which are essential for slippage protection. |\n| Deprecated Library | Usage of outdated or unsupported function libraries, which may lead to operational disruptions or security vulnerabilities. |\n| Out of Gas | Transaction fails due to exceeding the gas limit allocated for its execution. |\n| Stale Value | The system uses outdated or obsolete data, which can be manipulated or exploited by attackers. |\n| Front Run | The act of exploiting transaction ordering to execute a transaction before another, in order to manipulate price, contract state, or system behavior for unfair advantage. |\n| Reward Manipulation | Exploiting weaknesses in a protocol’s reward distribution logic—such as timing, balance tracking, or eligibility checks—to gain more rewards than fairly earned. |\n| Token Decimal | The precision used to define token fractions in smart contracts, where incorrect setting or manipulation can cause calculation errors and transaction inaccuracies. |\n| Incorrect Parameter | A flaw where the value used in a calculation or passed to a function is wrong,  including wrong order, wrong type, or unintended variable reference. This covers both external inputs (function arguments) and internal values (state variables, constants) used in calculations. If the calculation formula itself is correct but a wrong value is used, it is classified as Incorrect Parameter.  |\n| No Recovery Mechanism | Lack of mechanism to recover from failed, frozen, or misconfigured components. |\n| Centralization Risk | Critical functions or system components are controlled by a single party, creating a risk of misuse, censorship, or manipulation. |\n| Precision Loss | Loss of numeric precision due to integer division or insufficient scaling (e.g., result becomes 0). |\n| Scaling | Failure to apply proper unit conversion or scaling factor in arithmetic operations involving tokens with different denominations or expected decimal precision. |\n| Peg / Depeg | Covers all design or implementation errors related to asset peg mechanisms, including improper maintenance of the peg (depeg), return biases, reliance on incorrect sources, or lack of detachment handling. |\n| State Update Inconsistency | State Update Inconsistency occurs when the state of a smart contract is updated in an inconsistent or incorrect manner, leading to discrepancies, inaccuracies, and unintended outcomes in future operations, calculations, or decisions. This may impact various aspects of the contract, such as pricing mechanisms, liquidation processes, or liquidity management, and could result in financial losses or manipulative opportunities.|\n| Duplicate Value | A vulnerability where two or more distinct entities (e.g. assets, records, or users) unintentionally share the same key or identifier (e.g. mapping key, oracle reference), causing one to overwrite or shadow the other. |\n| Arbitrary Add/Remove/Set/Call | The contract allows unauthorized addresses to arbitrarily add/remove/call or set key states or resources, leading to privilege abuse or system anomalies.  |\n| Storage Gap | In upgradeable contracts, to avoid storage slot conflicts and overwrites during upgrades, a fixed-length gap of empty storage space is reserved for future extension of contract state variables. The absence of or incorrect design of the storage gap may lead to state corruption or data overwriting after the upgrade. |\n| Missing Return Check | The return value  is not verified. |\n| Misuse of Dependency | When using external dependencies (libraries, modules, or contracts), failing to correctly reference them according to their security design, version security announcements, or the appropriate usage context can lead to functional anomalies, security risks, or upgrade failures. This includes but is not limited to: using versions of external libraries with known vulnerabilities, incorrectly integrating third-party module interfaces, or neglecting the security initialization processes of dependencies. |\n| Role Takeover | A situation where a user or contract illegitimately gains control over a privileged role by removing, overriding, or replacing the originally designated role holder. |\n| Missing Time Constraint | The contract does not check time-related conditions (such as block.timestamp, deadline, expiry) |\n| Unauthorized Upgrade | Refers to the lack of authorization checks during the contract upgrade process, allowing unauthorized addresses to perform contract upgrade operations. |\n| Missing Initialization | The contract does not properly initialize necessary states (such as permissions, dependencies, parameters), which may lead to the contract being unusable or exhibiting abnormal behavior. |\n| slot0 | The contract directly relies on Uniswap's slot0 (which provides instantaneous price and liquidity data) as its quoting source without applying any time-smoothing mechanisms (such as TWAP). This makes the price highly susceptible to short-term manipulations, for instance through flash loans. |\n| Bad Condition | This refers to errors or omissions in the conditional logic within the code that result in critical state checks, control flow branches, or security mechanisms not being triggered properly. Such errors can lead to severe issues, including loss of funds, permission bypasses, state inconsistencies, or logical corruption. |\n| Unfair Liquidation | This occurs when a user, despite not violating the protocol's rules, is liquidated due to insufficient protective measures or design flaws in the protocol.  |\n| Nonce | The absence or misuse of a nonce mechanism can lead to operations being re-executed, replayed, or subjected to race conditions.  |\n| Fee On Transfer Token | Vulnerability, incompatibility, or oversight arises due to the behavior of fee-on-transfer tokens — tokens that deduct a fee during transfers, causing the received amount to be less than the sent amount. |\n| payable / receive() | Improper design of payable or receive() / fallback() functions leading to issues in fund reception, control, or logic. |\n| Rebase Token | Covers security or accounting issues arising from the use or integration of Rebase Tokens, which have dynamic supply adjustment mechanisms. |\n| Whale | Involves situations where a single or a few addresses hold large amounts of assets, leading to asymmetric risks such as market manipulation, concentrated governance, unusual liquidations, and distorted rewards within the protocol. |\n| ERC777 Callback | When interacting with ERC777 tokens, misuse of callbacks can lead to external contracts controlling states unexpectedly, causing security risks or business logic errors. |\n| EVM Compatibility | The contract design or protocol assumes certain EVM behaviors (such as gas model, opcode support, call patterns, address format, precompile availability, etc.) are consistent across all chains. However, differences in these behaviors on various EVM-compatible chains or Layer 2 solutions can lead to logic errors, functionality failures, or security vulnerabilities. |\n| Case Sensitive | The comparison logic for user input, addresses, function names, or identifiers is case-sensitive, leading to behavior that does not match expectations. |\n| Execution Order Dependency | Protocol logic relies on a specific transaction order or execution timing.This can lead to issues such as repeated execution, asset loss, or state errors. |\n| Cross-Function Reentrancy | Cross-Function Reentrancy  refers to a scenario where a contract makes an external call during the execution of a function and is vulnerable to an attacker reentering through a different entry function upon the external call’s return. This can cause unsynchronized state reads, writes, or asset manipulations, leading to logic errors or security vulnerabilities. |\n| Missing Functionality |  Lacks necessary functionalities or is missing functions to implement specific features. |\n| Refund Failed | When a protocol sends or returns assets, the operation may fail if the recipient is blacklisted or if the callback or receiving function revert. |\n| Diamond | Issues related to the EIP-2535 Diamond standard or similar multi-facet, multi-delegate proxy architectures. |\n| Cannot Revoke | When a system or contract allows a function, module, role, or permission to be enabled or granted, but does not provide a corresponding mechanism for safe revocation or deactivation. This leads to a situation where users or contracts cannot revoke, disable, or reclaim the function or permission, even if it is no longer safe or needs to be disabled. |\n| Typo | Typographical errors in the source code or configuration. |\n| safeApprove | Unsafe safeApprove |\n| Missing Upper/Lower Bound Check | A vulnerability caused when smart contracts accept numeric inputs, token allowances, or other adjustable parameters without enforcing minimum or maximum limits. This allows unexpected or extreme values that can break contract logic, bypass intended constraints, or create financial loss. |\n| Unsafe Downcast | Larger integer type (e.g., uint256) is cast to a smaller type (e.g., uint128, uint64, uint32) without validation.  |\n| 1/64 Gas Rule | Caused by the EIP-150 gas forwarding rule, where only 63/64 of the remaining gas is forwarded in CALL, DELEGATECALL, STATICCALL, or CALLCODE. If the callee requires all remaining gas, the call may fail unexpectedly. |\n| Block Time / Block Number | The use of block.timestamp and block.number across different chains. |\n| Incorrect Formula | The protocol uses incorrect formulas or operator when calculating amounts, ratios, rewards, collateral rates, or other key economic variables, resulting in outcomes that do not align with expectations or design specifications. |"
-            }
-          ]
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.5,
-      "position": [
-        1328,
-        112
-      ],
-      "id": "dc0682bf-82c3-40bd-bc1e-2b7a100fbeef",
-      "name": "stage 3: final validation",
-      "alwaysOutputData": true,
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "={{\n  \"## Detected functions (stage 1 output)\\n\\n\" +\n  JSON.stringify($json.output || [], null, 2) +\n  \"\\n\\n## Base contract\\n\\n\" + $json.base_contract +\n  \"\\n\\n## Imported contracts\\n\\n\" + ($json.imported_contracts || []).map(c =>\n    \"=== \" + c.source_path + \" ===\\n\" + c.code\n  ).join(\"\\n\\n\")\n}}",
-        "hasOutputParser": true,
-        "messages": {
-          "messageValues": [
-            {
-              "message": "=## Task to perform\n\nYou are a smart contract security auditor. You will receive:\n1) a base contract source\n2) imported contracts (reference-only unless needed)\n3) An array: functions claimed to need slippage control\n\nYou MUST only focus on functions inside the array, for each of it:\n-\tTrace the call graph along the executed branch(es) and construct the resolved patha:\n\te.g., entry → internal calls → library calls → external protocol calls\n-\tIdentify the actual swap/liquidity external call site(s):\n\te.g., router.swap..., pool.swap(...), vault.joinPool/exitPool, dexAggregator.call(data)\n\tif there's no call site the actual swap/liquidity external call site, ignore and skip it\n- For each constructed path, check if it has any slippage parameter/control along the path  (**existence only; you MUST NOT judge correctness/strength**)\n\t- If the function has slippage parameter and directly uses it -> yes\n\t- If the function has slippage parameter and passes it to the internal/external call -> yes\n\t- If at the call site, the external call has slippage parameter/controls -> yes\n\t- Otherwise -> no\n\ti.e., as long as the final actual swap/liquidity external call site(s) contain slippage parameter/control, it has slippage protection. \n- Given the previous result, classify the function into one of these groups:\n\t- Group 1: Has as least one slippage parameter/related controls\n\t- Group 2: No slippage parameter/related controls\n\n## Output format (JSON)\n\n{\n  \"has_slippage_controls\": [\n    { \n      \"code_snippet\": \"BaseContract.entryFunction\",\n      \"signature\": \"entryFunction(type1,type2,...) external/public\",\n      \"controls\": [\n        {\n          \"type\": \"minOut|maxIn|priceLimit|deadline|other\",\n          \"name\": \"string\",\n          \"mechanism\": \"passed|checked|both\"\n        }\n      ],\n      \"description\": \"Brief path-based explanation of what slippage bounds are enforced and at which call site(s).\"\n    }\n  ],\n  \"no_slippage_controls\": [\n    {\n      \"code_snippet\": \"BaseContract.entryFunction\",\n      \"signature\": \"entryFunction(type1,type2,...) external/public\",\n      \"controls\": [],\n      \"description\": \"Brief path-based explanation identifying the executed call site(s) and the missing slippage bound(s).\"\n    }\n  ]\n}\n"
-            }
-          ]
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.5,
-      "position": [
-        976,
-        112
-      ],
-      "id": "cfe4430b-9100-4ec8-8d62-d1c937a6f290",
-      "name": "stage 2: check slippage control",
-      "alwaysOutputData": true,
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "={{ \n  \"## Base contract\\n\\n\" + $json.base_contract + \n  \"\\n\\n## Imported contracts\\n\\n\" + ($json.imported_contracts || []).map(c =>\n  \"=== \" + c.source_path + \" ===\\n\" + c.code\n).join(\"\\n\\n\")\n}}",
-        "hasOutputParser": true,
-        "messages": {
-          "messageValues": [
-            {
-              "message": "=## Task to perform\n\nYou are a smart contract security auditor.\n\nYour task is to identify **only user-trade slippage surfaces**: functions (external/public entrypoints and any internal functions they call) that **execute or directly trigger price-taking actions against external liquidity venues**, where the output can vary due to AMM price impact, MEV, or market movement.\n\n### Slippage-sensitive action types (report only these)\n\n- **swaps**\n  A call that **trades token A for token B at a variable rate** set by an exchange mechanism (AMM curve, orderbook, RFQ, aggregator routing).\n  Typical indicators:\n  - function/method semantics are “swap/exchange/trade”\n  - output amount depends on pool state (reserves/price/ticks) or quotes\n  - has/should have `minOut`, `maxIn`, `priceLimit`, or `deadline`\n\n- **add_liquidity / join_pool**\n  A call that **deposits assets into a pricing pool** and receives an LP position/shares where the minted amount depends on current pool ratios/prices.\n  Typical indicators:\n  - “join/add liquidity/mint position” semantics\n  - minted LP/shares depends on pool state (ratios, tick range, balances)\n\n- **remove_liquidity / exit_pool**\n  A call that **burns LP/position/shares** to withdraw underlying assets where the withdrawn amounts depend on current pool ratios/prices.\n  Typical indicators:\n  - “exit/remove liquidity/burn position” semantics\n  - amounts out depend on pool state (ratios, balances, tick, etc.)\n\n### Explicit exclusions (MUST NOT report these as slippage)\n\nDo NOT report a function unless it performs one of the actions above. In particular, do NOT classify the following as slippage-sensitive:\n\n- **Lending / credit / debt accounting operations** (even if interacting with an external contract):\n  - borrowing/lending, repay/withdraw, interest index updates, credit issuance/settlement\n  - any flow where the transferred amount is a **fixed input** and not determined by an exchange rate\n\n- **Oracle-priced checks or deterministic pricing math** without an actual trade:\n  - collateralization checks, liquidation math, spot/TWAP reads\n  - direct transfers of collateral/repayment at a formula price without swapping on a venue\n\n- **Plain token movements**:\n  - `transfer/transferFrom` and bookkeeping updates\n\n- **ERC4626 (or similar) share mint/burn that is purely accounting**, i.e., no swap/join/exit/add/remove-liquidity occurs on the same execution path\n\n- **Deterministic 1:1 wraps/unwrapping** (unless routed through a priced pool/trade)\n\n### Classification guardrail\n\nA function is in-scope ONLY if you can point to a concrete **trade/liquidity call site** on its executed path whose outcome depends on a variable exchange rate/pool state.\nOtherwise, it is out-of-scope and must not be reported.\n\n### Tracing rule\n\nStart from each external/public entrypoint and trace the executed path.  \nReport a function if it:\n- directly calls an external swap/join/exit/liquidity method, **or**\n- calls an internal function that eventually reaches such an external call site.\n\n## Output format (JSON)\n\nReturn a json array:\n\n```json\n[\n    {\n        \"code_snippet\": \"ContractName.FunctionName\",\n        \"signature\": \"function ...\",\n        \"type\": \"swaps | add_liquidity | remove_liquidity | join_pool | exit_pool\",\n        \"description\": \"Brief reason why this function matches the type.\"\n    }\n]\n```"
-            }
-          ]
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.5,
-      "position": [
-        624,
-        112
-      ],
-      "id": "7ba61481-4218-40b6-a395-bce6a57c3b8a",
-      "name": "stage 1: detect function needs to be protected",
-      "alwaysOutputData": true,
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-      "typeVersion": 1.3,
-      "position": [
-        128,
-        320
-      ],
-      "id": "feeffc64-fb5c-488f-b47c-d9da2647d507",
-      "name": "When chat message received",
-      "webhookId": "d1ad4522-7d0f-4dc9-a806-3231193acfe7"
+      "id": "43177e2c-9098-4aec-905b-15e6f8586643",
+      "name": "Merge2"
     }
   ],
   "pinData": {},
@@ -319,17 +406,32 @@
       "ai_languageModel": [
         [
           {
-            "node": "stage 1: detect function needs to be protected",
+            "node": "detect function needs to be protected",
             "type": "ai_languageModel",
             "index": 0
           },
           {
-            "node": "stage 2: check slippage control",
+            "node": "check slippage existence/effective",
             "type": "ai_languageModel",
             "index": 0
           },
           {
-            "node": "stage 3: final validation",
+            "node": "Final Output Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Stage 1 Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Final validation",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Final Output Parser1",
             "type": "ai_languageModel",
             "index": 0
           }
@@ -340,7 +442,7 @@
       "main": [
         [
           {
-            "node": "split bundle",
+            "node": "split bundle + filter out interface-only contracts",
             "type": "main",
             "index": 0
           }
@@ -376,32 +478,11 @@
         ]
       ]
     },
-    "split bundle": {
-      "main": [
-        [
-          {
-            "node": "stage 1: detect function needs to be protected",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 1
-          },
-          {
-            "node": "Merge1",
-            "type": "main",
-            "index": 1
-          }
-        ]
-      ]
-    },
     "Merge": {
       "main": [
         [
           {
-            "node": "stage 2: check slippage control",
+            "node": "check slippage existence/effective",
             "type": "main",
             "index": 0
           }
@@ -412,7 +493,7 @@
       "ai_outputParser": [
         [
           {
-            "node": "stage 3: final validation",
+            "node": "check slippage existence/effective",
             "type": "ai_outputParser",
             "index": 0
           }
@@ -423,58 +504,86 @@
       "ai_outputParser": [
         [
           {
-            "node": "stage 1: detect function needs to be protected",
+            "node": "detect function needs to be protected",
             "type": "ai_outputParser",
             "index": 0
           }
         ]
       ]
     },
-    "Stage 2 Parser": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "split bundle + filter out interface-only contracts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "split bundle + filter out interface-only contracts": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "detect function needs to be protected",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Final Output Parser1": {
       "ai_outputParser": [
         [
           {
-            "node": "stage 2: check slippage control",
+            "node": "Final validation",
             "type": "ai_outputParser",
             "index": 0
           }
         ]
       ]
     },
-    "Merge1": {
+    "check slippage existence/effective": {
       "main": [
         [
           {
-            "node": "stage 3: final validation",
+            "node": "Merge2",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "stage 3: final validation": {
-      "main": [
-        [
-          {
-            "node": "Respond to Webhook1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "stage 2: check slippage control": {
-      "main": [
-        [
-          {
-            "node": "Merge1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "stage 1: detect function needs to be protected": {
+    "detect function needs to be protected": {
       "main": [
         [
           {
@@ -485,11 +594,54 @@
         ]
       ]
     },
-    "When chat message received": {
+    "Final validation": {
       "main": [
         [
           {
-            "node": "split bundle",
+            "node": "final report",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "debug report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "debug report": {
+      "main": [
+        []
+      ]
+    },
+    "final report": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge3": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Final validation",
             "type": "main",
             "index": 0
           }
@@ -501,10 +653,10 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "b447d05d-907f-4050-92a3-521008c8f378",
+  "versionId": "726a57c3-bb62-43a1-ab5c-df94560b5773",
   "meta": {
     "instanceId": "f839b7ae33d4bab8c0e6053fad2787e1ad0bd33854a965624f05316a09f93d09"
   },
-  "id": "EIJmMqWJxuXKZsOM",
+  "id": "iREQVGqHVqYnYf2U",
   "tags": []
 }
